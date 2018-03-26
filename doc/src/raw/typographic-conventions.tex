@@ -1,0 +1,58 @@
+%%%%%%%%%%%%%%%%%%%%%%%% OMNeT++ Book -- Typographic Conventions %%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file contains the typographic conventions of the book 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\clearpage
+\section*{Typographic Conventions}
+%
+The following list of typographic conventions shall harmonize the formatting of text and the use of markups throughout the book.
+It is going to be added to the preface of the complete book and inserted here for convenience and reference for the authors.
+
+{%
+\renewcommand{\arraystretch}{2.0}%
+\setlength{\tabcolsep}{1.0mm}%
+\begin{table}
+\begin{tabular}{@{}lp{5.75cm}p{3.7cm}@{}}
+%\begin{tabularx}{1.0\columnwidth}{@{}lXp{3.75cm}@{}}
+	%
+	\toprule
+	%
+	\textbf{Characteristic}			& \textbf{Definition / Meaning} 	& \textbf{Examples} \\
+	%
+	\midrule
+	%
+	\code{TypeWriter}				& A \code{fixed width font} is used in source code listings and for all source-code-related markups (e.g., to mark function or class names, constants, variables, and likewise). 
+									& ``The class \code{TrafficGen} is'' \newline%
+									  ``Use \code{copy(\&msg, bool)}'' \\
+	%
+	\cursive{Cursive}				& \cursive{Cursive markups} are used to emphasize all non-source-code-related terms (e.g., scientific terms, special topics, adjectives). 
+									& ``The \cursive{service primitive} is'' \\
+	%
+	\program{Program}				& Words written in \program{boldface} indicate individual computer programs or product names.
+									& ``The \program{opp\_run} program'' \\
+	%
+	\filename{file.xyz}				& File names use a \textsl{slanted italic} font.
+									& ``The \filename{omnetpp.ini} file'' \\
+	%
+	\keys{KeyName}					& Cursive names in squared brackets represent keys on the keyboard.
+									& ``Press \keys{Ctrl} or \keys{Alt}'' \\
+	%
+	\keys{Key1}{Key2}				& Keys combined with a ``+'' sign are meant to be pressed simultaneously.
+									& ``Press \keys{Ctrl}{Shift}{W}'' \\
+	%
+	\commands{Term}{Term} 			& \commands{Cursive terms} in combination with arrows ($\rightarrow$) mark command sequences in user interface elements, dialogs, pop-up, or pull-down menus.
+									& ``\commands{Menu}{File}{Save As...}'' \\
+	%
+	\texttt{\ldots}					& Three dots inside tables and source code listings indicate left out or abbreviated parts. 
+									& \\ 
+	%
+	\bottomrule
+	%
+\end{tabular}
+\end{table}
+}%
+%%%%%%%
+% EOF %
+%%%%%%%

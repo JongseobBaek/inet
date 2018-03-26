@@ -1,0 +1,104 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%% OMNeT++ Book -- Book Structure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file contains the current overall book structure
+%
+% Authors of individual sections can use the defined labels to refer to other sections
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newcounter{pseudoparts}
+\renewcommand*\thepseudoparts{\textit{\{\Roman{pseudoparts}\}}}
+%
+\newcounter{pseudochapters}
+\renewcommand*\thepseudochapters{\textit{\{\arabic{pseudochapters}\}}}
+%
+\newcounter{pseudosections}
+\renewcommand*\thepseudosections{\textit{\{\arabic{pseudochapters}.\arabic{pseudosections}\}}}
+%
+%--------------------------------------------------------------------
+%Part 1 - OMNeT++ Simulation Environment
+\refstepcounter{pseudoparts}\label{part:omnet-simulator}
+%--------------------------------------------------------------------
+	%
+	% Section 01: Introducing OMNeT++ 5.x
+	%
+	\refstepcounter{pseudochapters}\label{sec:omnet}
+	%
+%--------------------------------------------------------------------
+%Part 2 - OMNeT++ Ecosystem
+\refstepcounter{pseudoparts}\label{part:omnet-ecosystem}
+%--------------------------------------------------------------------
+	%
+	% Section 02: INET Framework
+	%
+	\refstepcounter{pseudochapters}\label{sec:inet}
+		\refstepcounter{pseudosections}\label{sec:inet-introduction}
+	%
+	% Section 03: INETMANET Framework
+	%
+	\refstepcounter{pseudochapters}\label{sec:inetmanet}
+	%
+	% Section 04: ANSAINET Framework
+	%
+	\refstepcounter{pseudochapters}\label{sec:ansainet}
+	%
+	% Section 05: RINASim Framework
+	%
+	\refstepcounter{pseudochapters}\label{sec:rinasim}
+	%
+	% Section 06: SIMULTE Framework
+	%
+	\refstepcounter{pseudochapters}\label{sec:simulte}
+	%
+	% Section 07: VEINS Framework
+	%
+	\refstepcounter{pseudochapters}\label{sec:veins}   
+	%
+	% Section 08: SEA+ Framework
+	%
+	\refstepcounter{pseudochapters}\label{sec:sea}    
+	%
+%--------------------------------------------------------------------
+%Part 3 - Recent OMNeT++ Research
+\refstepcounter{pseudoparts}\label{part:omnet-research}
+%--------------------------------------------------------------------
+	%
+	% Section 09: Simulation Reproducibility with Pweave and Python
+	%
+	\refstepcounter{pseudochapters}\label{sec:reproducibility}
+	%
+	% Section 10: Live Monitoring and Remote Control of Simulations
+	%
+	\refstepcounter{pseudochapters}\label{sec:remotecontrol}
+	%
+	% Section 11: Simulation of Mixed Critical In-Vehicular Networks
+	%
+	\refstepcounter{pseudochapters}\label{sec:automotive}   
+	%
+	% Section 12: LIMOSim
+	%
+	\refstepcounter{pseudochapters}\label{sec:limosim}
+	%
+	% Section 13: Artery and Vanetza
+	%
+	\refstepcounter{pseudochapters}\label{sec:arteryvanetza}
+	%
+	% Section 14: Simulating LTE-enabled Vehicular Communications
+	%
+	\refstepcounter{pseudochapters}\label{sec:ltevehicular}
+    %
+	% Section 15: OppNets
+	%
+	\refstepcounter{pseudochapters}\label{sec:oppnets}
+	%
+	% Section 16: openDSME
+	%
+	\refstepcounter{pseudochapters}\label{sec:opendsme}
+	%
+	% Section 17: Energy Consumption Modeling
+	%
+	\refstepcounter{pseudochapters}\label{sec:energymodeling}
+	%
+%%%%%%%
+% EOF %
+%%%%%%%

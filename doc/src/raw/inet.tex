@@ -1,0 +1,1380 @@
+% For each level of abstraction:
+% 1. Describe modeled real world concepts and entities
+% 2. Summarize provided built-in models
+% 3. Give an overview of typical model parts
+% 4. Describe several common use cases
+% 5. Show how to create new models
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% OMNeT++ Book -- INET Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file is the INET Framework section of the Springer/EAI book on OMNeT++
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\input{header}
+%
+\graphicspath{{figures/}}
+%
+\begin{document}
+%
+\input{book-structure}		% the current book structure with 'empty' href link targets to be used by all authors
+%
+%%%%% Contribution Title and Author Information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\title*{INET Framework}
+\author{Levente Mészáros, Benjámin Martin Seregi, \and Michael Kirsche}
+\institute{
+Levente Mészáros \at Opensim Ltd, Budapest, Hungary, \email{levy@omnetpp.org}
+\and
+Benjámin Martin Seregi \at KTH Royal Institute of Technology, Stockholm, Sweden, \email{seregi@kth.se}
+\and
+Michael Kirsche \at BTU Cottbus--Senftenberg, Cottbus, Germany, \email{michael.kirsche@b-tu.de}}
+%
+\maketitle
+%
+%%%%% Contribution Abstract %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\newcommand{\abs}{%
+This section introduces the \inet framework for \omnet in its current version 4. \inet is the biggest and most used framework in the \omnet ecosystem today. It comprises simulation models for the Internet protocol stack, various wireless and wired link layer protocols, configurable and extensible application models, and support for a multitude of network and transport layer protocols and standards. The section introduces the various simulation models included in \inet as well as the novelties of the new version in terms of packet and frame representation, host layering structure, packet and region tags. A detailed introduction of the largely extended IEEE 802.11 simulation model and a practical guide for network simulation experiments with \inet complete the section.
+}%
+%
+\abstract*{\abs}
+%
+\abstract{\abs}
+%
+\acresetall		% reset the acronym memory, so that \ac{} displays the complete acronym again at the beginning of the chapter
+%
+%%%%% Contribution Content %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Introduction}
+\label{sec:introduction}
+
+\todo[inline]{Points to address in this section:}
+\begin{itemize}
+	\item	shortly describe what the \inet framework is / stands for in general
+	\item	What is \inet good for
+	\item	who is the targeted audience
+	\item	what is its scope
+	\item	what are its strengths
+	\item	\ldots
+\end{itemize}
+
+The \inet framework is designed to be suitable for research and experimentation in the field of communication network simulation. It is especially useful when designing and validating new protocols, or exploring new and exotic scenarios. \inet is primarily aimed for academic researchers, post doctorates, Ph.D students, and undergrad students. It is particularly well applicable for educational purposes, because it is easy to learn and experiment with. \inet is widely used by many reputable universities throughout the world. However, it is also used by many large and widely known industrial users for commercial purposes.
+
+\inet contains models for the Internet protocol stack (e.g., \protocol{TCP}, \protocol{UDP}, \protocol{IPv4}, \protocol{IPv6}, \protocol{OSPF}, \protocol{BGP}), wired and wireless link layer protocols (e.g., \protocol{Ethernet}, \protocol{PPP}, \protocol{IEEE 802.11}, \protocol{IEEE 802.15.4}), MANET routing protocols (e.g., \protocol{AODV}, \protocol{DSDV}, \protocol{GPSR}), \protocol{DiffServ}, \protocol{MPLS} with \protocol{LDP} and \protocol{RSVP-TE} signaling, several application models, detailed physical layer models (e.g packet, bit, and symbol level), mobility and physical environment models (e.g., obstacles, maps), and many other protocols and components.
+
+\inet is an open source project with many contributors and with large and active community. The source code is freely available on github for anyone to see and modify. The license for most components is some variation of GPL which is particularly suitable in academic settings.
+
+\section{Assembling Simulations}
+\label{sec:assembling-simulations}
+
+\todo[inline]{Points to address in this section:}
+\begin{itemize}
+	\item	describe what are the main building blocks in an \inet simulation model
+	\item	how to understand a simulation model as a sum of its parts
+	\item	what to look for and where to look
+	\item	etc. \ldots
+\end{itemize}
+
+\inet heavily builds upon the modular architecture of \omnet using many of its advanced features. It provides numerous domain specific and highly parameterizable components which can be combined in many ways. The primary means of building large custom network simulations in \inet is the composition of existing models with custom models, starting from small components and gradually forming ever larger ones up until the composition of the network. Users are not required to have programming experience to create simulations unless they also want to implement their own protocols, for example.
+
+\subsection{Networks}
+\label{subsec:networks}
+
+%TODO: wired, wireless, mixed wired/wireless, various topologies + generated, hierarchical, parametric
+%TODO: ethernet networks, mpls networks, vpn, tunneling, PPP networks, sensor networks
+
+\todo{describe how \inet models real world networks as modules, how various topologies are realized in NED files, how does it represent flat and hierarchical networks, etc.}
+
+Assembling an \inet simulation starts with defining a module representing the network. Networks are compound modules which contain network nodes, automatic network configurators, and sometimes additionally transmission medium, physical environment, various visualizer, and other infrastructure related modules. Networks also contain connections between network nodes representing cables. Large hierarchical networks may be further organized into compound modules to directly express the hierarchy.
+
+Network nodes communicate at the network level with \inet specific signals representing the utilized physical phenomena. Signals are either sent through \omnet connections in the wired case, or sent directly to the gate of the receiving network node in the wireless case. Signals encapsulate \inet specific packets representing the transmitted digital data. Packets are further divided into chunks providing alternative representations for smaller pieces of data (e.g., protocol headers, application data).
+
+\subsubsection*{Wired Networks}
+
+Wired network connections, for example \protocol{Ethernet} cables, are represented with standard \omnet connections using the \ned{DatarateChannel}. The channel's \ned{datarate} and \ned{delay} parameters must be provided for all wired connections.
+
+The following example shows how easy it is to create a simple wired network. This network contains a server connected to a router using \protocol{PPP}, which in turn is connected to a switch using \protocol{Ethernet}. The network also contains a parameterizable number of clients, all connected to the switch forming a star topology. The utilized network nodes are all predefined modules in \inet. To avoid the manual configuration of IP addresses and routing tables, an automatic network configurator is also included.
+
+\nedsnippet{WiredNetworkExample}{Wired network example}
+
+In order to run a simulation using the above network, an \omnet INI file must be created. The INI file selects the network, sets its number of clients parameter, and configures a simple \protocol{TCP} application for each client. The server is configured to have a \protocol{TCP} application which echos back all data received from the clients individually.
+
+\inisnippet{WiredNetworkConfigurationExample}{Wired network configuration example}
+
+When the above simulation is run, each client application connects to the server using a \protocol{TCP} socket. Then each one of them sends 1MB of data, which in turn is echoed back by the server, and the simulation concludes. The default statistics are written to the \texttt{results} folder of the simulation for later analysis.
+
+\subsubsection*{Wireless Networks}
+
+%TODO: AccessPoint, WirelessHost infrastructure mode
+
+Wireless network connections are not modeled with \omnet connections due the dynamically changing nature of connectivity. For wireless networks, an additional module representing the transmission medium, is required to maintain connectivity information.
+
+Building a simple wireless network is somewhat different, because wireless nodes don't use \omnet connections. In this case, the network contains an additional module which represents the transmission medium.
+
+\nedsnippet{WirelessNetworkExample}{Wireless network example}
+
+For the above network, the INI file configures node mobility using a stochastic model. In wireless simulations, some form of a mobility model is essential to provide positions for the transmission medium during the computation of signal propagation and path loss. In addition, each ad hoc node is configured to include a simple ping application.
+
+\inisnippet{WirelessNetworkConfigurationExample}{Wireless network configuration example}
+
+When the above simulation is run, each ad hoc node periodically sends an ICMP echo requests to the first node. This simulation runs indefinitely while it continuously prints the usual ping round trip time report on the standard output.
+
+\subsubsection*{Ethernet Networks}
+
+%TODO: EtherHub, EtherBus, EtherSwitch, EtherHost
+
+\subsubsection*{MPLS Networks}
+
+%TODO: LdpRouter, RsvpRouter
+
+\subsubsection*{Mobile Ad hoc Networks}
+
+%TODO: AdhocHost, ManetRouter, AodvRouter, DymoRouter, GpsrRouter
+
+\subsubsection*{Sensor Networks}
+
+%TOOD: SensorNode, SensorGateway
+
+\subsubsection*{Virtual Private Networks}
+
+%TOOD: VpnIngressNode, VpnEgressNode
+
+\subsubsection*{Mixed Networks}
+
+%TODO: wired + wireless
+
+\subsubsection*{Complex Topologies}
+
+%TODO: wizards, generated topologies
+
+\subsubsection*{Hierarchical Networks}
+
+%TODO: nested compound modules
+
+\subsection{Network Nodes}
+\label{subsec:network-nodes}
+
+% TODO: automatic wired interface creation, multi wireless interface, dual stack, forwarding, SSID, manet routing, internet routing protocols, alternative mobility models, L2/L3 devices
+
+\todo{describe how \inet models network nodes as modules: routers, hosts, switches, mobile devices, access points, sensors, etc., how network nodes are composed of smaller components modelling various hardware and software components, different aspects such as behaviours, etc.
+describe how \inet allows configuring alternative applications, routing protocols, network protocols, disable/enable protocols, etc.}
+
+Hosts, routers, switches, access points, mobile phones, and other network devices are all represented by \omnet compound modules. These modules are assembled from other modules which represent applications, communication protocols, network interfaces, routing tables, mobility models, energy models, and other functional units. Many of these modules, including most of the communication protocols, are simple modules, implemented in C++. However, some protocols are complicated enough to be compound modules themselves. They are further divided into smaller functional parts such as queues, protocol specific data storages, and protocol specific sub-services.
+
+\omnet connections are also used within network nodes to represent communication opportunities between protocols. These connections are primarily useful for following what is happening inside network nodes in the runtime user interface. Packets and messages sent through them represent some software or hardware activity.
+
+There are no predefined networks in \inet, because it is very easy to create one, and because of the vast possibilities. However, the \omnet IDE provides several topology generator wizards for advanced scenarios.
+
+\subsubsection*{Built-in Network Nodes}
+
+\inet provides several pre-assembled network nodes with carefully selected components. They support customization via parameters and parametric submodule types, but they are not meant to be universal. Sometimes it may be necessary to create special network node models for particular simulation scenarios. In any case, the following list gives a taste of the built-in network nodes.
+
+\begin{itemize}
+        \item \ned{StandardHost} contains the most common Internet protocols: \protocol{UCP}, \protocol{TDP}, \protocol{IPv4}, \protocol{IPv6}, \protocol{Ethernet}, \protocol{IEEE 802.11}. It also supports an optional mobility model, optional energy models, and any number of applications which are entirely configurable from INI files.
+        \item \ned{EtherSwitch} models an \protocol{Ethernet} switch containing a relay unit and one MAC unit per port.
+        \item \ned{Router} provides the most common routing protocols: \protocol{OSPF}, \protocol{BGP}, \protocol{RIP}, \protocol{PIM}.
+        \item \ned{AccessPoint} models a Wifi access point with multiple \protocol{IEEE 802.11} network interfaces and multiple \protocol{Ethernet} ports.
+        \item \ned{WirelessHost} provides a network node with one (default) \protocol{IEEE 802.11} network interface in infrastructure mode, suitable for using with an \ned{AccessPoint}.
+        \item \ned{AdhocHost} is a \ned{WirelessHost} with the network interface configured in ad-hoc mode and forwarding enabled.
+        \item \ned{AodvRouter} is similar to an \ned{AdhocHost} with an additional \protocol{AODV} protocol.
+\end{itemize}
+
+\subsubsection*{Network Node Structure}
+
+All network nodes in the \inet Framework are \omnet compound modules that are mainly composed of the following components:
+
+\begin{itemize}
+        \item \emph{Applications} often model the user behavior as well as the application program (e.g., browser), and the application layer protocol (e.g., \protocol{HTTP}). Applications typically use transport layer protocols (e.g., \protocol{TCP} and/or \protocol{UDP}), but they may also directly use lower layer protocols (e.g., \protocol{IP} or \protocol{Ethernet}) via sockets.
+        \item \emph{Routing protocols} are provided as separate modules: \protocol{OSPF}, \protocol{BGP}, or \protocol{AODV} for MANET routing. These modules use \protocol{TCP}, \protocol{UDP}, and \protocol{IPv4}, and manipulate routes in the \ned{Ipv4RoutingTable} module.
+        \item \emph{Transport layer protocols} are connected to applications and network layer protocols. They are most often represented by simple modules, currently \protocol{TCP}, \protocol{UDP}, and \protocol{SCTP} are supported. \protocol{TCP} has several implementations: \ned{Tcp} is the \omnet native implementation; \ned{TcpLwip} module wraps the lwIP \protocol{TCP} stack; and \ned{TcpNsc} module wraps the Network Simulation Cradle library.
+        \item \emph{Network layer protocols} are connected to transport layer protocols and network interfaces. They are usually modeled as compound modules: \ned{Ipv4NetworkLayer} for \protocol{IPv4}, and \ned{Ipv6NetworkLayer} for \protocol{IPv6}. The \ned{Ipv4NetworkLayer} module contains several protocol modules: \ned{Ipv4}, \ned{Arp}, and \ned{Icmpv4}.
+        \item \emph{Network interfaces} are represented by compound modules which are connected to the network layer protocols and other network interfaces in the wired case. They are often modeled as compound modules containing separate modules for queues, classifiers, MAC, and PHY protocols.
+        \item \emph{Link layer protocols} are usually simple modules sitting in network interface modules. Some protocols, for example \protocol{IEEE 802.11 MAC}, are modeled as a compound module themselves due to the complexity of the protocol.
+        \item \emph{Physical layer protocols} are compound modules also being part of network interface modules.
+        \item \emph{Interface table} maintains the set of network interfaces (e.g., \texttt{eth0}, \texttt{wlan0}) in the network node. Interfaces are registered dynamically during initialization of network interfaces.
+        \item \emph{Routing tables} maintain the list of routes for the corresponding network protocol (e.g., \ned{Ipv4RoutingTable} for \ned{Ipv4}). Routes are added by automatic network configurators or routing protocols. Network protocols use the routing tables to find out the best matching route for datagrams.
+        \item \emph{Mobility modules} are responsible for moving around the network node in the simulated playground. The mobility model is mandatory for wireless simulations even if the network node is stationary. The mobility module stores the location of the network node which is needed to compute wireless propagation and path loss. Different mobility models are provided as different modules. Network nodes define their mobility submodule with a parametric type, so the mobility model can be changed in the configuration.
+        \item \emph{Energy modules} model energy storage mechanisms, energy consumption of devices and software processes, energy generation of devices, and energy management processes which shutdown and startup network nodes.
+        \item \emph{Other modules} with particular functionality such as \ned{PcapRecorder} are also available.
+\end{itemize}
+
+The internal structure of network nodes can be customized in several ways. The simplest way is the use of gate vectors and submodule vectors. The sizes of vectors may come from parameters or derived by the number of external connections to the network node. For example, one can have an \protocol{Ethernet} switch that has as many ports as needed, i.e. equal to the number of \protocol{Ethernet} devices connected to it.
+
+Another often used way of customization is parametric types, that is, the type of a submodule (or a channel) may be specified as a string parameter. For example, the relay unit inside an \protocol{Ethernet} switch has several alternative implementations, each one being a distinct module type. The switch model contains a parameter which allows the user to select the appropriate relay unit implementation.
+
+The most flexible way of customizing modules is inheritance: a derived module may add new parameters, gates, submodules or connections, and may set inherited unassigned parameters to specific values.
+
+\subsubsection*{Automatic Wired Interfaces}
+
+In many wired network simulations, the number of wired interfaces need not be manually configured, because it can be automatically inferred from the actual number of connections between network nodes.
+
+\nedsnippet{AutomaticWiredInterfacesExample}{Automatic wired interfaces example}
+
+\subsubsection*{Multiple Wireless Interfaces}
+
+All built-in wireless network nodes support multiple wireless interfaces, but only one is enabled by default.
+
+\inisnippet{MultipleWirelessInterfacesExample}{Multiple wireless interfaces example}
+
+\subsubsection*{Dual IP Stack}
+
+All built-in network nodes support dual Internet protocol stacks, that is both \protocol{Ipv4} and \protocol{Ipv6} are available. They are also supported by transport layer protocols, link layer protocols, and most applications. Only \protocol{Ipv4} is enabled by default, so in order to use \protocol{Ipv6}, it must be enabled first, and an application supporting \protocol{Ipv6} (e.g., \ned{PingApp} must be used). The following example shows how to configure two ping applications in a single node where one is using an \protocol{Ipv4} and the other is using an \protocol{Ipv6} destination address.
+
+\inisnippet{DualStackExample}{Dual stack example}
+
+\subsubsection*{Packet Forwarding}
+
+In general, network nodes don't forward packets by default, only \ned{Router} and the like do. Nevertheless, it's possible to enable packet forwarding as simply as flipping a switch.
+
+\inisnippet{ForwardingExample}{Forwarding example}
+
+\subsubsection*{Internet Routing Protocols}
+
+%TODO
+
+\subsubsection*{Network Node Mobility}
+
+%TODO
+
+\subsubsection*{Custom Network Nodes}
+
+Despite the many pre-assembled network nodes and the several available customization options, sometimes it's just easier to build a network node from scratch. The following example shows how easy it is to build a simple network node.
+
+This network node already contains a configurable application and several standard protocols. It also demonstrates how to use the packet dispatching mechanism which is required to connect multiple protocols in a many-to-many relationship.
+
+\nedsnippet{NetworkNodeExample}{Network node example}
+
+\subsection{Network Interfaces}
+\label{subsec:network-interfaces}
+
+%TODO: MAC address, op mode, duplex mode, data rate, transmission power, queue limits, FCS mode
+
+\todo{describe how \inet models network interfaces as modules: ethernet cards, PPP interfaces, wifi cards, etc.}
+
+\todo[author=Michael, inline]{NICs could be presented as a subsubsection of network nodes or alongside link layer protocols}
+
+\todo[author=Levente, inline]{my reasoning for the separate section is that NICs are complicated and important enough to deserve a full section}
+
+\todo[author=Michael, inline]{to clarify, I've looked at things from a protocol stack point view. NICs are combinations of different protocols or a combination of a driver and a hardware from an operating system point-of-view. If we take out the different sub-protocols of a 802.11 NIC, we still end up with all the functionalities like before. An 802.11 NIC (for me) is a combination of a number of protocols, nothing that really adds much functionality outside of the contained (sub-)protocols. That is why I don't see them as a complex thing. But I see your point. From an \inet implementation point-of-view, NICs are a central component as they represent the communication interfaces. So nothing against a separate section if the description considers NICs as central components.}
+
+\todo[author=Levente, inline]{I see what you are saying and I actually agree with it. In this section I wanted to talk about network interfaces in general (as opposed to specific protocols), how they fit into the big picture (e.g., network nodes), what do they represent in terms of hardware and software, etc.}
+
+\todo[author=Michael, inline]{thanks for the clarification, that does sound like a good plan for this section!}
+
+In \inet simulations, network interface modules are the primary means of communication between network nodes. They represent the required combination of software and hardware elements from an operating system point-of-view. Network interfaces come in two quite different kinds: wired and wireless.
+
+Wired interfaces have a pair of special purpose \omnet gates which represent the capability of having an external physical connection to another network node (e.g., Ethernet port). In order to make wired communication work, these gates must be connected with special connections which represent the physical cable between the physical ports. The connections must use special \omnet channels (e.g., \ned{DatarateChannel}) which determine datarate and delay parameters.
+
+\subsubsection*{Built-in Network Interfaces}
+
+\inet provides pre-assembled network interfaces for several standard protocols, protocol tunneling, hardware emulation, etc. The following list gives the most commonly used network interfaces.
+
+\begin{itemize}
+        \item \ned{EthernetInterface} contains \protocol{Ethernet} MAC and PHY protocols
+        \item \ned{PppInterface} provides \protocol{PPP} protocol
+        \item \ned{Ieee80211Interface} contains \protocol{IEEE 802.11} MGMT, MAC and PHY protocols
+        \item \ned{Ieee802154Interface} contains \protocol{IEEE 802.15.4} MAC and PHY protocols
+        \item \ned{BMacInterface}, \ned{LMacInterface}, \ned{XMacInterface} provides low-power wireless sensor protocols along with a simple hypothetical PHY protocol
+        \item \ned{TunInterface} provides protocol tunneling which can be directly used by applications
+        \item \ned{LoopbackInterface} provides local loopback within the network node
+        \item \ned{ExtInterface} represents real interfaces suitable for hardware-in-the-loop simulations
+\end{itemize}
+
+The internal structure of network interfaces can also be customized in several ways similarly to network nodes. For example, \ned{EthernetInterface} contains optional submodules for queuing and traffic shaping.
+
+\subsubsection*{Network Interface Structure}
+
+All network interfaces in the \inet Framework are \omnet compound modules that are mainly composed of the following components:
+
+\begin{itemize}
+        \item \emph{LLC protocols}
+        \item \emph{MGMT protocols}
+        \item \emph{MAC protocols}
+        \item \emph{PHY protocols}
+        \item \emph{Traffic conditioners}
+        \item \emph{Queues}
+        \item \emph{Classifiers}
+\end{itemize}
+
+\subsubsection*{Wired Network Interfaces}
+
+%TODO: explain what is specific to wired interfaces
+
+\subsubsection*{Wireless Network Interfaces}
+
+%TODO: explain what is specific to wireless interfaces
+
+\subsubsection*{Custom Network Interfaces}
+
+It's also possible to build custom network interfaces, the following example shows how to build a custom wireless interface.
+
+\nedsnippet{WirelessInterfaceExample}{Wireless interface example}
+
+The above network interface contains very simple hypothetical MAC and PHY protocols. The MAC protocol only provides acknowledgment without other services (e.g., carrier sense, collision avoidance, collision detection), the PHY protocol uses one of the predefined APSK modulations for the whole signal (preamble, header, and data) without other services (e.g., scrambling, interleaving, forward error correction).
+
+\subsection{Connecting Protocols}
+%
+describe how \inet protocols are connected to each other using the built-in message dispatching mechanism.
+
+\subsection{Applications}
+\label{subsec:applications}
+%
+describe how \inet models running applications as modules: ping, connectionless traffic, connection oriented traffic, voip, video, etc.
+
+\todo[author=Michael, inline]{applications might be shifted to the next subsection above routing and transport protocols?!?}
+
+\todo[author=Levente, inline]{I was hesitating here myself too, but applications are not protocols in the strict sense of the word, so I decided to leave it here}
+
+\todo[author=Michael, inline]{good point, maybe we should shift them below protocols then, the same with the network interfaces. Because applications feed protocols with data (traffic generators) or use protocols to exchange data, so (maybe?) it is better to introduce and name the protocols first and then introduce the applications and network interfaces!}
+
+\todo[author=Levente, inline]{I think we can decide the order later when we have some content, I'm not against it in general.}
+
+\todo[author=Michael, inline]{True, shifting the (sub-)sections afterwards is no big deal.}
+
+%
+\subsection{Protocols} % TODO: inline subsubsections one level up
+\label{subsec:protocols}
+%
+describe how \inet models data and control plane protocols as modules in general
+
+\todo[author=Michael, inline]{I'd suggest a (TCP/IP or OSI) top-down or bottom-up structure of this subsection, either from APP to PHY or the other way round}
+
+\todo[author=Levente, inline]{ok. how about flattening this subsection one level up?}
+
+\todo[author=Michael, inline]{no problem with the flattening. Antonio suggested that we keep this subsection short and mostly refer to the standards and name the protocols/standards that are supported by \inet, describe their current (implementation) state, add hints about the existing verification etc.}
+
+\todo[author=Michael, inline]{what about shifting the Protocols part above Applications and NIC, since both of these parts could then reference the already introduced protocols??}
+
+\todo[author=Levente, inline]{I think we should postpone this until we have some content, see above.}
+
+%
+\subsection{Routing Protocols}
+%
+briefly describe how \inet models routing protocols: BGP, OSPF, RIP, AODV, etc.
+
+\todo[author=Michael, inline]{the ``briefly description'' is meant as a description of the actual modeling and implementation in \inet, correct? Not the functionality of a respective protocol/standard in terms of its protocol specification?!?}
+
+\todo[author=Levente, inline]{we should definitely not describe any protocol/standard in terms of its protocol specification throughout the document. I guess my wording is wrong then. I meant to describe what features are supported, what limitations are there, etc. so that one can get a feeling what to expect.}
+
+\todo[author=Michael, inline]{Do you think that we should use a ``common format'' for the descriptions of the protocols (features/limitations/etc)? Maybe some sort of itemize or compress tabular environment, comparable to the way we've described ``simulation models'' back in the older ``Modeling and Tools for Network Simulation'' book? I'm attaching some example variants, let me know what you think about the presentation forms.}
+
+%
+\subsection{Transport Layer}
+%
+briefly describe how \inet models transport protocols: UDP, TCP, SCTP
+
+%
+\subsubsection*{TCP}
+%
+
+The TCP modules of the \inet framework implements the following RFCs:
+\begin{itemize}
+	\item RFC 793 -- Transmission Control Protocol
+	\item RFC 896 -- Congestion Control in IP/TCP Internetworks
+	\item RFC 1122 -- Requirements for Internet Hosts -- Communication Layers
+	\item RFC 1323 -- TCP Extensions for High Performance
+	\item RFC 2018 -- TCP Selective Acknowledgment Options
+	\item RFC 2581 -- TCP Congestion Control
+	\item RFC 2883 -- An Extension to the Selective Acknowledgment (SACK) Option for TCP
+	\item RFC 3042 -- Enhancing TCP's Loss Recovery Using Limited Transmit
+	\item RFC 3390 -- Increasing TCP's Initial Window
+	\item RFC 3517 -- A Conservative Selective Acknowledgment (SACK)-based Loss Recovery Algorithm for TCP
+	\item RFC 3782 -- The NewReno Modification to TCP's Fast Recovery Algorithm
+\end{itemize}
+
+%
+\subsubsection*{UDP}
+%
+
+\begin{itemize}
+	\item RFC768 -- User Datagram Protocol
+	\item RFC1122 -- Requirements for Internet Hosts – Communication Layers
+\end{itemize}
+
+%
+\subsubsection*{SCTP}
+%
+
+%
+\subsection{Network Layer}
+%
+briefly describe how \inet models network protocols: IPv4, IPv6, flooding, etc.
+% TODO: mpls
+
+%
+\subsubsection*{IPv4}
+%
+
+%
+\subsubsection*{IPv6}
+%
+
+
+%
+\subsection{Link Layer}
+%
+briefly describe how \inet models MAC protocols: ethernet, PPP, 802.11, etc.
+
+%
+\subsubsection*{Ethernet}
+%
+
+%
+\subsubsection*{PPP}
+%
+
+%
+\subsubsection*{IEEE 802.11}
+%
+
+%
+\subsubsection*{IEEE 802.15.4}
+%
+
+%
+\subsubsection*{B-MAC}
+%
+
+%
+\subsubsection*{L-MAC}
+%
+
+%
+\subsubsection*{X-MAC}
+%
+
+%
+\subsubsection*{TUN}
+%
+
+%
+\subsection{Physical Layer}
+%
+briefly describe how \inet models wired and wireless PHY protocols: ethernet, 802.11, etc.
+
+\todo[author=Michael, inline]{I suggest to use either Link Layer (TCP/IP) or MAC and PHY (OSI)}
+
+\todo[author=Levente, inline]{I don't get this suggestion, what do you mean?}
+
+\todo[author=Michael, inline]{Most of the standards that \inet supports consist of a Medium Access Control layer and one or more Physical Layers (e.g., Ethernet PHY for copper wire, Ethernet PHY for optical fiber, etc.) From a OSI stack point of view, there are MAC and PHY layers. From a TCP/IP stack point-of-view, there is only a Link Layer that includes everything below the Internet Layer (and thus IP) that is needed to get a connection to the other host. My suggestion was to go with either the TCP/IP reference model structure where the Link Layer would contain 802.11 (MAC+PHY), 802.15.4 (MAC+PHY), B-MAC, etc. or with the OSI reference model, where MAC and PHY are split up and e.g., sub-protocols and components of 802.11 or 802.15.4 can be split up into two subsubsections.}
+
+\todo[author=Levente, inline]{there are many physical layer parts which are shared among the different physical layer implementations, so I suggest to use the OSI reference model}
+
+\todo[author=Michael, inline]{\ac{OSI} is fine for me.}
+
+\begin{figure}[htb]%
+	\centering
+	\includegraphics[width=0.7\columnwidth]{Layer_Reference_Models}%
+	\caption{OSI Reference Model vs. TCP/IP Protocol Suite vs. IEEE 802 Model}%
+	\label{fig:reference-models}%
+\end{figure}
+
+%
+\subsubsection*{IEEE 802.11}
+%
+
+%
+\subsubsection*{IEEE 802.15.4}
+%
+
+%
+\subsubsection*{Unit Disk Radio}
+%
+
+%
+\subsubsection*{APSK}
+%
+
+%
+\subsection{Traffic Shaping and Policing}
+%
+describe how \inet models provide alternatives for packet queueing, traffic shaping, traffic policing, etc.
+
+%
+\subsection{Shared Components} % merge in?
+%
+describe how \inet models data that is shared between protocols: node status, mac address table, interface table, routing tables, management information databases, etc.
+
+%
+\subsection{Auto Configuration}
+%
+describe how \inet provides automatic configuration for MAC and IP addresses, routing tables, etc.
+
+%
+\subsection{Transmission Medium}
+\label{subsec:transmission-medium}
+
+For wireless communication, an additional module is required to model the shared physical medium where the communication takes place. This module keeps track of transceivers, noise sources, ongoing transmissions, background noise, and other ongoing noises.
+
+The transmission medium is modeled as an \omnet compound module with several replaceable submodules. It contains submodules to model signal propagation, path loss, obstacle loss, signal analog model, background noise, and various caches for efficiency. With the help of its submodules, the medium module computes when, where, and how signals arrive at receivers, including the set of interfering signals and noises.
+
+As a central component, the medium module influences performance to a large extent, so it also provides a couple of parameters for optimization. For example, the \ned{rangeFilter} parameter controls how the set of affected receivers is determined based on their distance when the signal enters the medium.
+
+\subsubsection*{Propagation Models}
+
+When a transmitter starts to transmit a signal, the beginning of the signal propagates through the transmission medium. When the transmitter ends the transmission, the signal's end propagates similarly. The propagation model describes how a signal moves through space over time. Its main purpose is to compute the arrival space-time coordinates at receivers. There are two built-in models in \inet, implemented as simple modules:
+
+\begin{itemize}
+        \item \ned{ConstantTimePropagation} is a simplistic model where the propagation time is independent of the traveled distance. The propagation time is simply determined by a module parameter.
+        \item \ned{ConstantSpeedPropagation} is a more realistic model where the propagation time is proportional to the traveled distance. The propagation time is independent of the transmitter and receiver movement during both signal transmission and propagation. The propagation speed is determined by a module parameter.
+\end{itemize}
+
+The default propagation model is configured as follows:
+
+\inisnippet{PropagationModelConfigurationExample}{Propagation model configuration example}
+
+A more accurate model could take into consideration the transmitter and receiver movement. This effect becomes especially important for acoustic communication, because the propagation speed of the signal is much more comparable to the speed of the transceivers.
+
+\subsubsection*{Path Loss Models}
+
+As a signal propagates through space its power density decreases. This is called path loss and it is the combination of many effects such as free-space loss, refraction, diffraction, reflection, and absorption. There are several different path loss models in the literature, which differ in their parameterization and application area.
+
+In \inet, a path loss model is an \omnet simple module implementing a specific path loss algorithm. Its main purpose is to compute the power loss for a given signal, but it's also capable of estimating the range for a given loss. The latter is useful, for example, to allow visualizing communication range. \inet contains a number of built-in path loss algorithms, each comes with its own set of parameters:
+
+\begin{itemize}
+        \item \ned{FreeSpacePathLoss} models line of sight path loss for air or vacuum.
+        \item \ned{BreakpointPathLoss} refines it using dual slope model with two separate path loss exponents.
+        \item \ned{LogNormalShadowing} models path loss for a wide range of environments (e.g. urban areas, and buildings)
+        \item \ned{TwoRayGroundReflection} models interference between line of sight and single ground reflection.
+        \item \ned{TwoRayInterference} refines the above for inter-vechicle communication.
+        \item \ned{RicianFading} is a stochastical model for the anomaly caused by partial cancellation of a signal by itself.
+        \item \ned{RayleighFading} is a stochastical model for heavily built-up urban environments when there is no dominant propagation along the line of sight.
+        \item \ned{NakagamiFading} further refines the above two models for cellular systems.
+\end{itemize}
+
+The following example replaces the default free-space path loss model with log normal shadowing:
+
+\inisnippet{PathLossConfigurationExample}{Path loss configuration example}
+
+\subsubsection*{Obstacle Loss Models}
+
+When the signal propagates through space it also passes through physical objects present in that space. As the signal penetrates physical objects, its power decreases when it reflects from surfaces, and also when it’s absorbed by their material. There are various ways to model this effect, which differ in the trade-off between accuracy and performance.
+
+In \inet, an obstacle loss model is an \omnet simple module. Its main purpose is to compute the power loss based on the traveled path and the signal frequency. The obstacle loss models most often use the physical environment model to determine the set of penetrated physical objects. \inet contains a few built-in obstacle loss models:
+
+\begin{itemize}
+        \item \ned{IdealObstacleLoss} model determines total or no power loss at all by checking if there is any obstructing physical object along the straight propagation path.
+        \item \ned{DielectricObstacleLoss} computes the power loss based on the accurate dielectric and reflection loss along the straight path considering the shape, position, orientation, and material of obstructing physical objects.
+\end{itemize}
+
+By default, the medium module doesn't contain any obstacle loss model, but configuring one is very simple:
+
+\inisnippet{ObstacleLossModelConfigurationExample}{Obstacle loss model configuration example}
+
+Statistical obstacle loss models are also possible but currently not provided.
+
+\subsubsection*{Background Noise Models}
+
+Thermal noise, cosmic background noise, and other random fluctuations of the electromagnetic field affect the quality of the communication channel. This kind of noise doesn’t come from a particular source, so it doesn’t make sense to model its propagation through space. The background noise model describes instead how it changes over space and time.
+
+In \inet, a background noise model is an \omnet simple module. Its main purpose is to compute the analog representation of the background noise for a given space-time interval. For example, \ned{IsotropicScalarBackgroundNoise} computes a background noise that is independent of space-time coordinates, and its scalar power is determined by a module parameter.
+
+The simplest background noise model can be configured as follows:
+
+\inisnippet{BackgroundNoiseModelConfigurationExample}{Background noise model configuration example}
+
+\subsubsection*{Analog Models}
+
+The analog signal is a complex physical phenomenon which can be modeled in many different ways. Choosing the right analog domain signal representation is the most important factor in the trade-off between accuracy and performance. The analog model of the transmission medium determines how signals are represented while being transmitted, propagated, and received.
+
+In \inet, an analog model is an \omnet simple module. Its main purpose is to compute the received signal from the transmitted signal. The analog model combines the effect of the antenna, path loss, and obstacle loss models. Transceivers must be configured transmit and receive signals according to the representation used by the analog model.
+
+The most commonly used analog model, which uses a scalar signal power representation over a frequency and time interval, can be condigured as follows:
+
+\inisnippet{AnalogModelConfigurationExample}{Analog model configuration example}
+
+\subsubsection*{Neighbor Cache}
+
+Transceivers are considered neighbors if successful communication is possible between them. For wired communication it’s easy to determine which transceivers are neighbors, because they are connected by wires. In contrast, in wireless communication determining which transceivers are neighbors isn’t obvious at all.
+
+In \inet, a neighbor cache model is an \omnet simple module which provides an efficient way of keeping track of the neighbor relationship between transceivers. Its main purpose is to compute the set of affected receivers for a given transmission. All built-in models in \inet provide a conservative approximation only, because they update their state periodically:
+
+\begin{itemize}
+        \item \ned{NeighborListNeighborCache} maintains a separate neighbor list for each transceiver.
+        \item \ned{GridNeighborCache} organizes transceivers in a 3D grid with constant cell size.
+        \item \ned{QuadTreeNeighborCache} organizes transceivers in a 2D quad tree (ignoring the Z axis) with constant node size.
+\end{itemize}
+
+\inisnippet{NeighborCacheModelConfigurationExample}{Neighbor cache model configuration example}
+
+\subsection{Physical Environment}
+\label{subsec:physical-environment}
+% Why physical environments are needed?
+Wireless networks are heavily affected by the physical environment. Propagation of signals, movement of communicating agents, energy consumption of devices, all depend on the surrounding physical environment. For example, signals are absorbed by physical objects and reflected from their surfaces, or battery capacity might depend on external temperature. The main purpose of the physical environment model is to describe buildings, walls, furniture, vegetation, terrain, weather, and other physical objects and conditions that might have profound effects on the simulation.
+
+In \inet, the physical environment is modeled by the \ned{PhysicalEnvironment} compound module. This module normally has one instance in the network, and it provides services for other parts of the simulation. It contains submodules to model physical objects and the ground as well as a few parameters for the physical properties of the environment.
+
+\subsubsection*{Physical Objects}
+% Why physical objects are needed?
+The most important aspect of the physical environment is the objects which are present in it. For example, simulating an indoor Wifi scenario may need to model walls, floors, ceilings, doors, windows, furniture, and similar objects, because they all affect signal propagation. Objects are located in space, and have shapes and materials. The physical environment model supports basic shapes and homogeneous materials, which is a simplified description but still allows for a reasonable approximation of reality. Physical objects in \inet have the following properties:
+
+% What are the properties of physical objects?
+\begin{itemize}
+        \item \emph{shape} describes the object in 3D independent of its position and orientation.
+        \item \emph{position} determines where the object is located in the 3D space.
+        \item \emph{orientation} determines how the object is rotated relative to its default orientation.
+        \item \emph{material} describes material specific physical properties.
+        \item \emph{graphical properties} provide parameters for better visualization.
+\end{itemize}
+
+Physical objects in \inet are stationary, they cannot change their position or orientation over time. Since the shape of the physical objects might be quite diverse, the model is designed to be extensible with new shapes. \inet provides the following shapes:
+
+\begin{itemize}
+        \item \emph{sphere} shapes are specified by a radius
+        \item \emph{cuboid} shapes are specified by a length, a width, and a height
+        \item \emph{prism} shapes are specified by a 2D polygon base and a height
+        \item \emph{polyhedron} shapes are specified by the convex hull of a set of 3D vertices
+\end{itemize}
+
+The following example shows how to define various physical objects using the XML syntax supported by the physical environment:
+
+\xmlsnippet{DefiningPhysicalObjectsExample}{Defining physical objects example}
+
+In order to load the above XML file, the following configuration could be used:
+
+\inisnippet{PhysicalObjectsConfigurationExample}{Physical objects configuration example}
+
+\subsubsection*{Ground Models}
+% Why ground models are needed?
+In inter-vehicle simulations the terrain has profound effects on signal propagation. For example, vehicles on the opposite sides of a mountain cannot directly communicate with each other.
+
+% What is the purpose of ground models?
+A ground model describes the 3D surface of the terrain. Its main purpose is to compute a position on the surface underneath an particular position.
+
+% What ground models are available?
+\inet contains the following built-in ground models implemented as \omnet simple modules:
+
+\begin{itemize}
+        \item \ned{FlatGround} is a trivial model which provides a flat surface parallel to the XY plane at a certain height.
+        \item \ned{OsgEarthGround} is a more realistic model (based on \program{osgEarth}) which provides a terrain surface.
+\end{itemize}
+
+\subsubsection*{Geographic Coordinate System Models}
+% Why geographic coordinate systems are needed?
+In order to run high fidelity simulations, it is often required to embed the communication network into a real world map. With the new \omnet 5 version, \inet already provides support for 3D maps using \program{osgEarth} for visualization and \program{openstreetmap} as the map provider.
+
+However, \inet carries out all geometric computation internally (including signal propagation and path loss) in a 3D Euclidean coordinate system. The discrepancy between the internal playground coordinate system and the usual geographic coordinate systems must be resolved.
+
+% What is the purpose of geographic coordinate system models?
+A geographic coordinate system model maps playground coordinates to geographic coordinates, and vice versa. Such a model allows positioning physical objects and describing network node mobility using geographical coordinates (e.g longitude, latitude, altitude).
+
+% What geographic coordinate system models are provided?
+In \inet, a geographic coordinate system model is implemented as an \omnet simple module:
+
+\begin{itemize}
+        \item \ned{SimpleGeographicCoordinateSystem} provides a trivial linear approximation without any external dependency.
+        \item \ned{OsgGeographicCoordinateSystem} provides an accurate mapping using the external \program{osgEarth} library.
+\end{itemize}
+
+% How geographic coordinate system modules are used?
+In order to use geographic coordinates in a simulation, a geographic coordinate system module must be included in the network. The desired physical environment module and mobility modules must be configured (using module path parameters) to use the geographic coordinate system module. The following example also shows how the geographic coordinate system module can be configured to place the playground at a particular geographic location and orientation.
+
+\inisnippet{GeographicCoordinateSystemConfigurationExample}{Geographic coordinate system configuration example}
+
+\subsubsection*{Object Cache Models}
+% Why object cache models are needed?
+If a simulation contains a large number of physical objects, then signal propagation may become computationally very expensive. The reason is that the transmission medium model must check each line of sight path between all transmitter and receiver pairs against all physical objects.
+
+% What is the purpose of object cache models?
+An object cache model organizes physical objects into a data structure which provides efficient geometric queries. Its main purpose is to iterate all physical objects penetrated by a 3D line segment.
+
+% What object cache models are provided?
+In \inet, an object cache model is implemented as an \omnet simple module:
+
+\begin{itemize}
+        \item \ned{GridObjectCache} organizes objects into a fixed cell size 3D spatial grid.
+        \item \ned{BvhObjectCache} organizes objects into a tree data structure based on recursive 3D volume division.
+\end{itemize}
+
+\subsection{Mobility}
+\label{subsec:mobility}
+% Why mobility models are needed?
+In order to simulate ad-hoc wireless networks, it is important to model the motion of mobile network nodes. Received signal strength, signal interference, and channel occupancy depends on the distances between nodes. The selected mobility models can significantly influence the results of the simulation (e.g. through packet loss).
+
+% What is the purpose of mobility models?
+A mobility model describes movement and orientation over time in a 3D Euclidean coordinate system. Its main purpose is to determine position, velocity, acceleration, and similarly angular position, angular velocity, and angular acceleration as 3D quantities at the current simulation time.
+
+% How are mobility models implemented?
+In \inet, a mobility model is most often an \omnet simple module implementing the motion as a C++ algorithm. Although most models have a few common parameters (e.g. for initial positioning), they always come with their own set of parameters. Some models support geographic positioning to ease the configuration of map based scenarios.
+
+\subsubsection*{Mobility Model Categories}
+% How are mobility models categorized?
+Mobility models can be divided into trace-based, deterministic, and stochastic categories. Trace-based mobility models replay recorded motion as observed in real life. Deterministic and stochastic mobility models use synthetic mathematical models for describing motion.
+
+Mobility models can also be divided into static, single, and group categories. Static mobility models provide positioning without any motion during the simulation. Single mobility models describe the motion of entities independent of each other. Finally, group mobility models provide such a motion where group members are dependent on each other.
+
+\subsubsection*{Built-in Mobility Models}
+% What mobility models are provided?
+\inet contains many mobility models, so the following lists only give a taste from various categories.
+
+Stationary mobility models:
+
+\begin{itemize}
+        \item \ned{StationaryMobility} provides deterministic and stochastic stationary positioning.
+        \item \ned{StaticGridMobility} places several mobility models in a rectangular grid.
+        \item \ned{StaticConcentricMobility} places several models in a set of concentric circles.
+\end{itemize}
+
+Deterministic mobility models:
+
+\begin{itemize}
+        \item \ned{LinearMobility} moves linearly with a constant speed or constant acceleration.
+        \item \ned{CircleMobility} moves around a circle parallel to the XY plane with constant speed.
+        \item \ned{RectangleMobility} moves around a rectangular area parallel to the XY plane with constant speed.
+        \item \ned{TractorMobility} moves similarly to a tractor on a field with a number of rows.
+        \item \ned{VehicleMobility} moves similarly to a vehicle along a path especially turning around corners.
+        \item \ned{TurtleMobility} moves according to an XML script written in a simple yet expressive LOGO-like programming language.
+        \item \ned{FacingMobility} orients towards the position of another mobility model.
+        \item \ned{RotatingMobility} rotates around with a constant speed.
+\end{itemize}
+
+Trace-based mobility models:
+
+\begin{itemize}
+        \item \ned{BonnMotionMobility} replays trace files of the \program{BonnMotion} scenario generator.
+        \item \ned{Ns2MotionMobility} replays files of the CMU’s scenario generator used in \program{Ns2}.
+        \item \ned{AnsimMobility} replays XML trace files of \program{ANSim} (Ad-Hoc Network Simulation).
+\end{itemize}
+
+Stochastic mobility models:
+
+\begin{itemize}
+        \item \ned{RandomWaypointMobility} moves to random destination with random speed.
+        \item \ned{GaussMarkovMobility} uses one parameter to vary the degree of randomness from linear to brown motion.
+        \item \ned{MassMobility} moves similarly to a mass with inertia and momentum.
+        \item \ned{ChiangMobility} uses a probabilistic transition matrix to change the motion state.
+\end{itemize}
+
+\subsubsection*{Combining Mobility Models}
+% How are mobility models combined?
+Mobility models can also be combined to form more complex motions without implementing new C++ algorithms.
+
+\begin{itemize}
+        \item \ned{SuperpositioningMobility} model combines several other mobility models by summing them up. It allows creating group mobility by sharing a mobility model in each group member, separating initial positioning from positioning during the simulation, and separating positioning from orientation.
+        \item \ned{AttachedMobility} models a mobility that is attached to another one at a given offset. Position, velocity and acceleration are all affected by the respective quantites and also the orientation of the referenced mobility.
+\end{itemize}
+
+\subsubsection*{Using Mobility Models}
+% How are mobility models used?
+A mobility model only determines a trajectory, but it does so independently of where and how it's used. In order to actually have an effect on the motion of a network node, a mobility model is included as a submodule in the compound module of the network node. By default, a transceiver antenna within a network node uses the same mobility model, but this is completely optional as far as the mobility is concerned. For example, a vehicle facing forward while moving on a road may contain multiple transceiver antennas at different relative locations with different orientations, these motions cannot be accurately modeled with a single mobility.
+
+\subsection{Power Consumption}
+\label{subsec:power-consumption}
+% Why power consumption modeling is needed?
+Modeling power consumption is essential, for example, for mobile personal medical devices, large scale wireless environment monitoring devices, or low-power wireless sensors. High fidelity simulation of power consumption allows designing power sensitive routing protocols, MAC protocols with power management features, which in turn results in more energy efficient devices.
+
+In order to help the modeling process, the \inet power model is separated from other simulation models. This separation makes the power model extensible and it also allows easy experimentation with alternative implementations. In a nutshell, the power model consists of energy consumer, energy generator, energy storage and energy management models.
+
+The power model elements fall into two categories abbreviated with \ned{Ep} and \ned{Cc} as part of their names. Simpler models deal with energy and power quantities, more realistic models deal with charge, current, and voltage quantities.
+
+\subsubsection*{Energy Consumer Models}
+% Why energy consumer models are needed?
+In a network simulation, there are many components that in some way consume energy. For example, a transceiver consumes energy when it transmits or receives signals, a CPU consumes energy when the network protocol routes packets, a display consumes energy when it’s turned on.
+
+In \inet, an energy consumer model is an \omnet simple module implementing the energy consumption of software processes or hardware devices over time. Its main purpose is to provide the power or current consumption for the current simulation time. Most often energy consumers are included as submodules in the compound module of the hardware devices or software components.
+
+% What energy consumer models are provided?
+\inet provides only a few built-in energy consumer models:
+
+\begin{itemize}
+        \item \ned{AlternatingEpEnergyGenerator} is a trivial energy/power based statistical energy consumer model example.
+        \item \ned{StateBasedEpEnergyConsumer} is a transceiver energy consumer model based on the radio mode and transmission/reception states.
+\end{itemize}
+
+In order to simulate power consumption in a wireless network, the energy consumer model type must be configured for the transceivers. The following example demonstrates how to configure the power consumption parameters for a transceiver energy consumer model:
+
+\inisnippet{EnergyConsumerConfigurationExample}{Energy consumer configuration example}
+
+\subsubsection*{Energy Generator Models}
+% Why energy generator models are needed?
+Its often necessary to also have components which actually generate energy instead of consuming it, otherwise all energy storages become depleted quickly and the simulation stops. In a wireless sensor network, a solar panel, for example, produces energy based on time of day, the panel’s location on the globe, its orientation towards the sunm and the actual weather conditions.
+
+In \inet, an energy generator model is an \omnet simple module implementing the energy generation of a hardware device using a physical phenomena over time. Its main purpose is to provide the power or current generation for the current simulation time. Most often energy generation models are included as submodules in network nodes.
+
+\inet provides only one trivial energy/power based statistical energy generator model called \ned{AlternatingEpEnergyGenerator}. The following example shows how to configure its power generation parameters:
+
+\inisnippet{EnergyGeneratorConfigurationExample}{Energy generator configuration example}
+
+\subsubsection*{Energy Storage Models}
+% Why energy storage models are needed?
+Electronic devices which are not connected to the power grid contain some component to store energy. For example, an electrochemical battery in a mobile phone provides energy for its display, its CPU, and its communication devices. It might also absorb energy produced by a solar panel installed on its display, or by a portable charger plugged into the wall socket every once in a while.
+
+In \inet, an energy storage model is an \omnet simple module which models the physical phenomena that is used to store energy produced by generators and provide energy for consumers. Its main purpose is to compute the amount of available energy or charge at the current simulation time. It maintains a set of connected energy consumers and energy generators, their respective total power consumption and total power generation.
+
+\inet contains a few built-in energy storage models:
+
+\begin{itemize}
+        \item \ned{IdealEpEnergyStorage} is an idealistic model with infinite energy capacity and infinite power flow.
+        \item \ned{SimpleEpEnergyStorage} is a non-trivial model integrating the difference between the total consumed power and the total generated power over time.
+        \item \ned{SimpleCcBattery} is a more realistic charge/current based battery model using a charge independent ideal voltage source and internal resistance.
+\end{itemize}
+
+The following example shows how to configure a simple energy storage model:
+
+\inisnippet{EnergyStorageConfigurationExample}{Energy storage configuration example}
+
+\subsubsection*{Energy Management Models}
+% Why energy management models are needed?
+% The energy management models monitors an energy storage, estimates its state, and controls the consumers and generators to protect the energy storage from operating outside its safe operating area.
+
+\ned{SimpleEpEnergyManagement}
+
+\inisnippet{EnergyManagementConfigurationExample}{Energy management configuration example}
+
+\subsection{Scenario Management}
+\label{subsec:scenario-management}
+%
+explain how \inet supports custom simulation scenarios: creating new network nodes, shutting down network nodes, etc.
+
+%
+\subsection{Visualization}
+\label{subsec:visualization}
+%
+describe how \inet provides visualization for various parts of the model, packet drops, routing tables, physical environment, link and path activity, statistics, etc.
+
+%
+\subsubsection*{Transport Connections}
+%
+
+%
+\subsubsection*{Network Path Activity}
+%
+
+%
+\subsubsection*{Data Link Activity}
+%
+
+%
+\subsubsection*{Physical Link Activity}
+%
+
+%
+\subsubsection*{Packet Drop}
+%
+
+%
+\section{Developing Protocol Models}
+\label{sec:developing-protocol-models}
+This section introduces the most important modeling support features of \inet. These features facilitate the implementation of applications and communication protocols by providing various commonly used functionality. Thus modeling support allows rapid implementation of new models by building on already existing APIs while the implementor can focus on the research topics. These features differ from the reusable NED modules introduced earlier, because they are available in the form of C++ APIs.
+
+The representation of packets is an essential modeling support for communication network simulation. Applications and communication protocols construct, deconstruct, encapsulate, fragment, aggregate, and manipulate packets in many ways. In order to ease the implementation of said behavioral patterns, \inet provides a feature rich C++ packet API.
+
+The easy usage of protocol services is another essential modeling support. Applications often need to use several different protocol services simultaneously. In order to spare the applications from using the default \omnet message passing style between modules, \inet provides an easy to use C++ socket API.
+
+\subsection{Packet API}
+\label{subsec:packet-api}
+The packet API primarily provides a general purpose packet data structure that is capable of representing application packets, \protocol{TCP} segments, \protocol{IP} datagrams, \protocol{Ethernet} frames, \protocol{IEEE 802.11} frames, etc. The packet data structure allows efficient storage, duplication, sharing, encapsulation, aggregation, fragmentation, serialization, and data representation selection. The packet data structure consists of two layers built on one another. The upper layer deals with packets, and the lower layer deals with alternative data representations.
+
+The packet API, despite its name, does not only provide the packet data structure but several other functionality. For example, communication protocols often need to enqueue data for sending (e.g., TCP), or buffer received data for reassembly (e.g., IP) or for reordering (e.g., IEEE 802.11). These services are provided as separate data structures on top of the lower layer mentioned above.
+
+Communication between protocols inside network nodes often require passing around meta information along with packets. To this end, packets are also capable of carrying meta information called tags. Tags are simple C++ classes which can be either attached to the whole packet or to a specific region.
+
+Understanding what's inside a packet is another important and often used functionality. Protocol specific packet dissectors allow analyzing the contents of packets deeply. For example, packet filtering is based on packet dissection, it allows the visualization of certain packets easing model understanding.
+
+During model development, packets often need to be printed in a human readable form. \inet provides a built in packet printer which is automatically used by the \omnet runtime user interface to display packets in the packet log window. At the network level, the packet log is very similar to what is usually provided by network protocol analyzers such as Wireshark.
+
+\subsubsection*{Representing Chunks}
+The packet data structure is a compound data structure that builds on top of another set of data structures called chunks. The chunk data structures provide several alternatives to represent a piece of data. Chunks can be simple or compound if they are built using other chunks.
+
+Communication protocols and applications may define their own chunks or use already existing ones. User defined chunks are most often genereted by the \omnet MSG compiler as a subclass of \cpp{FieldsChunk}. It's also possible to write a user defined chunk from scratch.
+
+\inet provides the following built-in chunks:
+
+\begin{itemize}
+	\item	repeated byte or bit chunk (\cpp{ByteCountChunk}, \cpp{BitCountChunk})
+	\item	raw bytes or bits chunk (\cpp{BytesChunk}, \cpp{BitsChunk})
+	\item	ordered sequence of chunks (\cpp{SequenceChunk})
+	\item	slice of another chunk designated by offset and length (\cpp{SliceChunk})
+	\item	many protocol specific field based chunks (\cpp{FieldsChunk} subclasses)
+\end{itemize}
+
+Applications and communication protocols most often construct simple chunks to represent application data and protocol headers. The following examples demonstrate the construction of various simple chunks.
+
+\cppsnippet{ChunkConstructionExample}{Chunk construction example}
+
+In general, chunks must be constructed with a call to \cpp{makeShared} instead of the standard \cpp{new} C++ operator. The special construction mechanism is required for the efficient sharing of chunks among packets using C++ shared pointers.
+
+Packets most often contain several chunks inserted by different protocols as packets are passed through the protocol layers.
+
+The most common way of forming such a compound chunk to represent packet contents is concatenation.
+
+\cppsnippet{ChunkConcatenationExample}{Chunk concatenation example}
+
+Protocols often need to slice data, for example to provide fragmentation, which is also directly supported by the chunk API.
+
+\cppsnippet{ChunkSlicingExample}{Chunk slicing example}
+
+In order to avoid cluttered data representation due to slicing, the chunk API provides automatic merging for consecutive chunk slices.
+
+\cppsnippet{ChunkMergingExample}{Chunk merging example}
+
+Alternative representations can be easily converted into one another using automatic serialization as a common ground.
+
+\cppsnippet{ChunkConversionExample}{Chunk conversion example}
+
+\msgsnippet{UdpHeaderDefinitionExample}{UDP header definition example}
+
+\subsubsection*{Representing Packets}
+The packet data structure uses a single chunk data structure to represent its contents. The contents may be as simple as raw bytes (\cpp{BytesChunk}) but most likely it will be the concatenation (\cpp{SequenceChunk}) of various protocol specific headers (e.g., \cpp{FieldsChunk} subclasses) and application data (e.g., \cpp{ByteCountChunk}).
+
+Packets can be created by both applications and communication protocols. As packets are passed down through the protocol layers in the sender node, new protocol specific headers and trailers are inserted during processing.
+
+\cppsnippet{PacketConstructionExample}{Packet construction example}
+
+In order to facilitate processing by communication protocols, packets are split into three parts: headers, data, and trailers. As packets are passed up through the protocol layers in the receiver node, protocol specific headers and trailers are popped during processing.
+
+\cppsnippet{PacketProcessingExample}{Packet processing example}
+
+\subsubsection*{Representing Signals}
+%
+
+% TODO
+\cppsnippet{SignalConstructionExample}{Signal construction example}
+
+\subsubsection*{Representing Errors}
+%
+An essential part of communication network simulation is the understanding of protocol behavior in the presence of errors. The packet API provides several alternatives for representing errors. The alternatives range from simple but computationally cheap to accurate but computationally expensive solutions.
+
+\begin{itemize}
+	\item	mark erroneous packets (simple)
+        \item   mark erroneous chunks (good compromise)
+        \item   change bits in raw chunks (accurate)
+\end{itemize}
+
+\cppsnippet{ErrorRepresentationExample}{Error representation example}
+
+The physical layer models support the above mentioned different error representations via configurable parameters. Higher layer protocols detect errors by chechking the error bit on packets and chunks, and by standard CRC mechanisms.
+
+%
+\subsubsection*{Tagging Packets}
+%
+Several protocols process a packet while the packet is being passed around within a network node. The packet often needs to carry some meta information to support this processing. The most trivial meta information example is the outermost protocol of the packet which cannot be unambigously identified just by looking at the raw data.
+
+\cppsnippet{PacketTaggingExample}{Packet tagging example}
+
+%
+\subsubsection*{Tagging Regions}
+%
+explain how \inet packet representation allows tagging arbitrary regions of packets with meta information
+%
+
+\cppsnippet{RegionTaggingExample}{Region tagging example}
+
+%
+\subsubsection*{Dissecting Packets}
+%
+
+\cppsnippet{PacketDissectorCallbackInterface}{Packet dissector callback interface}
+
+\cppsnippet{PacketDissectionExample}{Packet dissection example}
+
+%
+\subsubsection*{Filtering Packets}
+%
+
+\cppsnippet{PacketFilteringExample}{Packet filtering example}
+
+%
+\subsubsection*{Printing Packets}
+%
+
+\cppsnippet{PacketPrintingExample}{Packet printing example}
+
+%
+\subsubsection*{Recording PCAP}
+%
+
+% TODO recorded into a PCAP file for further processing with 3rd party tools
+
+%
+\subsection{Socket API}
+\label{subsec:socket-api}
+%
+explain the \inet socket API in general
+
+\cppsnippet{UDPSocketUsageExample}{UDP socket usage example}
+
+\cppsnippet{TCPSocketUsageExample}{TCP socket usage example}
+
+%
+\subsubsection*{Sending Data}
+%
+
+%
+\subsubsection*{Receiving Data}
+%
+
+%
+\subsubsection*{Configuring Sockets}
+%
+
+%
+\subsection{Protocol Support}
+\label{subsec:protocol-support}
+%
+
+\todo[author=Levente, inline]{explain simplified C++ code fragments, const omitted, setting chunk fields omitted, etc.}
+
+%
+\subsubsection*{Encapsulating Packets}
+%
+explain how \inet packet representation supports encapsulation of packets, provide examples, etc.
+
+\cppsnippet{PacketEncapsulationExample}{Packet encapsulation example}
+
+\cppsnippet{PacketDecapsulationExample}{Packet decapsulation example}
+
+%
+\subsubsection*{Fragmenting Packets}
+%
+explain how \inet packet representation supports fragmentation of packets, provide examples, etc.
+
+\cppsnippet{PacketFragmentationExample}{Packet fragmentation example}
+
+\cppsnippet{PacketDefragmentationExample}{Packet defragmentation example}
+
+%
+\subsubsection*{Aggregating Packets}
+%
+explain how \inet packet representation supports aggregation of packets, provide examples, etc.
+
+\cppsnippet{PacketAggregationExample}{Packet aggregation example}
+
+\cppsnippet{PacketDisaggregationExample}{Packet disaggregation example}
+
+%
+\subsubsection*{Serializing Packets}
+%
+explain how \inet packet representation provides supports for serialization, provide examples, etc.
+
+\cppsnippet{PacketSerializationExample}{Packet serialization example}
+
+\cppsnippet{PacketDeserializationExample}{Packet deserialization example}
+
+%
+\subsubsection*{Emulation Support}
+%
+explain how \inet packet representation provides supports for emulation, provide examples, etc.
+
+\cppsnippet{EmulationPacketSendingExample}{Emulation packet sending example}
+
+\cppsnippet{EmulationPacketReceivingExample}{Emulation packet receiving example}
+
+%
+\subsubsection*{Queueing Packets}
+%
+explain how \inet supports queueing packet data arriving in order
+
+\cppsnippet{PacketQueueingExample}{Packet queueing example}
+
+%
+\subsubsection*{Buffering Packets}
+%
+explain how \inet supports buffering packet data arriving out of order
+
+%
+\paragraph{Reassembling Packets}
+%
+explain how \inet merges packet data arriving out of order into a whole
+
+\cppsnippet{PacketReassemblingExample}{Packet reassembling example}
+
+%
+\paragraph{Reordering Packets}
+%
+explain how \inet forms a stream from packet data arriving out of order
+
+\cppsnippet{PacketReorderingExample}{Packet reordering example}
+
+%
+\subsubsection*{Resolving Addresses}
+%
+explain what kind of addresses \inet provides for protocols to use: network and MAC addresses, related protocols: ARP, DHCP, ND, etc.
+address lookup by name
+node lookup by MAC address
+node lookup by L3 address
+
+%
+\subsubsection*{Dispatching Packets}
+%
+explain how \inet allows connecting multiple protocols within a network node in a very flexible way
+
+\cppsnippet{PacketDispatchingExample}{Packet dispatching example}
+
+%
+\subsubsection*{Initializating Modules}
+%
+explain how \inet supports multi stage interdependent module initialization
+
+\cppsnippet{ModuleInitializationExample}{Module initialization example}
+
+%
+\subsubsection*{Starting and Stopping Nodes}
+%
+explain how \inet supports network node lifecycle management: startup, shutdown, crash, etc.
+
+\cppsnippet{LifecycleOperationExample}{Lifecycle operation example}
+
+%
+\section{IEEE 802.11 Model}
+\label{sec:ieee-802.11}
+%
+\todo{TODO}
+
+\subsection{Overview}
+\label{subsec:ieee-802.11-overview}
+%
+\todo{TODO}
+
+\subsection{Coordination Functions}
+\label{subsec:ieee-802.11-coordination-functions}
+%
+In IEEE 802.11, access to the wireless medium is controlled by coordination functions (\texttt{ICoordinationFunction}). However, the term coordination function is used in a broader context in INET as it not only contains a channel access function (\texttt{IChannelAccess}) that is responsible for the correct parametrization of the general CSMA/CA algorithm (\texttt{Contention}) but also it glues together all the components (e.g., MAC Data Service, Rate Selection and many other) that are part of the MAC sublayer and therefore defines the behavior of a IEEE 802.11 system when a specific coordination function is being used.
+
+%
+\subsubsection{Distributed Coordination Function (DCF)}
+%
+The DCF coordination (\texttt{Dcf}) function is modeled as an INET compound module and consists of several submodules each of them corresponding to a IEEE 802.11 sublayer component and therefore it offers a widely configurable and pluggable architecture.
+
+All coordination functions implement the interface \texttt{ICoordinationFunction} listed below which shows us that all the ingress and egress traffic goes through a coordination function. The purpose of this section is to briefly explain the role of the DCF coordination function in the frame transmission and reception process.
+\cppsnippet{CoordinationFunctionInterface}{ICoordinationFunction interface}
+The function \texttt{processUpperFrame()} is the entry point of the whole frame transmission mechanism including queuing and channel access request after the \texttt{Ieee80211Mac} module receives a frame from a higher network layer.
+\cppsnippet{DcfProcessUpperFrame}{Queuing and requesting channel access upon frame reception from higher layers}
+The DCF is a contention-based coordination function meaning that its channel access function (\texttt{Dcaf}) provides an interface to the CSMA/CA algorithm (\texttt{Contention}). Upon reception of a frame from a higher layer, the DCF requests channel access in order to carry out an interference-free transmission in the wireless channel. Once the access is granted, the DCF initiates the transmission process by starting a new frame exchange sequence.
+\cppsnippet{DcfChannelGranted}{Initiating a frame exchange sequence when the wireless medium is free}
+Once the frame exchange sequence is finished, the \texttt{FrameSequenceHandler} notifies the coordination function by calling its \texttt{frameSequenceFinished()} function that requests channel access again if there are further frames to be transmitted.
+\cppsnippet{DcfFrameSequenceFinished}{Re-requesting channel access after frame exchange sequence is finished}
+A frame exchange sequence can involve multiple frame transmissions which might require post-processing based on their frame type. This post-processing can be triggered by either a transmission error (e.g., due to timeout caused by a collision), the need of notifying other sublayer components about the transmission (e.g., \texttt{RecoveryProcedure} sets the retry counters) or even by statistical purposes (e.g., keeping track of the number of transmitted RTS frames).
+
+In the following example we can see how the DCF gets notified after a transmission.
+
+\cppsnippet{DcfOriginatorProcessTransmittedFrame}{Frame post-processing after transmission}
+
+At this point the DCF does not know if the transmission has succeeded. The transmitted frame is simply passed to the \texttt{OriginatorAckPolicy} that decides whether the transmitted frame needs an acknowledgment.
+
+However, the coordination functions are not only responsible for the frame transmission but also they are the component that handle the incoming frames as well.
+
+\cppsnippet{DcfProcessLowerFrame}{Processing an incoming frame}
+The function \texttt{processLowerFrame()} examines whether the incoming frame might belong to an already running frame exchange sequence or the station just simply received a frame. In the former case, the frame is passed to the \texttt{FrameSequenceHandler} that verifies if the received frame is indeed a part of an allowable frame exchange sequence. After that, the DCF gets back the frame via its \texttt{originatorProcessReceivedFrame()} callback function for further processing.
+
+In the latter case, however, the DCF handles the frame without involving the \texttt{FrameSequenceHandler} by simply passing it to the appropriate sublayer component based on the frame type.
+
+\cppsnippet{DcfRecipientProcessReceivedFrame}{Processing an incoming frame when there is no running frame exchange sequence}
+
+As it can be seen from the above, \texttt{recipientProcessReceivedFrame()} handles the incoming data, management and control frames. In addition, it passes the frames to the \texttt{RecipientMacDataService} in order out carry out all the necessary frame processing\---including defragmentation and duplicate frame removal\---that are required before sending them up to a higher protocol layer.
+%
+\subsubsection{Pcf}
+%
+
+%
+\subsubsection{Hcf}
+%
+
+%
+\paragraph{Edca}
+%
+
+%
+\paragraph{Hcca}
+%
+
+%
+\subsubsection{Mcf}
+%
+
+\subsection{Mac Data Service}
+\label{subsec:ieee-802.11-mac-data-service}
+%
+\todo{TODO}
+
+%
+\paragraph{Originator Mac Data Service}
+%
+
+%
+\paragraph{Recipient Mac Data Service}
+%
+
+%
+\paragraph{Originator QoS Mac Data Service}
+%
+
+%
+\paragraph{Recipient QoS Mac Data Service}
+%
+
+\subsection{Procedures}
+\label{subsec:ieee-802.11-procedures}
+%
+\todo{TODO}
+
+%
+\paragraph{CTS Procedure}
+%
+
+%
+\paragraph{RTS Procedure}
+%
+
+%
+\paragraph{Recovery Procedure}
+%
+
+%
+\paragraph{Recipient ACK Procedure}
+%
+
+%
+\paragraph{Recipient Block ACK Procedure}
+%
+
+\subsection{Policies}
+\label{subsec:ieee-802.11-policies}
+%
+\todo{TODO}
+
+%
+\paragraph{CTS Policy}
+%
+
+%
+\paragraph{RTS Policy}
+%
+
+%
+\paragraph{Fragmentation Policy}
+%
+
+%
+\paragraph{MPDU Aggregation Policy}
+%
+
+%
+\paragraph{MSDU Aggregation Policy}
+%
+
+%
+\paragraph{Originator Ack Policy}
+%
+
+%
+\paragraph{Recipient Ack Policy}
+%
+
+%
+\paragraph{Originator QoS Ack Policy}
+%
+
+%
+\paragraph{Recipient QoS Ack Policy}
+%
+
+%
+\paragraph{Originator Block Ack Agreement Policy}
+%
+
+%
+\paragraph{Recipient Block Ack Agreement Policy}
+%
+
+\subsection{Frame Exchange Sequences}
+\label{subsec:ieee-802.11-frame-sequences}
+%
+\todo{TODO}
+
+%
+\paragraph{Atomic Frame Sequences}
+%
+
+%
+\paragraph{Compound Frame Sequences}
+%
+
+\subsection{Rate Selection}
+\label{subsec:ieee-802.11-rate-selection}
+%
+\todo{TODO}
+
+\subsection{Rate Control}
+\label{subsec:ieee-802.11-rate-control}
+%
+\todo{TODO}
+
+\subsection{Protection Mechanism}
+\label{subsec:ieee-802.11-protection-mechanism}
+%
+\todo{TODO}
+
+%
+\section{Experimenting with New Protocols and Algorithms}
+\label{sec:experimentation}
+%
+Points to address in this section:
+\begin{itemize}
+	\item	describe how \inet provides extension points for adding new protocols
+	\item	changing the behaviour of existing protocols
+	\item	etc.
+\end{itemize}
+
+%
+\subsection{TCP Congestion Algorithm}
+\label{subsec:experimentation-tcp-congestion}
+%
+briefly explain how \inet allows experimenting with new TCP congestion algorithms
+
+%
+\subsection{Mobile Ad-hoc Network Routing}
+\label{subsec:experimentation-adhoc-routing}
+%
+briefly explain how \inet allows experimenting with new MANET routing protocols via the netfilter interface
+
+%
+\subsection{Wifi Rate Control}
+\label{subsec:experimentation-wifi-ratecontrol}
+%
+briefly explain how \inet allows experimenting with new wifi rate control mechanisms
+
+%
+\subsection{Hardware in the Loop}
+\label{subsec:experimentation-hardware-in-the-loop}
+%
+briefly explain how \inet allows experimenting with hardware in the loop simulations
+
+
+%
+\setcounter{tocdepth}{3}
+\tableofcontents 
+\todo{remove TOC later on}
+%
+\clearpage
+\listoftodos
+%
+%%%%% List of Acronyms %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\input{acronyms}
+%
+%%%%% Printing of the Index %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\printindex	% use for testing only, the book will include a centralized index
+%
+%%%%% Contribution Bibliography %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% BibTeX users please use
+%\bibliographystyle{spmpsci}		% Springer style for computer science publications
+%\bibliography{references}		% Example bibliography with various entry types
+%
+% Non-BibTex users can take a look at Springer's bibliography example
+%\input{references_examples}
+%
+%%%%% Typographic Conventions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% a list of conventions for typographic arrangements and presentation forms 
+% the list is part of the book's preface, it is just inserted here for temporary reference
+\input{typographic-conventions}
+%
+\end{document}
+%
+%%%%%%%
+% EOF %
+%%%%%%%

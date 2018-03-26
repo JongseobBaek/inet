@@ -1,0 +1,357 @@
+%%%%% Pre-set and required packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\RequirePackage[english=usenglish]{hyphsubst}	% Hyphenation support
+%
+\RequirePackage{amsmath}						% load amsmath before Springer documentclass
+%
+\RequirePackage{fix-cm}							% Replacement for package type1cm
+%
+%%%%% The document class (Springer SVMult) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\documentclass{svmult}
+%
+%%%%% Packages to be loaded %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\usepackage[utf8]{inputenc}		% UTF-8 Support
+\usepackage[T1]{fontenc}		% T1 fonts for font encoding
+%
+\usepackage[T1]{url} 			% web addresses with T1 encoding
+\urlstyle{same} 				% web addresses in tt-style
+%
+\usepackage[numbers]{natbib}	% we use numbered citations
+%
+\usepackage[USenglish]{babel} 	% US-English (main) language
+%
+\usepackage{txfonts}			% new Times font package that supports bold fonts in math mode
+%\usepackage{mathptmx}       	% selects Times Roman as basic font (old package without bold math font)
+\usepackage{helvet}         	% selects Helvetica as sans-serif font
+\usepackage{courier}        	% selects Courier as typewriter font
+%
+\usepackage{makeidx}         	% allows index generation
+\makeindex             			% used for the subject index, please use the style svind.ist with your makeindex program
+%
+\usepackage[pdftex,fixpdftex,hyperref,svgnames,rgb,showerrors]{xcolor}	% Packet for color text support			
+%
+\usepackage[pdftex]{graphicx}  	% LaTeX graphics tool for inclusion of PDF, PNG, JPG figures
+								% adjust pdftex to an output driver of your choice (e.g. luatex)
+%
+\usepackage{multicol}        	% used for the two-column index
+\usepackage[bottom]{footmisc}	% places footnotes at page bottom
+%
+\usepackage{microtype}			% micro-typing support
+\usepackage{xspace}				% support for space commands
+\usepackage[xspace]{ellipsis}	% Corrects wrong spaces after dots
+%
+\usepackage{listings}			% use the listings package to style longer source code listings
+%
+\usepackage{flafter}			% helps to shift figures after their actual reference
+%
+\usepackage[printonlyused]{acronym}	% support for acronyms (see template tex for examples)
+%
+\usepackage{booktabs}			% support for scientific table environments (see template tex for examples)
+%
+%\usepackage{tabularx}			% support for X-type columns (p columns with automatic column width calculation)
+%
+\usepackage{multirow}			% Packet for support of multiple rows
+%
+\usepackage{siunitx}			% Support for scientific units (configuration is loaded from siunitx.cfg)
+%
+\usepackage[disable]{todonotes}			% support for \todo and \missingfigures among others
+%
+%\usepackage{showframe}			% for debug purposes: shows frames of all boxes, contents and minipages
+%
+\usepackage[%
+    hidelinks,					%
+    breaklinks=true,            %
+    plainpages=false,           %
+    pdfpagelabels=true,         %
+    bookmarks=false,            %
+	hyperfootnotes=false,		%
+	pdftex
+]{hyperref}
+%
+%
+%%%%% Settings and additional Options %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\makeatletter
+\providecommand*{\toclevel@title}{0}		% fix for missing title bookmark level in Springer style
+\providecommand*{\toclevel@author}{999}		% fix for missing author bookmark level
+\makeatother
+%
+% use \Autoref at the beginning of the sentence to produce Figure, Equation, Section, etc.
+%
+\let\orgautoref\autoref
+\providecommand{\Autoref}[1]
+{%
+\def\pseudopartsautorefname{Part}%			for temporary references to other book parts
+\def\pseudochaptersautorefname{Chapter}%	for temporary references to other chapters
+\def\pseudosectionsautorefname{Section}%	for temporary references to other sections
+\def\partautorefname{Part}%
+\def\chapterautorefname{Chapter}%
+\def\sectionautorefname{Section}%
+\def\subsectionautorefname{Section}%		
+\def\subsubsectionautorefname{Section}%
+\def\equationautorefname{Equation}%
+\def\figureautorefname{Figure}%
+\def\subfigureautorefname{Figure}%
+\def\tableautorefname{Table}%
+\def\lstlistingautorefname{Listing}%
+\def\lstnumberautorefname{Line}%
+\orgautoref{#1}%
+}%
+%
+% use \autoref inside the sentence to produce Fig., Eq., etc.
+%
+\renewcommand{\autoref}[1]
+{%
+\def\pseudopartsautorefname{Part}%		for temporary references to other book parts
+\def\pseudochaptersautorefname{Chap.}%	for temporary references to other chapters
+\def\pseudosectionsautorefname{Sect.}%	for temporary references to other sections
+\def\partautorefname{Part}%
+\def\chapterautorefname{Chap.}%
+\def\sectionautorefname{Sect.}%
+\def\subsectionautorefname{Sect.}%		
+\def\subsubsectionautorefname{Sect.}%
+\def\equationautorefname{Eq.}%
+\def\figureautorefname{Fig.}%
+\def\subfigureautorefname{Fig.}%
+\def\tableautorefname{Table}%
+\def\lstlistingautorefname{Listing}%
+\def\lstnumberautorefname{line}%
+\orgautoref{#1}%
+}%
+%
+% Example of a customized 'language' for syntax highlighting with the listing package
+%
+\lstdefinelanguage{OMNETPPINI}{%
+    language=,				% you can set a language here (e.g., C++) to 'inherit' definitions from it
+	morekeywords=[1]{network,include,extends},	% add keyword identifiers here
+	otherkeywords={sim-time-limit,num-rngs},	% add keyword identifiers with 'other characters' (e.g., ! " # % & ’ ( ) * + , - . / : ; < = > ? [ \ ] ^ { | } ~)
+	morekeywords=[2]{true,false,xmldoc},		% a 'second' group of keyword identifiers
+	morekeywords=[3]{uniform,exponential,normal},	% a 'third' group of keyword identifiers
+	identifierstyle=\color{Black}, 			% identifier style
+	stringstyle=\color{SeaGreen},			% string style
+	commentstyle=\itshape\color{Black!65}, 	% comments style
+	keywordstyle=[1]\color{DarkBlue},		% keyword style for first/standard keyword group
+	keywordstyle=[2]\bfseries\color{Purple},% keyword style for second keyword group
+	keywordstyle=[3]\color{Purple},			% keyword style for third keyword group
+	%morestring=[s]{[}{]},	% treat '[...]' as a string identifier
+	morestring=[b]",		% treat '"..."' as a string identifier
+	morecomment=[l]{\#},	% treat '#' as the beginning of a comment
+	sensitive=true 		% makes keywords, control sequences, and directives case sensitive (true) or insensitive (false)
+}
+%
+\lstdefinelanguage{OMNETPPNED} {
+    morekeywords=[1]{parameters,gates,submodules,connections,allowunconnected},
+    morekeywords=[2]{bool,channel,channelinterface,const,
+                     default,double,extends,false,for,if,import,index,inout,input,
+                     int,like,module,moduleinterface,network,output,package,
+                     property,simple,sizeof,string,this,true,types,volatile,
+                     xml,xmldoc},
+	keywordstyle=[1]\color{DarkBlue},		% keyword style for first/standard keyword group
+	keywordstyle=[2]\bfseries\color{Purple},% keyword style for second keyword group
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]",
+}
+%
+\lstdefinelanguage{OMNETPPMSG} {
+    morekeywords={abstract,bool,char,class,cplusplus,double,enum,extends,false,
+                  fields,import,int,long,message,namespace,noncobject,packet,
+                  properties,readonly,short,string,struct,true,unsigned},
+    sensitive=true,
+    morecomment=[l]{//},
+    morestring=[b]",
+}
+%
+\newcommand{\xmlsnippet}[2]{%
+    \lstinputlisting[language=XML,caption={#2},linerange=<!\-\-#1\-\->-<!\-\-End\-\->,includerangemarker=false,firstnumber=0]{Snippets.xml}}
+\newcommand{\cppsnippet}[2]{%
+    \lstinputlisting[language=C++,caption={#2},linerange=//!#1-//!End,includerangemarker=false,firstnumber=0]{Snippets.cc}}
+\newcommand{\msgsnippet}[2]{%
+    \lstinputlisting[language=OMNETPPMSG,caption={#2},linerange=//!#1-//!End,includerangemarker=false,firstnumber=0]{Snippets.msg}}
+\newcommand{\nedsnippet}[2]{%
+    \lstinputlisting[language=OMNETPPNED,caption={#2},linerange=//!#1-//!End,includerangemarker=false,firstnumber=0]{Snippets.ned}}
+\newcommand{\inisnippet}[2]{%
+    \lstinputlisting[language=OMNETPPINI,caption={#2},linerange=\#!#1-\#!End,includerangemarker=false,firstnumber=0]{Snippets.ini}}
+\newcommand{\ned}[1]{%
+    \cursive{#1}}
+\newcommand{\protocol}[1]{%
+    \cursive{#1}}
+%
+\lstloadlanguages{OMNETPPNED,OMNETPPINI,OMNETPPMSG,C++,C,XML}	% Load the different languages that are used
+%
+%	General options for the listings package
+%
+\lstset{%
+	aboveskip=0.5em,			% Additional skip above a listing
+	frame=lines,				% use top and bottom lines to separate the listing from the surrounding text
+	numbers=left,            	% line numbers are put on the left side
+	float=htbp,					% LaTeX float placement
+	stepnumber=1,            	% every line gets numbered
+	numbersep=4pt,           	% space between numbers and code
+	numberstyle=\ttfamily\scriptsize,	% line number style and size
+	identifierstyle=\color{Black}, 	% identifier style
+	stringstyle=\color{DarkBlue},			% string style
+	commentstyle=\color{SeaGreen}, 			% comments style
+	keywordstyle=\bfseries\color{Purple},	% keyword style
+	%otherkeywords={makeShared, peekData},       	% if you want to add more keywords to the set
+	columns=flexible, 			% flexible columns (alternatives are 'fixed' or 'fullflexible')
+	rulecolor=\color{Black},	% set to avoid frame-color changes on line-breaks within not-black text
+	breaklines=true,         	% break lines if necessary
+	breakatwhitespace=false,	% sets if automatic breaks should only happen at white-space
+	breakautoindent=true,    	% indent lines after a line break occurred
+	postbreak=\space,        	% break at spaces
+	tabsize=4,               	% tab size 
+	basicstyle=\ttfamily\scriptsize,	% non-proportional 'script-sized' font for source code
+	showspaces=false,           % show spaces adding particular underscores
+	showstringspaces=false,     % underline spaces within strings
+	showtabs=false,             % show tabs within strings adding particular underscores
+	extendedchars=true,      	% enable all characters of the Latin1 character set + support for literate (see below)
+	captionpos=t,				% position of the caption (b = below, t = top)
+	escapeinside={(*@}{@*)},	% escape characters to reference line numbers
+	backgroundcolor=\color{Black!1.5}, % set the background color for the listing
+}
+%
+% Support for UTF-8 encoding in the listings package
+%
+\lstset{literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ù}{{\`u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ò}{{\`o}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ò}{{\`O}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
+%
+%	Definitions of new LaTeX commands for easier access by the user
+%
+% to simplify the 'process' of marking words for the book index we define a new command here
+% typically you need to write instead of 'test\index{text}' to write the word 'test' and add it to the index
+% now you can simply use \Index{test}
+% WARNING: works only for simple words, if you want a complex index term with special (math) characters, you need to use \index
+\newcommand{\Index}[1]{#1\index{#1}}	
+%
+\newcommand{\inet}{{INET}\xspace}	% setting INET correctly in the text
+%
+\DeclareRobustCommand*{\omnet}{{OMNeT\nolinebreak\hspace{-0.025em}\texttt{++}}\xspace}	% setting OMNeT++ correctly in the text
+%
+\DeclareRobustCommand*{\omnetinet}{{\omnet{}\nolinebreak\hspace{0.15ex}\raisebox{.10\height}{/}\hspace{0.15ex}\nolinebreak{INET}}\xspace} % OMNeT++ / INET
+%
+\DeclareRobustCommand*{\cpp}{{C\nolinebreak\hspace{-.05em}\texttt{++}}\xspace}	% setting C++ correctly in the text
+%
+%	Newly defined LaTeX commands for typographic use (e.g., emphasizing and highlighting special terms) 
+%
+% WARNING: in all four commands below you will need to escape special LaTeX characters & % $ # _ { } ~ ^ \
+% escape them via \&  \%  \$  \#  \_  \{  \}  \textasciitilde{} or \~{}  \textasciicircum{}  \textbackslash{}
+% refer to https://en.wikibooks.org/wiki/LaTeX/Special_Characters#Other_symbols for more example
+%
+% to emphasize all source-code-related information outside a listing
+% for example: ``The \code{copy(\&buffer)} function''
+\newcommand{\code}[1]{\texttt{#1}\xspace}
+%
+% to emphasize all non-source-code-related information
+% for example: ``The program uses the \cursive{Mersenne Twister} function ''
+\newcommand{\cursive}[1]{\textit{#1}\xspace}
+%
+% to emphasize program and tool names
+% for example: ``The \program{opp\_runall} tool''
+\newcommand{\program}[1]{\textbf{#1}\xspace}
+%
+% to emphasize file names
+% for example: ``The \filename{result\_scenario1.sca} file''
+\newcommand{\filename}[1]{\textsl{#1}\xspace}     
+%
+% NOTE: the alternative four commands below can be used just like the ones above WITHOUT the need to escape special LaTeX characters
+% BUT:  these command variants cannot be used inside other commands or macros (e.g., \caption{})
+%
+\usepackage{xparse}		% package to support parsing of customized commands and macros
+%
+% to emphasize all source-code-related information outside a listing without escaping LaTeX characters
+% for example: ``The \Code{copy(&buffer)} function''
+\DeclareDocumentCommand\Code{ v }{%
+    {\texttt{#1}\xspace}%
+}%
+%
+% to emphasize all non-source-code-related information
+% for example: ``The program uses the a \Cursive{Mersenne_Twister} function ''
+\DeclareDocumentCommand\Cursive{ v }{%
+    {\textit{#1}\xspace}%
+}%
+%
+% to emphasize program and tool names without escaping LaTeX characters
+% for example: ``The \Program{opp_runall} tool''
+\DeclareDocumentCommand\Program{ v }{%
+    {\textbf{#1}\xspace}%
+}%
+%
+% to emphasize file names without escaping LaTeX characters
+% for example: ``The \Filename{result#01.res} file''
+\DeclareDocumentCommand\Filename{ v }{%
+    {\textsl{#1}\xspace}%
+}%
+%
+%	Newly defined LaTeX commands to highlight keyboard keys or menu sequences
+%
+% to emphasize one, two, or three keyboard keys (multiple keys are connected with a plus sign)
+% for example: ``Press the \keys{Alt} key''    -> [Alt]
+%          or: ``Press \keys{Ctrl}{Alt}{Del}'' -> [Ctrl]+[Alt]+[Del]
+\DeclareDocumentCommand\keys{ m g g }{%	 
+    {[\textit{#1}]%							 
+        \IfValueT {#2} {\texttt{+}[\textit{#2}]}% 
+		\IfValueT {#3} {\texttt{+}[\textit{#3}]}%
+     \xspace%
+	}%
+}%
+%
+% to emphasize command sequences in user menus (multiple entries are combined with arrows)
+% for example: ``Go to the \commands{File} menu''
+%          or: ``Save the file via \commands{Menu}{File}{SaveAs}'' -> Menu->File->SaveAs
+\DeclareDocumentCommand\commands{ m g g g g }{%	 
+    {\textit{#1}%							 
+        \IfValueT {#2} {\hspace{0.15ex}$\rightarrow$\hspace{0.15ex}\textit{#2}}% 
+		\IfValueT {#3} {\hspace{0.15ex}$\rightarrow$\hspace{0.15ex}\textit{#3}}% 
+		\IfValueT {#4} {\hspace{0.15ex}$\rightarrow$\hspace{0.15ex}\textit{#4}}% 
+		\IfValueT {#5} {\hspace{0.15ex}$\rightarrow$\hspace{0.15ex}\textit{#5}}% 
+     \xspace%
+	}%
+}%
+%
+% A 'folder' symbol (for use with the new typographic LaTeX macros)
+\newcommand{\tikzfolder}{%
+\begin{tikzpicture}[rounded corners=0.03ex,scale=0.75]
+	\draw [black]  (0,0) -- (1em,0) -- (1em,1.5ex) -- (0.5em,1.5ex) -- (0.4em,1.7ex) -- (0.1em,1.7ex) -- (0,1.5ex) -- cycle;
+	\draw [black, fill=white] (0,0) -- (1em,0) -- (0.85em,1.15ex) -- ++(-1em,0) -- cycle;
+\end{tikzpicture}%
+}%
+%
+% A 'text file' symbol (for use with the new typographic LaTeX macros)
+\newcommand{\tikztextfile}{%
+\begin{tikzpicture}[rounded corners=0.02ex,scale=0.7]
+	\draw [black] (0,0) -- (0.8em,0) -- (0.8em,1.6ex) -- (0.55em,2.15ex) -- (0,2.15ex) -- cycle;
+	\draw [black] (0.8em,1.6ex) -| (0.55em,2.15ex);
+	\draw [black, line width=0.5pt, line cap=round] (0.25em,0.55ex) -- (0.6em,0.55ex) (0.25em,0.9ex) -- (0.6em,0.9ex) (0.25em,1.25ex) -- (0.6em,1.25ex);
+\end{tikzpicture}%
+}%
+%
+% A 'source code file' symbol (for use with the new typographic LaTeX macros)
+\newcommand{\tikzsourcefile}{%
+\begin{tikzpicture}[rounded corners=0.02ex,scale=0.7]
+	\draw [black] (0,0) -- (0.8em,0) -- (0.8em,1.6ex) -- (0.55em,2.15ex) -- (0,2.15ex) -- cycle;
+	\draw [black] (0.8em,1.6ex) -| (0.55em,2.15ex);
+	\draw [black, line width=0.5pt, rounded corners=0.002ex] (0.25em,0.4ex) -- (0.15em,0.85ex) -- (0.25em,1.3ex);  
+	\draw [black, line width=0.5pt, rounded corners=0.002ex] (0.55em,0.4ex) -- (0.65em,0.85ex) -- (0.55em,1.3ex);
+	\draw [black, line width=0.5pt, line cap=round] (0.35em,0.3ex) -- (0.45em,1.4ex);
+\end{tikzpicture}%
+}%
+%
+%%%%%%%
+% EOF %
+%%%%%%%
