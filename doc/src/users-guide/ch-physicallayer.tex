@@ -1,4 +1,4 @@
-\chapter{The Physical Layer}
+\chapter{The Physical Layer (Transceiver Modeling)}
 \label{cha:physicallayer}
 
 \section{Overview}
@@ -27,8 +27,12 @@ The separation of the transmitter model and the receiver model allows
 asymmetric configurations. The energy consumer model is optional, and
 it is only used when the simulation of energy consumption is necessary.
 
+TODO multiple implementations are provided for each model. For different
+level of detail (abstract/fast versus detailed), different modeling strategy, etc.
 
+TODO explain scalar, dimensional, and ``layered''
 
+TODO different signal representations for models of different detail levels, etc.
 
 \section{Generic Radio}
 \label{sec:phy:generic-radio}
@@ -115,7 +119,19 @@ Some of the transmitter types available in INET:
   \item \nedtype{Ieee80211DimensionalTransmitter}
 \end{itemize}
 
+TODO scalar radio parameters:
+    power
+    frquency
+    bandwidth
+    ...
 
+TODO dimensional parameterization: 
+
+ ApskDimensionalTransmitter:
+        string dimensions = default("time");                // dimensions of power: time and/or frequency
+        string timeGains = default("0% 0dB 100% 0dB");      // sequence of time and gain pairs; time is in [%] or [s], negative time measures from the end; gain is in [dB] or [0..1]; default value is a flat signal
+        string frequencyGains = default("0% 0dB 100% 0dB"); // sequence of frequency and gain pairs; frequency is in [%] or [Hz], negative frequency measures from the end; gain is in [dB] or [0..1]; default value is a flat signal
+        string interpolationMode @enum("linear", "sample-hold") = default("sample-hold");
 
 
 \subsection{Receiver Models}
@@ -276,6 +292,8 @@ medium model, \nedtype{UnitDiskRadioMedium}.
 
 The following ini file fragment shows an example configuration.
 
+TODO wtf about those 0 meters???
+
 \begin{inifile}
 *.radioMediumType = "UnitDiskRadioMedium"
 *.host[*].wlan[*].radioType = "UnitDiskRadio"
@@ -317,6 +335,79 @@ These radio models must be used in conjuction with
 \nedtype{ApskLayeredScalarRadioMedium} and
 \nedtype{ApskLayeredDimensionalRadioMedium}, respectively.
 
+TODO ApskLayeredScalarRadio and ApskLayeredDimensionalRadio types are missing, actually create them!!! 
+
+TODO limitations for usage in real-world protocol models
+
+TODO example: 1 for flat!
+
+\begin{inifile}
+TODO
+\end{inifile}
+
+
+TODO fragment for a layered one!
+
+\begin{inifile}
+## Iteration
+**.wlan[*].radio.**.levelOfDetail = ${detail="packet", "bit", "symbol"}
+**.wlan[*].radio.**.modulation = ${modulation="BPSK", "QPSK", "QAM-16", "QAM-64"}
+**.wlan[*].radio.**.fecType = ${fecType="", "ConvolutionalCoder"}
+**.bitrate = ${bitrate=$fecType == "" ? 36Mbps : 18Mbps} # we want to have the same 36Mbps gross bitrate (applying 1/2 code rate) 
+
+## Transmitter
+**.wlan[*].radio.transmitterType = "ApskLayeredTransmitter"
+**.wlan[*].radio.transmitter.encoderType = "ApskEncoder"
+**.wlan[*].radio.transmitter.modulatorType = "ApskModulator"
+
+# scrambler
+#**.wlan[*].radio.transmitter.scramblerType = "TODO"
+**.wlan[*].radio.transmitter.scrambler.seed = "1011101"
+**.wlan[*].radio.transmitter.scrambler.generatorPolynomial = "0001001"
+
+# FEC
+**.wlan[*].radio.transmitter.encoder.fecEncoder.transferFunctionMatrix = "1 3"
+**.wlan[*].radio.transmitter.encoder.fecEncoder.constraintLengthVector = "2"
+**.wlan[*].radio.transmitter.encoder.fecEncoder.puncturingMatrix = "1; 1"
+**.wlan[*].radio.transmitter.encoder.fecEncoder.punctureK = 1
+**.wlan[*].radio.transmitter.encoder.fecEncoder.punctureN = 2
+
+# interleaver
+# **.wlan[*].radio.transmitter.encoder.interleaverType = "TODO"
+
+## Receiver
+**.wlan[*].radio.receiverType = "ApskLayeredReceiver"
+**.wlan[*].radio.receiver.errorModelType = "ApskLayeredErrorModel"
+**.wlan[*].radio.receiver.decoderType = "ApskDecoder"
+**.wlan[*].radio.receiver.demodulatorType = "ApskDemodulator"
+
+# descrambler
+#**.wlan[*].radio.receiver.scramblerType = "TODO"
+**.wlan[*].radio.receiver.descrambler.seed = "1011101"
+**.wlan[*].radio.receiver.descrambler.generatorPolynomial = "0001001"
+
+# FEC
+**.wlan[*].radio.receiver.decoder.fecDecoder.transferFunctionMatrix = "1 3"
+**.wlan[*].radio.receiver.decoder.fecDecoder.constraintLengthVector = "2"
+**.wlan[*].radio.receiver.decoder.fecDecoder.puncturingMatrix = "1; 1"
+**.wlan[*].radio.receiver.decoder.fecDecoder.punctureK = 1
+**.wlan[*].radio.receiver.decoder.fecDecoder.punctureN = 2
+
+# Deinterleaver
+# **.wlan[*].radio.receiver.decoder.deinterleaverType = "TODO"
+\end{inifile}
+
+\subsection{IEEE 802.11 Radios}
+
+TODO why 802.11 needs specialized models 
+
+\subsection{IEEE 802.15.4 Radios}
+
+TODO why 802.15.4 needs specialized models 
+
+\subsection{UWB-IR Radios}
+
+TODO what is it
 
 
 %%% Local Variables:
