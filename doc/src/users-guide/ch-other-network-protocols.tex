@@ -68,6 +68,7 @@ For example:
 **.app[*].networkProtocol = "flood"
 \end{inifile}
 
+TODO all apps support that?
 
 \section{Protocols}
 \label{sec:networkprotocols:protocols}
@@ -159,6 +160,28 @@ Address resolution is done by \nedtype{GlobalArp}.
 If the address type is IPv4, \nedtype{Arp} can be used instead of
 \nedtype{GlobalArp}.
 
+
+\section{/////////////////////////////////////////////////////////}
+
+
+\section{InternetCloud}
+
+This module is an IPv4 router that can delay or drop packets (while retaining
+their order) based on which interface card the packet arrived on and 
+on which interface It is leaving the cloud. The delayer module is replacable.
+
+By default the delayer module is ~MatrixCloudDelayer which lets you configure
+the delay, drop and datarate parameters in an XML file. Packet flows, as defined
+by incoming and outgoing interface pairs, are independent of each other.
+
+The ~InternetCloud module can be used only to model the delay between two hops, but
+it is possible to build more complex networks using several ~InternetCloud modules.
+
+\section{PIM}
+
+Protocol Independent Multicast -- not a network protocol 
+
+models: \nedtype{PimSm}, \nedtype{PimDm}; \nedtype{Pim} is a compound module
 
 
 
