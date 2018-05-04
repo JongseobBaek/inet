@@ -1,6 +1,12 @@
 \chapter{The Ethernet Model}
 \label{cha:ethernet}
 
+% TODO EtherMacFullDuplex --> EtherMac
+% TODO EtherMac --> EtherCsmaCdMac
+% TODO there is no IWiredNic with EtherLLC
+% TODO: model delay in hubs: class I device 140 bit time, class II device 92 bit time (for fast ethernet)
+% TODO to rename: med `grep -REl 'Eth[^e]' --include '*.ned'`
+
 \section{Overview}
 \label{sec:ethernet:overview}
 
@@ -12,6 +18,8 @@ cables and repeaters to using unshielded twisted-pair cables with hubs and
 switches. Today, switched Ethernet is prevalent, and most links operate in full
 duplex mode. The INET Framework contains support for all major Ethernet
 technologies and device types.
+
+% Features: frame bursting, etc.
 
 In Ethernet networks containing multiple switches, broadcast storms are
 prevented by use of a spanning tree protocol (STP, RSTP) that disables selected
@@ -48,6 +56,12 @@ The \fpar{duplexMode} parameters of the MACs must be set according to the
 medium connected to the port; if collisions are possible (it's a bus or hub)
 it must be set to false, otherwise it can be set to true.
 By default it uses half-duplex MAC with CSMA/CD.
+
+%how to connect networks
+%
+%how to add stp/rstp
+%
+%TODO describe PAUSE handling here
 
 \subsection{EtherHub}
 \label{sec:ethernet:etherhub}
@@ -107,6 +121,10 @@ There is currently no support for 200Gbps and 400Gbps Ethernet.
 \nedtype{Ether10M}, \nedtype{Ether100M}, \nedtype{Ether1G}, \nedtype{Eth10G},
 \nedtype{Eth40G}, \nedtype{Eth100G}
 
+TODO concrete channel types?
+
+TODO example
+
 \section{Ethernet Interface}
 \label{sec:ethernet:ethernet-interface}
 
@@ -156,6 +174,8 @@ it operates only in full-duplex mode (its \fpar{duplexEnabled} parameter fixed t
 \ttt{true} in its NED definition). This module does not need to implement
 CSMA/CD, so there is no collision detection, retransmission with exponential backoff,
 carrier extension and frame bursting.
+
+% FIXME remove frameBursting from NED def, or fix it to false currently setting it to 'true' has no effect
 
 \subsection{EtherMac}
 \label{sec:ethernet:ethermac}
