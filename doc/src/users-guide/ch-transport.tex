@@ -53,7 +53,7 @@ also mixed in the same network.
 
 
 \subsection{Tcp}
-\label{sec:transport:tcp}
+\label{sec:transport:inet-tcp}
 
 The \nedtype{Tcp} simple module is the main implementation of the TCP protocol
 in the INET framework.
@@ -248,7 +248,10 @@ TODO some details (how to use, etc.)
 
 
 \section{//////////// TCP PROTOCOL DESCRIPTION /////////////////}
+\label{tcp-protocol-desc}
 
+\subsection{Topics}
+\label{tcp-protocol-desc-topics}
 
 The TCP modules of the INET framework implements the following RFCs:
 
@@ -271,6 +274,7 @@ In this section we describe the features of the TCP protocol specified by these 
 the following sections deal with the implementation of the TCP in the INET framework.
 
 \subsubsection{TCP segments}
+\label{sec:transport:tcp-segments}
 
 The TCP module transmits a stream of the data over the unreliable, datagram service
 that the IP layer provides. When the application writes a chunk of data into the socket,
@@ -284,6 +288,7 @@ it is wrapped around.
 
 
 \subsubsection{TCP connections}
+\label{sec:transport:tcp-connections}
 
 When two applications are communicating via TCP, one of the applications is the client,
 the other is the server. The server usually starts a socket with a well known local port
@@ -312,7 +317,7 @@ most TCP implementation choose the initial sequence number according to the syst
 \end{figure}
 
 \subsubsection{Flow control}
-\label{subsec:flow_control}
+\label{sec:transport:tcp-flow-control}
 
 The TCP module of the receiver buffers the data of incoming segments.
 This buffer has a limited capacity, so it is desirable to notify the sender
@@ -375,7 +380,7 @@ receiver in the response to this segment.
 TCP keepalive timer is used to detect dead connections.
 
 \subsubsection{Transmission policies}
-\label{subsec:trans_policies}
+\label{sec:transport:transmission-policies}
 
 \subsubsection*{Retransmissions}
 
@@ -529,6 +534,7 @@ sequence numbers).
 
 
 \subsubsection{Congestion control}
+\label{sec:tcp-transport:congestion-control}
 
 Flow control allows the sender to slow down the transmission when the
 receiver can not accept them because of memory limitations. However
