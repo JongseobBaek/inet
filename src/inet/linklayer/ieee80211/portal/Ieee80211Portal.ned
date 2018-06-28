@@ -19,6 +19,11 @@ package inet.linklayer.ieee80211.portal;
 
 import inet.linklayer.ieee8022.IIeee8022Llc;
 
+//
+// TODO
+//
+// @see ~IIeee8022Llc
+//
 simple Ieee80211Portal like IIeee8022Llc
 {
     parameters:
