@@ -1,9 +1,9 @@
-.. _cha:physicallayer:
+.. _usr:cha:physicallayer:
 
 The Physical Layer
 ==================
 
-.. _sec:phy:overview:
+.. _usr:sec:phy:overview:
 
 Overview
 --------
@@ -31,7 +31,7 @@ model allows asymmetric configurations. The energy consumer model is
 optional, and it is only used when the simulation of energy consumption
 is necessary.
 
-.. _sec:phy:generic-radio:
+.. _usr:sec:phy:generic-radio:
 
 Generic Radio
 -------------
@@ -56,12 +56,12 @@ consumer models as submodules with parametric types:
 
 The following sections describe the parts of the radio model.
 
-.. _sec:phy:components-of-a-radio:
+.. _usr:sec:phy:components-of-a-radio:
 
 Components of a Radio
 ---------------------
 
-.. _sec:phy:antenna-models:
+.. _usr:sec:phy:antenna-models:
 
 Antenna Models
 ~~~~~~~~~~~~~~
@@ -92,7 +92,7 @@ provides some examples:
 -  :ned:`InterpolatingAntenna`: antenna gain is computed by linear
    interpolation according to a table indexed by the direction angles
 
-.. _sec:phy:transmitter-models:
+.. _usr:sec:phy:transmitter-models:
 
 Transmitter Models
 ~~~~~~~~~~~~~~~~~~
@@ -132,7 +132,7 @@ Some of the transmitter types available in INET:
 
 -  :ned:`Ieee80211DimensionalTransmitter`
 
-.. _sec:phy:receiver-models:
+.. _usr:sec:phy:receiver-models:
 
 Receiver Models
 ~~~~~~~~~~~~~~~
@@ -176,7 +176,7 @@ Some of the receiver types available in INET:
 
 -  :ned:`Ieee80211DimensionalReceiver`
 
-.. _sec:phy:error-models:
+.. _usr:sec:phy:error-models:
 
 Error Models
 ~~~~~~~~~~~~
@@ -208,7 +208,7 @@ The following list provides some examples:
    :ned:`Ieee80211BerTableErrorModel`: various error models for IEEE
    802.11 network interfaces.
 
-.. _sec:phy:power-consumption-models:
+.. _usr:sec:phy:power-consumption-models:
 
 Power Consumption Models
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -229,7 +229,7 @@ The following list provides some examples:
 -  :ned:`StateBasedCcEnergyConsumer`: similar to the previous one, but
    consumption is given in ampères.
 
-.. _sec:phy:layered-radio-models:
+.. _usr:sec:phy:layered-radio-models:
 
 Layered Radio Models
 --------------------
@@ -266,7 +266,7 @@ In layered radio transmitters and receivers such as
 submodules have parametric types to make them replaceable. This provides
 immense freedom for experimentation.
 
-.. _sec:phy:notable-radio-models:
+.. _usr:sec:phy:notable-radio-models:
 
 Notable Radio Models
 --------------------
@@ -288,7 +288,7 @@ However, be aware that not all MAC protocols can be used with all radio
 models, and that some radio models require a matching transmission
 medium module.
 
-.. _sec:phy:unitdiskradio:
+.. _usr:sec:phy:unitdiskradio:
 
 UnitDiskRadio
 ~~~~~~~~~~~~~
@@ -329,7 +329,7 @@ As a side note, if modeling full connectivity and ignoring interference
 is required, then :ned:`ShortcutInterface` provides an even simpler and
 faster alternative.
 
-.. _sec:phy:apsk-radio:
+.. _usr:sec:phy:apsk-radio:
 
 APSK Radio
 ~~~~~~~~~~

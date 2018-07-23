@@ -1,4 +1,4 @@
-.. _cha:tcp:
+.. _dev:cha:tcp:
 
 The TCP Models
 ==============
@@ -369,7 +369,7 @@ connection. The TCP will respond with a TCP_I_STATUS message with a
 state, local and remote addresses and ports, the initial sequence
 numbers, windows of the receiver and sender, etc.
 
-.. _sec:tcp_algorithms:
+.. _dev:sec:tcp_algorithms:
 
 TCP algorithms
 --------------
@@ -385,7 +385,7 @@ Currently implemented algorithm classes are :cpp:`TcpReno`,
 :cpp:`DumbTcp`. It is also possible to add new TCP variations by
 implementing :cpp:`TcpAlgorithm`.
 
-.. image:: figures/tcp_algorithms
+.. image:: figures/tcp_algorithms.*
 
 
 The concrete TCP algorithm class to use can be chosen per connection (in

@@ -1,4 +1,4 @@
-.. _cha:ipv6:
+.. _dev:cha:ipv6:
 
 IPv6 and Mobile IPv6
 ====================

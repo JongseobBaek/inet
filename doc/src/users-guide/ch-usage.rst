@@ -1,9 +1,9 @@
-.. _cha:usage:
+.. _usr:cha:usage:
 
 Using the INET Framework
 ========================
 
-.. _sec:usage:installation:
+.. _usr:sec:usage:installation:
 
 Installation
 ------------
@@ -26,7 +26,7 @@ There are several ways to install the INET Framework:
    revision of your choice, and follow the INSTALL file in the project
    root.
 
-.. _sec:usage:installing-inet-extensions:
+.. _usr:sec:usage:installing-inet-extensions:
 
 Installing INET Extensions
 --------------------------
@@ -53,7 +53,7 @@ works:
    the *Project Properties* dialog, and copy the source files into the
    project.
 
-.. _sec:usage:getting-familiar-with-inet:
+.. _usr:sec:usage:getting-familiar-with-inet:
 
 Getting Familiar with INET
 --------------------------

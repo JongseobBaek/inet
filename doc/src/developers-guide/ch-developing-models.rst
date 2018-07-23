@@ -1,4 +1,4 @@
-.. _cha:developing-models:
+.. _dev:cha:developing-models:
 
 Developing Protocol and Application Models
 ==========================================

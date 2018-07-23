@@ -1,9 +1,9 @@
-.. _cha:ipv4:
+.. _usr:cha:ipv4:
 
 The IPv4 Protocol Family
 ========================
 
-.. _sec:ipv4:overview:
+.. _usr:sec:ipv4:overview:
 
 Overview
 --------
@@ -62,7 +62,7 @@ e.g. in :ned:`StandardHost` and :ned:`Router`.
 
 The subsequent sections describe the IPv4 modules in detail.
 
-.. _sec:ipv4:ipv4:
+.. _usr:sec:ipv4:ipv4:
 
 Ipv4
 ----
@@ -89,7 +89,7 @@ Its parameters include:
 
 -  :par:`useProxyARP` TODO: default(true);
 
-.. _sec:ipv4:ipv4routingtable:
+.. _usr:sec:ipv4:ipv4routingtable:
 
 Ipv4RoutingTable
 ----------------
@@ -122,7 +122,7 @@ routing files should be replaced with the XML configuration of
 `[subsec:ipv4configurator] <#subsec:ipv4configurator>`__ describes the
 format of the new configuration files.
 
-.. _sec:ipv4:icmp:
+.. _usr:sec:ipv4:icmp:
 
 Icmp
 ----
@@ -140,7 +140,7 @@ request. It can also respond to incoming ICMP messages.
 Each ICMP message is encapsulated within an IP datagram, so its delivery
 is unreliable.
 
-.. _sec:ipv4:arp:
+.. _usr:sec:ipv4:arp:
 
 Arp
 ---
@@ -187,7 +187,7 @@ The module parameters of :ned:`Arp` are:
 
 -  :par:`globalARP`: use global ARP cache (default is ``false``)
 
-.. _sec:ipv4:igmp:
+.. _usr:sec:ipv4:igmp:
 
 Igmp
 ----

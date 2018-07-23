@@ -1,37 +1,37 @@
-.. _cha:collecting-results:
+.. _usr:cha:collecting-results:
 
 Collecting Results
 ==================
 
 TODO
 
-.. _sec:results:recording-statistics:
+.. _usr:sec:results:recording-statistics:
 
 Recording Statistics
 --------------------
 
 @statistic
 
-.. _sec:results:recording-pcap-traces:
+.. _usr:sec:results:recording-pcap-traces:
 
 Recording PCAP Traces
 ---------------------
 
 PcapRecorder
 
-.. _sec:results:recording-routing-tables:
+.. _usr:sec:results:recording-routing-tables:
 
 Recording Routing Tables
 ------------------------
 
 RoutingTableRecorder
 
-.. _sec:results:packet-recorder:
+.. _usr:sec:results:packet-recorder:
 
 Packet Recorder
 ---------------
 
-.. _sec:results:eventlog-recording:
+.. _usr:sec:results:eventlog-recording:
 
 Eventlog Recording
 ------------------

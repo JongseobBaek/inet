@@ -1,9 +1,9 @@
-.. _cha:transport-protocols:
+.. _usr:cha:transport-protocols:
 
 Transport Protocols
 ===================
 
-.. _sec:transport:overview:
+.. _usr:sec:transport:overview:
 
 Overview
 --------
@@ -29,12 +29,12 @@ As RTP is more specialized that the other ones (multimedia streaming),
 INET provides a separate node type, :ned:`RtpHost`, for modeling RTP
 traffic.
 
-.. _sec:transport:tcp:
+.. _usr:sec:transport:tcp:
 
 TCP
 ---
 
-.. _sec:transport:tcp-overview:
+.. _usr:sec:transport:tcp-overview:
 
 Overview
 ~~~~~~~~
@@ -63,7 +63,7 @@ All three module types implement the :ned:`ITcp` interface and
 communicate with other layers through the same interface, so they can be
 interchanged and also mixed in the same network.
 
-.. _sec:transport:tcp:
+.. _usr:sec:transport:tcpcore:
 
 Tcp
 ~~~
@@ -120,8 +120,6 @@ The congestion control algorithm can be selected with the
 :par:`tcpAlgorithmClass` parameter. For example, the following ini file
 fragment selects TCP Vegas:
 
-
-
 .. code-block:: ini
 
    **.tcp.tcpAlgorithmClass = "TcpVegas"
@@ -130,7 +128,7 @@ Values like ``"TcpVegas"`` name C++ classes. Indeed, :ned:`Tcp` can
 be extended with new congestion control schemes by implementing and
 registering them in C++.
 
-.. _sec:transport:tcplwip:
+.. _usr:sec:transport:tcplwip:
 
 TcpLwip
 ~~~~~~~
@@ -182,7 +180,7 @@ Limitations
    remote addresses/ports of the connection and the MSS, SND.NXT,
    SND.WND, SND.WL1, SND.WL2, RCV.NXT, RCV.WND variables.
 
-.. _sec:transport:tcpnsc:
+.. _usr:sec:transport:tcpnsc:
 
 TcpNsc
 ~~~~~~
@@ -247,7 +245,7 @@ Limitations
 -  TCP_C_STATUS command reports only local/remote addresses/ports and
    current window of the connection.
 
-.. _sec:transport:udp:
+.. _usr:sec:transport:udp:
 
 UDP
 ---
@@ -262,7 +260,7 @@ module interface (:ned:`IUdp`) that defines the gates of the :ned:`Udp`
 component. In the :ned:`StandardHost` node, the UDP component can be any
 module implementing that interface.
 
-.. _sec:transport:sctp:
+.. _usr:sec:transport:sctp:
 
 SCTP
 ----
@@ -273,7 +271,7 @@ over an ureliable network. The most prominent feature of SCTP is the
 capability of transmitting multiple streams of data at the same time
 between two end points that have established a connection.
 
-.. _sec:transport:rtp:
+.. _usr:sec:transport:rtp:
 
 RTP
 ---

@@ -1,9 +1,9 @@
-.. _cha:mpls:
+.. _usr:cha:mpls:
 
 The MPLS Models
 ===============
 
-.. _sec:mpls:overview:
+.. _usr:sec:mpls:overview:
 
 Overview
 --------
@@ -30,7 +30,7 @@ INET provides basic support for building MPLS simulations. It provides
 models for the MPLS, LDP and RSVP-TE protocols and their associated data
 structures, and preassembled MPLS-capable router models.
 
-.. _sec:mpls:core-modules:
+.. _usr:sec:mpls:core-modules:
 
 Core Modules
 ------------
@@ -51,7 +51,7 @@ The core modules are:
 
 -  :ned:`SimpleClassifier` is a configurable ingress classifier for MPLS
 
-.. _sec:mpls:mpls:
+.. _usr:sec:mpls:mpls:
 
 Mpls
 ~~~~
@@ -91,7 +91,7 @@ next hop router for the LSP.
 The ingress classifier is also a separate module; it is selected
 depending on the choice of the signaling protocol.
 
-.. _sec:mpls:libtable:
+.. _usr:sec:mpls:libtable:
 
 LibTable
 ~~~~~~~~
@@ -131,7 +131,7 @@ in the table. Colums are given as child elements: ``<inLabel>``,
 it only exists to be able to color LSPs on the GUI. It is not used by
 the protocols.
 
-.. _sec:mpls:ldp:
+.. _usr:sec:mpls:ldp:
 
 Ldp
 ~~~
@@ -157,7 +157,7 @@ possible to use other routing protocol implementations such as
 When :ned:`Ldp` is used as signaling protocol, it also serves as ingress
 classifier for :ned:`Mpls`.
 
-.. _sec:mpls:ted:
+.. _usr:sec:mpls:ted:
 
 Ted
 ~~~
@@ -166,7 +166,7 @@ The :ned:`Ted` module contains the Traffic Engineering Database (TED).
 In INET, :ned:`Ted` contains a link state database, including
 reservations for each link by RSVP-TE.
 
-.. _sec:mpls:linkstaterouting:
+.. _usr:sec:mpls:linkstaterouting:
 
 LinkStateRouting
 ~~~~~~~~~~~~~~~~
@@ -176,7 +176,7 @@ protocol. It uses :ned:`Ted` as its link state database. Unfortunately,
 the :ned:`LinkStateRouting` module cannot operate independently, it can
 only be used inside an MPLS router.
 
-.. _sec:mpls:rsvpte:
+.. _usr:sec:mpls:rsvpte:
 
 RsvpTe
 ~~~~~~
@@ -267,7 +267,7 @@ The following is an example ``scenario.xml`` file:
        </at>
    </scenario>
 
-.. _sec:mpls:classifier:
+.. _usr:sec:mpls:classifier:
 
 Classifier
 ----------
@@ -298,7 +298,7 @@ An example ``fectable.xml`` file:
        </fecentry>
    </fectable>
 
-.. _sec:mpls:mpls-enabled-router-models:
+.. _usr:sec:mpls:mpls-enabled-router-models:
 
 MPLS-Enabled Router Models
 --------------------------

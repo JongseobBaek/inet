@@ -1,9 +1,9 @@
-.. _cha:ipv6:
+.. _usr:cha:ipv6:
 
 IPv6 and Mobile IPv6
 ====================
 
-.. _sec:ipv6:overview:
+.. _usr:sec:ipv6:overview:
 
 Overview
 --------

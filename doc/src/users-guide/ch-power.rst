@@ -1,9 +1,9 @@
-.. _cha:power:
+.. _usr:cha:power:
 
 Modeling Power Consumption
 ==========================
 
-.. _sec:power:overview:
+.. _usr:sec:power:overview:
 
 Overview
 --------
@@ -40,7 +40,7 @@ The power model elements fall into two categories, abbreviated with
 
 The following sections provide a brief overview of the power model.
 
-.. _sec:power:energy-consumer-models:
+.. _usr:sec:power:energy-consumer-models:
 
 Energy Consumer Models
 ----------------------
@@ -78,7 +78,7 @@ parameters for a transceiver energy consumer model:
    :end-before: !End
    :name: Energy consumer configuration example
 
-.. _sec:power:energy-generator-models:
+.. _usr:sec:power:energy-generator-models:
 
 Energy Generator Models
 -----------------------
@@ -108,7 +108,7 @@ parameters:
    :end-before: !End
    :name: Energy generator configuration example
 
-.. _sec:power:energy-storage-models:
+.. _usr:sec:power:energy-storage-models:
 
 Energy Storage Models
 ---------------------
@@ -152,7 +152,7 @@ model:
    :end-before: !End
    :name: Energy storage configuration example
 
-.. _sec:power:energy-management-models:
+.. _usr:sec:power:energy-management-models:
 
 Energy Management Models
 ------------------------

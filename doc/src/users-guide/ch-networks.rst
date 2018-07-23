@@ -1,9 +1,9 @@
-.. _cha:networks:
+.. _usr:cha:networks:
 
 Networks
 ========
 
-.. _sec:networks:overview:
+.. _usr:sec:networks:overview:
 
 Overview
 --------
@@ -33,7 +33,7 @@ IDE provides several topology generator wizards for advanced scenarios.
 As INET is an OMNeT++-based framework, users mainly use NED to describe
 the model topology, and ini files to provide configuration. [1]_
 
-.. _sec:networks:built-in-network-nodes-and-other-top-level-modules:
+.. _usr:sec:networks:built-in-network-nodes-and-other-top-level-modules:
 
 Built-in Network Nodes and Other Top-Level Modules
 --------------------------------------------------
@@ -116,12 +116,12 @@ other aspects. Some of them are:
    :ned:`IntegratedVisualizer` which bundles together an instance of
    each specific visualizer type in a compound module.
 
-.. _sec:networks:typical-networks:
+.. _usr:sec:networks:typical-networks:
 
 Typical Networks
 ----------------
 
-.. _sec:networks:wired-networks:
+.. _usr:sec:networks:wired-networks:
 
 Wired Networks
 ~~~~~~~~~~~~~~
@@ -169,7 +169,7 @@ the server using a :protocol:`TCP` socket. Then each one of them sends
 simulation concludes. The default statistics are written to the
 ``results`` folder of the simulation for later analysis.
 
-.. _sec:networks:wireless-networks:
+.. _usr:sec:networks:wireless-networks:
 
 Wireless Networks
 ~~~~~~~~~~~~~~~~~
@@ -202,7 +202,7 @@ In addition, ``host1`` is configured to periodically send
    :end-before: !End
    :name: Wireless network configuration example
 
-.. _sec:networks:mobile-ad-hoc-networks:
+.. _usr:sec:networks:mobile-ad-hoc-networks:
 
 Mobile Ad hoc Networks
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -223,14 +223,14 @@ Mobile Ad hoc Networks
    :end-before: !End
    :name: Mobile ad hoc network configuration example
 
-.. _sec:networks:frequent-tasks:
+.. _usr:sec:networks:frequent-tasks:
 
 Frequent Tasks (How To...)
 --------------------------
 
 Quick and somewhat superficial advice to many practical tasks.
 
-.. _sec:networks:automatic-wired-interfaces:
+.. _usr:sec:networks:automatic-wired-interfaces:
 
 Automatic Wired Interfaces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -247,7 +247,7 @@ from the actual number of connections between network nodes.
    :end-before: !End
    :name: Automatic wired interfaces example
 
-.. _sec:networks:multiple-wireless-interfaces:
+.. _usr:sec:networks:multiple-wireless-interfaces:
 
 Multiple Wireless Interfaces
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -263,7 +263,7 @@ interfaces, but only one is enabled by default.
    :end-before: !End
    :name: Multiple wireless interfaces example
 
-.. _sec:networks:specifying-addresses:
+.. _usr:sec:networks:specifying-addresses:
 
 Specifying Addresses
 ~~~~~~~~~~~~~~~~~~~~
@@ -288,12 +288,12 @@ accept addresses given with any of the following syntax variations:
 -  IPv4 or IPv6 address of an interface of a host or router:
    ``"server/eth0(ipv4)"``, ``"subnet.server[3]/eth0(ipv6)"``
 
-.. _sec:networks:node-failure-and-recovery:
+.. _usr:sec:networks:node-failure-and-recovery:
 
 Node Failure and Recovery
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. _sec:networks:enabling-dual-ip-stack:
+.. _usr:sec:networks:enabling-dual-ip-stack:
 
 Enabling Dual IP Stack
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -316,7 +316,7 @@ the other is using an :protocol:`IPv6` destination address.
    :end-before: !End
    :name: Dual stack example
 
-.. _sec:networks:enabling-packet-forwarding:
+.. _usr:sec:networks:enabling-packet-forwarding:
 
 Enabling Packet Forwarding
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

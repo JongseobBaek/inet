@@ -1,4 +1,4 @@
-.. _cha:mobility:
+.. _dev:cha:mobility:
 
 Node Mobility
 =============

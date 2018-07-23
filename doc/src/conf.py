@@ -77,7 +77,7 @@ language = None
 # This pattern also affects html_static_path and html_extra_path .
 exclude_patterns = ['_build', '_deploy', 'Thumbs.db', '.DS_Store', '**/_docs', 'global.rst',
 #  'users-guide/**',
-  'developers-guide/**',
+#  'developers-guide/**',
   'showcases/**',
   'tutorials/**',
   'reference/**',
@@ -109,11 +109,11 @@ html_theme_options = {
     'display_version': True,
     'prev_next_buttons_location': 'bottom',
     'style_external_links': False,
-    'vcs_pageview_mode': '',
+#    'vcs_pageview_mode': '',
     # Toc options
     'collapse_navigation': True,
     'sticky_navigation': False,
-    'navigation_depth': 4,
+    'navigation_depth': 3,
     'includehidden': False,
     'titles_only': False
 }

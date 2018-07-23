@@ -1,9 +1,9 @@
-.. _cha:History:
+.. _usr:cha:History:
 
 History
 =======
 
-.. _sec:history:ipsuite-to-inet:
+.. _usr:sec:history:ipsuite-to-inet:
 
 IPSuite to INET Framework (2000-2006)
 -------------------------------------

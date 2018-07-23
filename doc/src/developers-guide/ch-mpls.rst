@@ -1,4 +1,4 @@
-.. _cha:mpls:
+.. _dev:cha:mpls:
 
 The MPLS Models
 ===============

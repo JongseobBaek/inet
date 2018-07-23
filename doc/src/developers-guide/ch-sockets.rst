@@ -1,9 +1,9 @@
-.. _cha:sockets:
+.. _dev:cha:sockets:
 
 Using Sockets
 =============
 
-.. _sec:sockets:overview:
+.. _dev:sec:sockets:overview:
 
 Overview
 --------
@@ -213,7 +213,7 @@ In order for the :cpp:`SocketMap` to operate properly, sockets must be
 added to and removed from it using the :func:`addSocket()` and
 :func:`removeSocket()` methods respectively.
 
-.. _sec:sockets:udp-socket:
+.. _dev:sec:sockets:udp-socket:
 
 UDP Socket
 ----------
@@ -340,7 +340,7 @@ follows:
    :end-before: !End
    :name: UDP socket receive example
 
-.. _sec:sockets:tcp-socket:
+.. _dev:sec:sockets:tcp-socket:
 
 TCP Socket
 ----------
@@ -475,7 +475,7 @@ follows:
    :end-before: !End
    :name: TCP socket receive example
 
-.. _sec:sockets:sctp-socket:
+.. _dev:sec:sockets:sctp-socket:
 
 SCTP Socket
 -----------
@@ -612,7 +612,7 @@ follows:
    :end-before: !End
    :name: SCTP socket receive example
 
-.. _sec:sockets:ipv4-socket:
+.. _dev:sec:sockets:ipv4-socket:
 
 IPv4 Socket
 -----------
@@ -726,7 +726,7 @@ follows:
    :end-before: !End
    :name: IPv4 socket receive example
 
-.. _sec:sockets:ipv6-socket:
+.. _dev:sec:sockets:ipv6-socket:
 
 IPv6 Socket
 -----------
@@ -840,7 +840,7 @@ follows:
    :end-before: !End
    :name: IPv6 socket receive example
 
-.. _sec:sockets:l3-socket:
+.. _dev:sec:sockets:l3-socket:
 
 L3 Socket
 ---------
@@ -967,7 +967,7 @@ follows:
    :end-before: !End
    :name: L3 socket receive example
 
-.. _sec:sockets:tun-socket:
+.. _dev:sec:sockets:tun-socket:
 
 TUN Socket
 ----------

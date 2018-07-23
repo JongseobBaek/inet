@@ -1,4 +1,4 @@
-.. _cha:ipv4:
+.. _dev:cha:ipv4:
 
 Ipv4
 ====
@@ -100,8 +100,6 @@ Fragment§ flag forbids fragmentation, an ``Destination Unreachable``
 ICMP error is generated with the ``Fragmentation Error (5)`` error
 code.
 
-
-
 .. note::
 
    Each fragment will encapsulate the whole higher layer datagram, although the
@@ -140,8 +138,6 @@ interface id through it was received. The control info also stores the
 original IP datagram, because the transport layer might signal an ICMP
 error, and the ICMP packet must encapsulate the erronous IP datagram.
 
-
-
 .. note::
 
    IP datagrams containing a DSR packet are not decapsulated, the unchanged IP
@@ -156,8 +152,6 @@ a comma separated list of ”<protocol_id>:<gate_index>” items. For
 example the following line in the ini file maps TCP (6) to gate 0, UDP
 (17) to gate 1, ICMP (1) to gate 2, IGMP (2) to gate 3, and RVSP (46) to
 gate 4.
-
-
 
 .. code-block:: ini
 
@@ -404,22 +398,13 @@ The ICMP Module
 The :ned:`Icmp` module has two methods which can be used by other
 modules to send ICMP error messages:
 
--  
-
-   .. raw:: latex
-
-      \ffunc[sendErrorMessage]{sendErrorMessage(IPv4Datagram*, ICMPType, ICMPCode)}
+-  :func:`sendErrorMessage(IPv4Datagram*, ICMPType, ICMPCode)`
 
    used by the network layer to report erronous IPv4 datagrams. The ICMP
    header fields are set to the given type and code, and the ICMP
    message will encapsulate the given datagram.
 
--  
-
-   .. raw:: latex
-
-      \ffunc[sendErrorMessage]{sendErrorMessage(cPacket*, IPv4ControlInfo*, ICMPType, ICMPCode)}
-
+-  :func:`sendErrorMessage(cPacket*, IPv4ControlInfo*, ICMPType, ICMPCode)`
    used by the transport layer components to report erronous packets.
    The transport packet will be encapsulated into an IP datagram before
    wrapping it into the ICMP message.
@@ -437,15 +422,13 @@ and PARAMETER_PROBLEM messages to the :ned:`Icmp` module, it will send
 them to the transport layer module that sent the bogus packet
 encapsulated in the ICMP message.
 
-
-
 .. note::
 
    ICMP protocol encapsulates only the IP header + 8 byte following the IP header
    from the bogus IP packet. The ICMP packet length computed from this truncated
    packet, despite it encapsulates the whole IP message object.
    As a consequence, calling :func:`decapsulate()` on the ICMP message
-   will cause an ``packet length became negative'' error. To avoid this,
+   will cause an "packet length became negative" error. To avoid this,
    use :func:`getEncapsulatedMsg()` to access the IP packet that caused the ICMP
    error.
 

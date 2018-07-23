@@ -1,9 +1,9 @@
-.. _cha:network-nodes:
+.. _usr:cha:network-nodes:
 
 Network Nodes
 =============
 
-.. _sec:nodes:overview:
+.. _usr:sec:nodes:overview:
 
 Overview
 --------
@@ -17,7 +17,7 @@ node models, in order to provide a deeper understanding of their
 customization possibilities and to give some guidance on how custom
 nodes models can be assembled.
 
-.. _sec:nodes:ingredients:
+.. _usr:sec:nodes:ingredients:
 
 Ingredients
 -----------
@@ -98,7 +98,7 @@ modules fall into the following broad categories:
 -  *Other modules* with particular functionality such as
    :ned:`PcapRecorder` are also available.
 
-.. _sec:nodes:node-architecture:
+.. _usr:sec:nodes:node-architecture:
 
 Node Architecture
 -----------------
@@ -119,7 +119,7 @@ In there pre-assembled node models, dispatchers allow arbitrary protocol
 components to talk directly to each other, i.e. not only to ones in
 neighboring layers.
 
-.. _sec:nodes:customizing-nodes:
+.. _usr:sec:nodes:customizing-nodes:
 
 Customizing Nodes
 -----------------
@@ -236,7 +236,7 @@ the following way:
        numWlanInterfaces = default(1);
    }
 
-.. _sec:nodes:custom-network-nodes:
+.. _usr:sec:nodes:custom-network-nodes:
 
 Custom Network Nodes
 --------------------

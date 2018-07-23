@@ -1,9 +1,9 @@
-.. _cha:environment:
+.. _usr:cha:environment:
 
 The Physical Environment
 ========================
 
-.. _sec:environment:overview:
+.. _usr:sec:environment:overview:
 
 Overview
 --------
@@ -35,7 +35,7 @@ circumstances.
 The following sections provide a brief overview of the physical
 environment model.
 
-.. _sec:environment:physicalenvironment:
+.. _usr:sec:environment:physicalenvironment:
 
 PhysicalEnvironment
 -------------------
@@ -68,7 +68,7 @@ and an object cache (for efficient queries):
    ground: <groundType> like IGround if groundType != "";
    objectCache: <objectCacheType> like IObjectCache if objectCacheType != "";
 
-.. _sec:environment:physical-objects:
+.. _usr:sec:environment:physical-objects:
 
 Physical Objects
 ----------------
@@ -126,8 +126,6 @@ with new shapes. INET provides the following shapes:
 The following example shows how to define various physical objects using
 the XML syntax supported by the physical environment:
 
-
-
 .. literalinclude:: lib/Snippets.xml
    :language: xml
    :start-after: !DefiningPhysicalObjectsExample
@@ -145,7 +143,7 @@ be used:
    :end-before: !End
    :name: Physical objects configuration example
 
-.. _sec:environment:ground-models:
+.. _usr:sec:environment:ground-models:
 
 Ground Models
 -------------
@@ -167,7 +165,7 @@ OMNeT++ simple modules:
 -  :ned:`OsgEarthGround` is a more realistic model (based on ) which
    provides a terrain surface.
 
-.. _sec:environment:geographic-coordinate-system-models:
+.. _usr:sec:environment:geographic-coordinate-system-models:
 
 Geographic Coordinate System Models
 -----------------------------------
@@ -213,7 +211,7 @@ geographic location and orientation.
    :end-before: !End
    :name: Geographic coordinate system configuration example
 
-.. _sec:environment:object-cache:
+.. _usr:sec:environment:object-cache:
 
 Object Cache
 ------------

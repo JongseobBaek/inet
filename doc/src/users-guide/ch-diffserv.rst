@@ -2,12 +2,12 @@
    :format: latex
 ..
 
-.. _cha:diffserv:
+.. _usr:cha:diffserv:
 
 Differentiated Services
 =======================
 
-.. _sec:diffserv:overview:
+.. _usr:sec:diffserv:overview:
 
 Overview
 --------
@@ -56,7 +56,7 @@ network are responsible for marking the packets and protect the domain
 from misbehaving traffic sources. Nonconforming traffic may be dropped,
 delayed, or marked with a different forwarding class.
 
-.. _sec:diffserv:implemented-standards:
+.. _usr:sec:diffserv:implemented-standards:
 
 Implemented Standards
 ~~~~~~~~~~~~~~~~~~~~~
@@ -78,7 +78,7 @@ The implementation follows these RFCs below:
 
 -  RFC 3290: An Informal Management Model for Diffserv Routers
 
-.. _sec:diffserv:architecture-of-nics:
+.. _usr:sec:diffserv:architecture-of-nics:
 
 Architecture of NICs
 --------------------
@@ -97,7 +97,7 @@ implementing the :ned:`IOutputQueue` module interface. If it is not
 specified, then :ned:`Ppp` and :ned:`EtherMac` use an internal drop tail
 queue to buffer the packets until the line is busy.
 
-.. _sec:diffserv:traffic-conditioners:
+.. _usr:sec:diffserv:traffic-conditioners:
 
 Traffic Conditioners
 ~~~~~~~~~~~~~~~~~~~~
@@ -122,7 +122,7 @@ Traffic conditioners perform the following actions:
 INET provides classifier, meter, and marker modules, that can be
 composed to build a traffic conditioner as a compound module.
 
-.. _sec:diffserv:output-queues:
+.. _usr:sec:diffserv:output-queues:
 
 Output Queues
 ~~~~~~~~~~~~~
@@ -136,7 +136,7 @@ module, must implement the :cpp:`IPassiveQueue` interface. The next
 module asks a packet by calling the :func:`requestPacket()` method of
 this interface.
 
-.. _sec:diffserv:simple-modules:
+.. _usr:sec:diffserv:simple-modules:
 
 Simple modules
 --------------
@@ -167,7 +167,7 @@ The type of the components are:
 -  ``marker``: marks packets by setting their fields to control their
    further processing
 
-.. _sec:diffserv:queues:
+.. _usr:sec:diffserv:queues:
 
 Queues
 ~~~~~~
@@ -186,7 +186,7 @@ method.
 They should be able to notify the module connected to its output about
 the arrival of new packets.
 
-.. _sec:diffserv:fifo-queue:
+.. _usr:sec:diffserv:fifo-queue:
 
 FIFO Queue
 ^^^^^^^^^^
@@ -198,7 +198,7 @@ schedulers to form an IOutputQueue compound module.
 The C++ class implements the :cpp:`IQueueAccess` and
 :cpp:`IPassiveQueue` interfaces.
 
-.. _sec:diffserv:droptailqueue:
+.. _usr:sec:diffserv:droptailqueue:
 
 DropTailQueue
 ^^^^^^^^^^^^^
@@ -213,7 +213,7 @@ However its output can be connected to schedulers.
 This module implements the :ned:`IOutputQueue` interface, so it can be
 used as the queue component of interface card per se.
 
-.. _sec:diffserv:droppers:
+.. _usr:sec:diffserv:droppers:
 
 Droppers
 ~~~~~~~~
@@ -236,7 +236,7 @@ of the dropping algorithm is the sum of the individual queue lengths.
 This way we can emulate shared buffers of the queues. Note, that it is
 also possible to connect each output to the same queue module.
 
-.. _sec:diffserv:threshold-dropper:
+.. _usr:sec:diffserv:threshold-dropper:
 
 Threshold Dropper
 ^^^^^^^^^^^^^^^^^
@@ -294,7 +294,7 @@ The :par:`minth`, :par:`maxth`, and :par:`maxp` parameters can be
 specified separately for each input gate, so this module can be used to
 implement different packet drop priorities.
 
-.. _sec:diffserv:schedulers:
+.. _usr:sec:diffserv:schedulers:
 
 Schedulers
 ~~~~~~~~~~
@@ -313,7 +313,7 @@ served, priority, weighted fair, weighted round-robin, deadline-based,
 rate-based). INET contains implementation of priority and weighted
 round-robin schedulers.
 
-.. _sec:diffserv:priority-scheduler:
+.. _usr:sec:diffserv:priority-scheduler:
 
 Priority Scheduler
 ^^^^^^^^^^^^^^^^^^
@@ -363,7 +363,7 @@ allocated to the other flows.
 
 :ned:`WrrScheduler` can be used to implement the ``AFxy`` PHBs.
 
-.. _sec:diffserv:classifiers:
+.. _usr:sec:diffserv:classifiers:
 
 Classifiers
 ~~~~~~~~~~~
@@ -458,7 +458,7 @@ If the received packet has a DSCP value not enumerated in the
 :par:`dscps` parameter, it will be forwarded to the :gate:`defaultOut`
 gate.
 
-.. _sec:diffserv:meters:
+.. _usr:sec:diffserv:meters:
 
 Meters
 ~~~~~~
@@ -537,7 +537,7 @@ yellow or red. The green traffic is under :math:`pir*(t_1-t_0)+8*pbs`
 and :math:`cir*(t_1-t_0)+8*cbs`, the yellow traffic is under
 :math:`pir*(t_1-t_0)+8*pbs` in every :math:`[t_0,t_1]` interval.
 
-.. _sec:diffserv:markers:
+.. _usr:sec:diffserv:markers:
 
 Markers
 ~~~~~~~
@@ -566,12 +566,12 @@ For example the following lines are equivalent:
    **.dscps = "EF 0x0a 0b00001000"
    **.dscps = "46 AF11 8"
 
-.. _sec:diffserv:compound-modules:
+.. _usr:sec:diffserv:compound-modules:
 
 Compound modules
 ----------------
 
-.. _sec:diffserv:afxyqueue:
+.. _usr:sec:diffserv:afxyqueue:
 
 AFxyQueue
 ~~~~~~~~~
@@ -590,7 +590,7 @@ The afxyMinth, afxyMaxth, and afxyMaxp parameters must have values that
 ensure that packets with lower drop priorities are dropped with lower or
 equal probability than packets with higher drop priorities.
 
-.. _sec:diffserv:diffservqeueue:
+.. _usr:sec:diffserv:diffservqeueue:
 
 DiffservQeueue
 ~~~~~~~~~~~~~~

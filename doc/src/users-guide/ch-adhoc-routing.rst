@@ -1,9 +1,9 @@
-.. _cha:adhoc-routing:
+.. _usr:cha:adhoc-routing:
 
 Ad Hoc Routing
 ==============
 
-.. _sec:adhocrouting:overview:
+.. _usr:sec:adhocrouting:overview:
 
 Overview
 --------
@@ -43,7 +43,7 @@ There are also NED types called :ned:`AodvRouter`, :ned:`DymoRouter`,
 :ned:`DsvRouter`, :ned:`GpsrRouter`, which are all :ned:`ManetRouter`’s
 with the routing protocol submodule type set appropriately.
 
-.. _sec:adhocrouting:aodv:
+.. _usr:sec:adhocrouting:aodv:
 
 AODV
 ----
@@ -59,7 +59,7 @@ The :ned:`Aodv` module type implements AODV, based on RFC 3561.
 :ned:`AodvRouter` is a :ned:`ManetRouter` with the routing module type
 set to :ned:`Aodv`.
 
-.. _sec:adhocrouting:dsdv:
+.. _usr:sec:adhocrouting:dsdv:
 
 DSDV
 ----
@@ -74,7 +74,7 @@ implementation.
 :ned:`DsdvRouter` is a :ned:`ManetRouter` with the routing module type
 set to :ned:`Dsdv`.
 
-.. _sec:adhocrouting:dymo:
+.. _usr:sec:adhocrouting:dymo:
 
 DYMO
 ----
@@ -90,7 +90,7 @@ The :ned:`Dymo` module type implements DYMO, based on the IETF draft
 :ned:`DymoRouter` is a :ned:`ManetRouter` with the routing module type
 set to :ned:`Dymo`.
 
-.. _sec:adhocrouting:gpsr:
+.. _usr:sec:adhocrouting:gpsr:
 
 GPSR
 ----

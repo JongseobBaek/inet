@@ -1,9 +1,9 @@
-.. _cha:sensor-macs:
+.. _usr:cha:sensor-macs:
 
 MAC Protocols for Wireless Sensor Networks
 ==========================================
 
-.. _sec:sensor-macs:overview:
+.. _usr:sec:sensor-macs:overview:
 
 Overview
 --------
@@ -25,7 +25,7 @@ B-MAC with the following line in the ini file:
 
    **.wlan[0].typename = "BMacInterface"
 
-.. _sec:sensor-macs:b-mac:
+.. _usr:sec:sensor-macs:b-mac:
 
 B-MAC
 -----
@@ -44,7 +44,7 @@ The :ned:`BMac` module type implements the B-MAC protocol.
 :ned:`BMacInterface` is a :ned:`WirelessInterface` with the MAC type set
 to :ned:`BMac`.
 
-.. _sec:sensor-macs:l-mac:
+.. _usr:sec:sensor-macs:l-mac:
 
 L-MAC
 -----
@@ -63,7 +63,7 @@ networks” by van Hoesel and P. Havinga.
 :ned:`LMacInterface` is a :ned:`WirelessInterface` with the MAC type set
 to :ned:`LMac`.
 
-.. _sec:sensor-macs:x-mac:
+.. _usr:sec:sensor-macs:x-mac:
 
 X-MAC
 -----

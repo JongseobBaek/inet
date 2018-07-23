@@ -1,4 +1,4 @@
-.. _cha:physicallayer:
+.. _dev:cha:physicallayer:
 
 The Physical Layer
 ==================
@@ -497,10 +497,8 @@ of analog domain representations, but other representations are also
 possible.
 
 
-
-   \centering
-
-.. figure:: figures/phyanalog
+.. figure:: figures/phyanalog.*
+   :align: center
    :alt: Various analog signal representations
 
    Various analog signal representations
@@ -548,11 +546,8 @@ focues on how data flows between the processing components of the
 physical layer. The blue boxes represent the data structures, and the
 red boxes represent the processing components.
 
-
-
-   \centering
-
-.. figure:: figures/phydataflow
+.. figure:: figures/phydataflow.*
+   :align: center
    :alt: Signal processing data flow
 
    Signal processing data flow

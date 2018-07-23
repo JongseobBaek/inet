@@ -1,9 +1,9 @@
-.. _cha:gettingstarted:
+.. _dev:cha:gettingstarted:
 
 Getting Started
 ===============
 
-.. _cha:gettingstarted:introduction:
+.. _dev:cha:gettingstarted:introduction:
 
 Introduction
 ------------
@@ -13,7 +13,7 @@ framework (fork it) in the hope that you’ll contribute back the changes;
 or you can develop in a separate project (create new project in the IDE;
 mark INET as referenced project)
 
-.. _cha:gettingstarted:contributing-to-inet:
+.. _dev:cha:gettingstarted:contributing-to-inet:
 
 Contributing to INET
 --------------------
@@ -29,7 +29,7 @@ Develop.
 
 Submit pull requests.
 
-.. _cha:gettingstarted:setting-up-inet-based:
+.. _dev:cha:gettingstarted:setting-up-inet-based:
 
 Setting Up a New INET-Based Project
 -----------------------------------

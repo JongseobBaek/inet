@@ -1,4 +1,4 @@
-.. _cha:sctp:
+.. _dev:cha:sctp:
 
 The SCTP Model
 ==============

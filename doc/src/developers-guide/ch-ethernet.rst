@@ -1,4 +1,4 @@
-.. _cha:ethernet:
+.. _dev:cha:ethernet:
 
 The Ethernet Model
 ==================
@@ -133,7 +133,7 @@ EtherMac
 The operation of the MAC module can be schematized by the following
 state chart:
 
-.. image:: figures/EtherMAC_txstates
+.. image:: figures/EtherMAC_txstates.*
 
 Unlike :ned:`EtherMacFullDuplex`, this MAC module processes the incoming
 packets when their first bit is received. The end of the reception is
@@ -156,7 +156,7 @@ EtherMacFullDuplex
 Outgoing packets are transmitted according to the following state
 diagram:
 
-.. image:: figures/EtherMACFullDuplex_txstates
+.. image:: figures/EtherMACFullDuplex_txstates.*
 
 EthernetInterface
 -----------------

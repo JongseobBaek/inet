@@ -1,9 +1,9 @@
-.. _cha:80211:
+.. _usr:cha:80211:
 
 The 802.11 Model
 ================
 
-.. _sec:80211:overview:
+.. _usr:sec:80211:overview:
 
 Overview
 --------
@@ -38,7 +38,7 @@ order):
 
 The following sections examine the above components.
 
-.. _sec:80211:mac:
+.. _usr:sec:80211:mac:
 
 MAC
 ---
@@ -102,7 +102,7 @@ The new model also separates the following components:
 
 -  TX/RX
 
-.. _sec:80211:physical-layer:
+.. _usr:sec:80211:physical-layer:
 
 Physical Layer
 --------------
@@ -115,7 +115,7 @@ in the radio channel). Frames received correctly are passed up to the
 MAC. The implementation of these modules is based on the Mobility
 Framework.
 
-.. _sec:80211:management:
+.. _usr:sec:80211:management:
 
 Management
 ----------
@@ -137,7 +137,7 @@ role (STA/AP/ad-hoc) and level of detail: :ned:`Ieee80211MgmtAdhoc`,
 scan-authenticate-associate process, so they cannot be used in
 experiments involving handover.
 
-.. _sec:80211:agent:
+.. _usr:sec:80211:agent:
 
 Agent
 -----

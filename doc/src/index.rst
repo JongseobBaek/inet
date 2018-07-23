@@ -8,7 +8,6 @@ Welcome to INET Framework's documentation!
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
 
    users-guide/index
    developers-guide/index
