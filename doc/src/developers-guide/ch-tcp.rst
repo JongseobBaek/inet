@@ -385,8 +385,8 @@ Currently implemented algorithm classes are :cpp:`TcpReno`,
 :cpp:`DumbTcp`. It is also possible to add new TCP variations by
 implementing :cpp:`TcpAlgorithm`.
 
-.. image:: figures/tcp_algorithms.*
-
+.. graphviz:: figures/tcp_algorithms.dot
+   :align: center
 
 The concrete TCP algorithm class to use can be chosen per connection (in
 OPEN) or in a module parameter.

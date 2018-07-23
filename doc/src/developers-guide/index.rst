@@ -9,3 +9,4 @@ Developer's Guide
    /developers-guide/ch-packets
    /developers-guide/ch-sockets
    /developers-guide/ch-authors-guide
+   /developers-guide/*

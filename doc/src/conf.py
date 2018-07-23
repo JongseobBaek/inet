@@ -39,10 +39,14 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+#    'sphinx.ext.imgmath',
     'sphinx.ext.mathjax',
+    'sphinx.ext.extlinks',
     'sphinx.ext.ifconfig',
     'sphinx.ext.todo',
     'sphinx.ext.githubpages',
+    'sphinx.ext.graphviz',
+    'sphinx.ext.imgconverter',
     'sphinxcontrib.doxylink',
 ]
 
@@ -86,6 +90,8 @@ exclude_patterns = ['_build', '_deploy', 'Thumbs.db', '.DS_Store', '**/_docs', '
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
+# graphviz options
+graphviz_output_format = 'svg'
 
 # -- Options for HTML output -------------------------------------------------
 

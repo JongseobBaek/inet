@@ -261,8 +261,6 @@ contains a literal 0 (reserved for VLAN id), a hexadecimal MAC address
 and a decimal port number, separated by tabs. Comment lines beginning
 with ’#’ are also allowed:
 
-
-
 ::
 
    0    01 ff ff ff ff    0

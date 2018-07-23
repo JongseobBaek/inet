@@ -49,6 +49,9 @@ method can set the :par:`stationary` field to ``true`` to indicate
 that the node reached its final position and no more position update is
 needed.
 
+.. graphviz:: figures/mobility_classes.dot
+   :align: center
+
 LineSegmentsMobilityBase
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

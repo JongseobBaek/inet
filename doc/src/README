@@ -1,3 +1,4 @@
+sudo apt-get install dvipng texlive-binaries
 sudo pip install -U Sphinx
 sudo pip install sphinx_materialdesign_theme
 sudo pip install sphinx_rtd_theme
