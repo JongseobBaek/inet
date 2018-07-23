@@ -405,7 +405,7 @@ TurtleMobility
 The :ned:`TurtleMobility` module can be parametrized by a script file
 containing LOGO-style movement commands in XML format. The content of
 the XML file should conform to the DTD in the
-:filename:`TurtleMobility.dtd` file in the source tree.
+:file:`TurtleMobility.dtd` file in the source tree.
 
 The file contains ``movement`` elements, each describing a
 trajectory. The ``id`` attribute of the ``movement`` element can

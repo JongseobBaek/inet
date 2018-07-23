@@ -281,7 +281,7 @@ at the minth and maxp at maxth.
    (-1,0.9):math:`p_{max}` (4,0)(0,0.4)3(0,1)0.2 (0.9,-0.3):math:`th_{min}`
    (3.9,-0.3):math:`th_{max}`
 
-.. figure:: figures/red-dropper.png
+.. figure:: figures/red-dropper.*
    :align: center
    :width: 340
 
@@ -554,7 +554,7 @@ input gate; packets arrived at the :math:`i^{th}` input gate are marked
 with the :math:`i^{th}` value. If there are fewer values, than gates,
 then the last one is used for extra gates.
 
-The DSCP values are enumerated in the :filename:`DSCP.msg` file. You can
+The DSCP values are enumerated in the :file:`DSCP.msg` file. You can
 use both names and integer values in the :par:`dscps` parameter.
 
 For example the following lines are equivalent:
@@ -599,9 +599,9 @@ The :ned:`DiffservQueue` is an example queue, that can be used in
 interfaces of DS core and edge nodes to support the AFxy (RFC 2597) and
 EF (RFC 3246) PHB’s.
 
-
-
-   \includepng[scale=0.7]{figures/DiffservQueue}
+.. figure:: figures/DiffservQueue.*
+   :align: center
+   :scale: 70 %
 
 The incoming packets are first classified according to their DSCP field.
 DSCP’s other than AFxy and EF are handled as BE (best effort).

@@ -174,7 +174,7 @@ Limitations
 
 -  only MSS and TS TCP options are supported. The TS option is turned
    off by default, but can be enabled by defining LWIP_TCP_TIMESTAMPS to
-   1 in :filename:`lwipopts.h`.
+   1 in :file:`lwipopts.h`.
 
 -  :var:`fork` must be ``true`` in the passive open command
 
@@ -195,18 +195,18 @@ Linux, FreeBSD, OpenBSD and lwIP network stacks, although on 64-bit
 systems only Linux implementations can be built.
 
 To use the :ned:`TcpNsc` module you should download the
-:filename:`nsc-0.5.2.tar.bz2` package and follow the instructions in the
-:filename:`<inet_root>/3rdparty/README` file to build it.
+:file:`nsc-0.5.2.tar.bz2` package and follow the instructions in the
+:file:`<inet_root>/3rdparty/README` file to build it.
 
 
 
 .. warning::
 
-   Before generating the INET module, check that the \textit{opp\_makemake} call
-   in the make file (:filename:`<inet\_root>/Makefile`) includes the
-   \textit{-DWITH\_TCP\_NSC} argument. Without this option the :ned:`TcpNsc`
+   Before generating the INET module, check that the ``opp_makemake`` call
+   in the make file (:file:`<inet\_root>/Makefile`) includes the
+   ``-DWITH_TCP_NSC`` argument. Without this option the :ned:`TcpNsc`
    module is not built. If you build the INET library from the IDE, it is enough
-   to enable the \textit{TCP (NSC)} project feature.
+   to enable the *TCP (NSC)* project feature.
 
 Parameters
 ^^^^^^^^^^
@@ -236,7 +236,7 @@ Limitations
    containing the global variables of the stack implementation. By
    default there is room for 50 instance in this table, so you can not
    create more then 50 instance of :ned:`TcpNsc`. You can increase the
-   :var:`NUM_STACKS` constant in :filename:`num_stacks.h` and recompile
+   :var:`NUM_STACKS` constant in :file:`num_stacks.h` and recompile
    NSC to overcome this limitation.
 
 -  The :ned:`TcpNsc` module does not supprt TCP_TRANSFER_OBJECT data
