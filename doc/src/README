@@ -1,5 +1,6 @@
 sudo pip install -U Sphinx
 sudo pip install sphinx_materialdesign_theme
+sudo pip install sphinx_rtd_theme
 sudo pip install recommonmark
 sudo pip install sphinxcontrib-doxylink
 sudo pip install sphinx-autobuild
