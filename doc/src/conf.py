@@ -235,6 +235,33 @@ from pygments.lexer import RegexLexer, bygroups, words
 from pygments.token import Name, Keyword, Comment, Text, Operator, String
 from sphinx.highlighting import lexers
 
+
+# TODO implement lexers for syntax higlight !!!
+
+# keywords not yet fully working. Model it after the C lexer in pygments:
+class NedLexer(RegexLexer):
+    name = 'ned'
+    filenames = ['*.ned']
+
+    tokens = {
+        'root': [
+            (r'extends', Keyword),
+            (r'\w+', Keyword),
+            (r'[^/]+', Text),
+            (r'/\*', Comment.Multiline, 'comment'),
+            (r'//.*?$', Comment.Singleline),
+            (r'/', Text)
+        ],
+        'comment': [
+            (r'[^*/]', Comment.Multiline),
+            (r'/\*', Comment.Multiline, '#push'),
+            (r'\*/', Comment.Multiline, '#pop'),
+            (r'[*/]', Comment.Multiline)
+        ],
+    }
+
+lexers['ned'] = NedLexer(startinline=True)
+
 # keywords not yet fully working. Model it after the C lexer in pygments:
 class MsgLexer(RegexLexer):
     name = 'msg'
@@ -274,7 +301,7 @@ class IniLexer(RegexLexer):
         ],
     }
 
-lexers['OppIni'] = IniLexer(startinline=True)
+lexers['ini'] = IniLexer(startinline=True)
 
 #######################################################################
 # -- setup the customizations
