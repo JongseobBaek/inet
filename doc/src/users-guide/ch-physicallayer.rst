@@ -44,8 +44,6 @@ associated C++ class that encapsulates the computations.
 :ned:`Radio` contains its antenna, transmitter, receiver and energy
 consumer models as submodules with parametric types:
 
-
-
 .. code-block:: ned
 
    antenna: <antennaType> like IAntenna;
@@ -278,8 +276,6 @@ values. This section describes some of the frequently used ones.
 The radio can be replaced in wireless network interfaces by setting the
 :par:`radioType` parameter, like in the following ini file fragment.
 
-
-
 .. code-block:: ini
 
    **.wlan[*].radioType = "UnitDiskRadio"
@@ -310,8 +306,6 @@ which is sometimes a useful abstraction.
 medium model, :ned:`UnitDiskRadioMedium`.
 
 The following ini file fragment shows an example configuration.
-
-
 
 .. code-block:: ini
 

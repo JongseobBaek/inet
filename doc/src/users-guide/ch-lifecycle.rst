@@ -69,7 +69,7 @@ to e.g. the crash of an OSPF daemon on a real OS.
 Some energy-related INET components trigger node shutdown or crash under
 certain conditions. For example, a node will crash when it runs out of
 power (e.g. its battery depletes); see the chapter on power consumption
-modeling `[cha:power] <#cha:power>`__ for details.
+modeling :doc:`ch-power` for details.
 
 In the following sections we outline the INET components that
 participate in lifecycle modeling, and show a usage example.
@@ -86,16 +86,12 @@ it in the GUI as a small overlay icon.
 The :ned:`NodeStatus` module is declared conditionally (so that it is
 only created in simulations that need it), like this:
 
-
-
 .. code-block:: ned
 
    status: NodeStatus if hasStatus;
 
 If lifecycle modeling is required, the following line must be added to
 the ini file to ensure that nodes have status modules:
-
-
 
 .. code-block:: ini
 
@@ -108,12 +104,9 @@ Scripting
 
 Lifecycle operations can be triggered from C++ code, or from scripts.
 INET supports scripting via the :ned:`ScenarioManager` NED type,
-described in chapter
-`[cha:scenario-scripting] <#cha:scenario-scripting>`__. Here is an
+described in chapter :doc:`ch-scenario-scripting`. Here is an
 example script that shuts down a router at simulation time 2s, and
 starts it up a again at time 8s:
-
-
 
 .. code-block:: xml
 
@@ -131,8 +124,6 @@ simulation time the operation should be initiated at.
 An alternative, shorter form is to use ``<shutdown>`` /
 ``<crash>`` / ``<startup>`` elements instead of the
 ``operation`` attribute:
-
-
 
 .. code-block:: xml
 

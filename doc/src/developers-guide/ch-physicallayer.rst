@@ -455,7 +455,7 @@ transmissions and noises for the receivers. It doesn’t send or handle
 messages on its own, it rather acts as a mediator between radios.
 
 The medium model has a separate chapter devoted to it, see
-`[cha:transmission-medium] <#cha:transmission-medium>`__.
+:doc:`ch-transmission-medium`.
 
 Signal Representation
 ---------------------

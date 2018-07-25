@@ -19,8 +19,6 @@ the ``hasRip``, ``hasOspf`` and/or ``hasBgp`` parameters to
 
 Example:
 
-
-
 .. code-block:: ini
 
    **.hasRip = true
@@ -50,8 +48,6 @@ using the ``ripConfig`` parameter.
 
 The following example configures a :ned:`Router` module to use RIPv2:
 
-
-
 .. code-block:: ini
 
    **.hasRip = true
@@ -62,8 +58,8 @@ The configuration file specifies the per interface parameters. Each
 ``<interface>`` element configures one or more interfaces; the
 ``hosts``, ``names``, ``towards``, ``among`` attributes
 select the configured interfaces (in a similar way as with
-:ned:`Ipv4NetworkConfigurator`
-`[cha:network-autoconfiguration] <#cha:network-autoconfiguration>`__).
+:ned:`Ipv4NetworkConfigurator`). See the :doc:`ch-network-autoconfig` chapter
+for further information.
 
 Additional attributes:
 
@@ -75,22 +71,20 @@ Additional attributes:
 
 The mode attribute can be one of the following:
 
--  ``’NoRIP’``: no RIP messages are sent or received on this
+-  ``NoRIP``: no RIP messages are sent or received on this
    interface.
 
--  ``’NoSplitHorizon’``: no split horizon filtering; send all routes
+-  ``NoSplitHorizon``: no split horizon filtering; send all routes
    to neighbors.
 
--  ``’SplitHorizon’``: do not sent routes whose next hop is the
+-  ``SplitHorizon``: do not sent routes whose next hop is the
    neighbor.
 
--  ``’SplitHorizonPoisenedReverse’`` (default): if the next hop is
+-  ``SplitHorizonPoisenedReverse`` (default): if the next hop is
    the neighbor, then set the metric of the route to infinity.
 
 The following example sets the link metric between router ``R1`` and
 ``RB`` to 2, while all other links will have a metric of 1.
-
-
 
 .. code-block:: xml
 
@@ -117,8 +111,6 @@ routers can be configured using an XML file specified by the
 interfaces can be specified also in the XML file or as a parameter of
 the :ned:`Ospf` module.
 
-
-
 .. code-block:: ini
 
    **.ospf.ospfConfig = xmldoc("ASConfig.xml")
@@ -132,8 +124,6 @@ contains ``<AddressRange>`` elements enumerating the network
 addresses that should be advertized by the protocol. Also
 ``<Router>`` elements may contain data for configuring various
 pont-to-point or broadcast interfaces.
-
-
 
 .. code-block:: xml
 
@@ -173,8 +163,6 @@ The :ned:`Bgp` module implements BGP Version 4. The model implements RFC
 configured in an XML file that can be specified in the ``bgpConfig``
 parameter.
 
-
-
 .. code-block:: ini
 
    **.bgpConfig = xmldoc("BGPConfig.xml")
@@ -191,8 +179,6 @@ The configuration file may contain ``<TimerParams>``, ``<AS>`` and
 -  ``<Session>``: specifies open sessions between edge routers. It
    must contain exactly two ``<Router exterAddr="x.x.x.x"/>``
    elements.
-
-
 
 .. code-block:: xml
 

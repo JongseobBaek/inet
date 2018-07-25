@@ -107,8 +107,6 @@ contents.
 The :ned:`LibTable` module accepts an XML config file whose structure
 follows the contents of the LIB table. An example configuration:
 
-
-
 .. code-block:: xml
 
    <libtable>
@@ -200,8 +198,6 @@ separate ingress classifier module, which is usually a
 The :ned:`RsvpTe` module allows LSPs to be specified statically in an
 XML config file. An example ``traffic.xml`` file:
 
-
-
 .. code-block:: xml
 
    <sessions>
@@ -229,9 +225,8 @@ In the route, ``<node>`` stands for strict hop, and ``<lnode>``
 for loose hop.
 
 Paths can also be set up and torn down dynamically with
-:ned:`ScenarioManager` commands (see chapter
-`[cha:scenario-scripting] <#cha:scenario-scripting>`__). :ned:`RsvpTe`
-understands the ``<add-session>`` and ``<del-session>``
+:ned:`ScenarioManager` commands (see chapter :doc:`ch-scenario-scripting`).
+:ned:`RsvpTe` understands the ``<add-session>`` and ``<del-session>``
 :ned:`ScenarioManager` commands. The contents of the
 ``<add-session>`` element can be the same as the ``<session>``
 element for the ``traffic.xml`` above. The ``<del-command>``
@@ -239,8 +234,6 @@ element syntax is also similar, but only ``<endpoint>``,
 ``<tunnel_id>`` and ``<lspid>`` need to be specified.
 
 The following is an example ``scenario.xml`` file:
-
-
 
 .. code-block:: xml
 
@@ -276,15 +269,11 @@ The :ned:`RsvpClassifier` module implements an ingress classifier for
 :ned:`Mpls` when using :ned:`RsvpTe` for signaling. The classifier can
 be configured with an XML config file.
 
-
-
 .. code-block:: ini
 
    **.classifier.config = xmldoc("fectable.xml");
 
 An example ``fectable.xml`` file:
-
-
 
 .. code-block:: xml
 

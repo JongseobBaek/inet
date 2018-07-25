@@ -115,7 +115,7 @@ The most frequently used module type for external queue is
 :ned:`DropTailQueue`, a finite-size FIFO that drops overflowing
 packets). Other queue types that implement queueing policies can be
 created by assembling compound modules from DiffServ components (see
-chapter `[cha:diffserv] <#cha:diffserv>`__). An example of such compound
+chapter :doc:`ch-diffserv`). An example of such compound
 modules is :ned:`DiffservQueue`.
 
 An example ini file fragment that installs drop-tail queues of size 10
@@ -150,13 +150,11 @@ added before the queue module.)
 
 Traffic conditioners must implement the :ned:`ITrafficConditioner`
 module interface. Traffic conditioners can be assembled from DiffServ
-components (see chapter `[cha:diffserv] <#cha:diffserv>`__). There is no
+components (see chapter :doc:`ch-diffserv`). There is no
 preassembled traffic conditioner in INET, but you can find some in the
 example simulations.
 
 An example configuration with fictituous types:
-
-
 
 .. code-block:: ini
 
@@ -172,8 +170,6 @@ Several network interfaces allow extra modules to be inserted in the
 incoming and outgoing paths of packets at the top of the netwok
 interface. Hooks are added as a submodule vector with parametric type,
 like this:
-
-
 
 .. code-block:: ned
 
@@ -191,8 +187,6 @@ interface include :ned:`ThruputMeter`, :ned:`Delayer`,
 
 The following ini file fragment inserts two hook modules into the output
 paths of PPP interfaces, a delayer and a throughput meter:
-
-
 
 .. code-block:: ini
 
@@ -239,7 +233,7 @@ PPP
 ~~~
 
 Network interfaces for point-to-point links (:ned:`PppInterface`) are
-described in chapter `[cha:ppp] <#cha:ppp>`__. They are typically used
+described in chapter :doc:`ch-ppp`. They are typically used
 in routers.
 
 .. _usr:sec:interfaces:ethernet:
@@ -249,7 +243,7 @@ Ethernet
 
 Ethernet interfaces (:ned:`EthernetInterface`), alongside with models of
 Ethernet devices such as switches and hubs, are described in chapter
-`[cha:ethernet] <#cha:ethernet>`__.
+:doc:`ch-ethernet`.
 
 .. _usr:sec:interfaces:wireless-network-interfaces:
 
@@ -281,8 +275,6 @@ The :ned:`WirelessInterface` compound module is a generic implementation
 of :ned:`IWirelessInterface`. In this network interface, the types of
 the MAC protocol and the PHY layer (the radio) are parameters:
 
-
-
 .. code-block:: ned
 
    mac: <macType> like IMacProtocol;
@@ -300,7 +292,7 @@ IEEE 802.11
 
 IEEE 802.11 or Wifi network interfaces (:ned:`Ieee80211Interface`),
 alongside with models of devices acting as access points (AP), are
-covered in chapter `[cha:80211] <#cha:80211>`__.
+covered in chapter :doc:`ch-80211`.
 
 .. _usr:sec:interfaces:ieee-802154:
 
@@ -308,7 +300,7 @@ IEEE 802.15.4
 ~~~~~~~~~~~~~
 
 :ned:`Ieee802154Interface` is covered in a separate chapter, see
-`[cha:802154] <#cha:802154>`__.
+:doc:`ch-802154`.
 
 .. _usr:sec:interfaces:wireless-sensor-networks:
 
@@ -317,7 +309,7 @@ Wireless Sensor Networks
 
 MAC protocols for wireless sensor networks (WSNs) and the corresponding
 network interfaces are covered in chapter
-`[cha:sensor-macs] <#cha:sensor-macs>`__.
+:doc:`ch-sensor-macs`.
 
 .. _usr:sec:interfaces:csma/ca:
 
@@ -420,7 +412,7 @@ External Interface
 
 :ned:`ExtInterface` represents a real-world interface, suitable for
 hardware-in-the-loop simulations. External interfaces are explained in
-chapter `[cha:emulation] <#cha:emulation>`__.
+chapter :doc:`ch-emulation`.
 
 .. _usr:sec:interfaces:custom-network-interfaces:
 
@@ -429,8 +421,6 @@ Custom Network Interfaces
 
 It’s also possible to build custom network interfaces, the following
 example shows how to build a custom wireless interface.
-
-
 
 .. literalinclude:: lib/Snippets.ned
    :language: ned
