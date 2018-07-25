@@ -1,26 +1,26 @@
 .. role:: cpp
-   :class: code
+   :class: literal
 
 .. role:: func
-   :class: code
+   :class: literal
 
 .. role:: filename
-   :class: code
+   :class: literal
 
 .. role:: gate
-   :class: code
+   :class: literal
 
 .. role:: var
-   :class: code
+   :class: literal
 
 .. role:: par
-   :class: code
+   :class: literal
 
 .. role:: protocol
    :class: protocol
 
 .. role:: ned
-   :class: code
+   :class: literal
 
 .. role:: msg
-   :class: code
+   :class: literal
