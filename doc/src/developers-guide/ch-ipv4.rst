@@ -95,8 +95,8 @@ routing is described in the next subsection
 
 Before sending the datagram on a specific interface, the :ned:`Ipv4`
 module checks if the packet length is smaller than the ``MTU`` of the
-interface. If not, then the datagram is fragmented. When the :ttt:§Don’t
-Fragment§ flag forbids fragmentation, an ``Destination Unreachable``
+interface. If not, then the datagram is fragmented. When the ``Don’t
+Fragment`` flag forbids fragmentation, an ``Destination Unreachable``
 ICMP error is generated with the ``Fragmentation Error (5)`` error
 code.
 
@@ -243,8 +243,8 @@ routed in the following steps:
    looking up the best route to the destination from the routing table.
    If the gateway is set in the route, then the datagram will be
    forwarded to the gateway, otherwise it is sent directly to the
-   destination. If no route is found, then a :ttt:§Destination
-   Unreachable§ ICMP error is sent to the source of the datagram.
+   destination. If no route is found, then a ``Destination Unreachable``
+   ICMP error is sent to the source of the datagram.
 
 Multicast routing
 ^^^^^^^^^^^^^^^^^

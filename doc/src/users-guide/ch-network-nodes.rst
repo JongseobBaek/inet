@@ -62,9 +62,9 @@ modules fall into the following broad categories:
    protocols.
 
 -  *Link layer protocols* are usually simple modules sitting in network
-   interface modules. Some protocols, for example :protocol:§IEEE 802.11
-   MAC§, are modeled as a compound module themselves due to the
-   complexity of the protocol.
+   interface modules. Some protocols, for example :protocol:`IEEE 802.11 MAC`,
+   are modeled as a compound module themselves due to the complexity of the 
+   protocol.
 
 -  *Physical layer protocols* are compound modules also being part of
    network interface modules.

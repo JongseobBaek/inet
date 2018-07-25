@@ -106,8 +106,7 @@ Two kinds of extensions are envisioned: extension by the link layer
    by simply subclassing :cpp:`InterfaceEntry` and adding extra data and
    functions. This is possible because NICs create and register entries
    in :ned:`InterfaceTable`, so in their code one can just write
-   ``new MyExtendedInterfaceEntry()`` instead of :ttt:§new
-   InterfaceEntry()§.
+   ``new MyExtendedInterfaceEntry()`` instead of ``new InterfaceEntry()``.
 
 -  **Network layer protocols** cannot add data via subclassing, so
    composition has to be used. :cpp:`InterfaceEntry` contains pointers
@@ -137,8 +136,6 @@ OMNeT++, and interface registration takes place in the first stage (i.e.
 stage ``INITSTAGE_LINK_LAYER``).
 
 Example code that performs interface registration:
-
-
 
 .. code-block:: c++
 
