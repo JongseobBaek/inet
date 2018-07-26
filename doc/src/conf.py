@@ -81,7 +81,7 @@ language = None
 # This pattern also affects html_static_path and html_extra_path .
 exclude_patterns = ['_build', '_deploy', 'Thumbs.db', '.DS_Store', '**/_docs', 'global.rst',
 #  'users-guide/**',
-#  'developers-guide/**',
+  'developers-guide/**',
   'showcases/**',
   'tutorials/**',
   'reference/**',
@@ -231,8 +231,8 @@ def opp_preprocess(app, docname, source):
 
 ###########################################################################
 # pygments
-from pygments.lexer import RegexLexer, bygroups, words
-from pygments.token import Name, Keyword, Comment, Text, Operator, String
+from pygments.lexer import RegexLexer, include, bygroups, using, this, inherit, default, words
+from pygments.token import Name, Keyword, Comment, Text, Operator, String, Number, Punctuation, Error
 from sphinx.highlighting import lexers
 
 
@@ -243,65 +243,90 @@ class NedLexer(RegexLexer):
     name = 'ned'
     filenames = ['*.ned']
 
+    #: optional Comment or Whitespace
+    _ws = r'(?:\s|//.*?\n|/[*].*?[*]/)+'
+
+    # The trailing ?, rather than *, avoids a geometric performance drop here.
+    #: only one /* */ style comment
+    _ws1 = r'\s*(?:/[*].*?[*]/\s*)?'
+
     tokens = {
+        'whitespace': [
+            (r'\n', Text),
+            (r'\s+', Text),
+            (r'\\\n', Text),  # line continuation
+            (r'//(\n|[\w\W]*?[^\\]\n)', Comment.Single),
+            (r'/(\\\n)?[*][\w\W]*?[*](\\\n)?/', Comment.Multiline),
+            # Open until EOF, so no ending delimeter
+            (r'/(\\\n)?[*][\w\W]*', Comment.Multiline),
+        ],
+        'statements': [
+            (r'(L?)(")', bygroups(String.Affix, String), 'string'),
+            (r"(L?)(')(\\.|\\[0-7]{1,3}|\\x[a-fA-F0-9]{1,2}|[^\\\'\n])(')",
+             bygroups(String.Affix, String.Char, String.Char, String.Char)),
+            (r'(true|false)\b', Name.Builtin),
+            (r'(-->|<--|<-->|\.\.)', Keyword),
+            (r'(bool|double|int|xml)\b', Keyword.Type),
+            (r'(inout|input|output)\b', Keyword.Type),
+            (r'(\d+\.\d*|\.\d+|\d+)[eE][+-]?\d+[LlUu]*', Number.Float),
+            (r'(\d+\.\d*|\.\d+|\d+[fF])[fF]?', Number.Float),
+            (r'0x[0-9a-fA-F]+[LlUu]*', Number.Hex),
+            (r'0[0-7]+[LlUu]*', Number.Oct),
+            (r'\d+[LlUu]*', Number.Integer),
+            (r'\*/', Error),
+            (r'[~!%^&*+=|?:<>/-]', Operator),
+            (r'[()\[\],.]', Punctuation),
+            (words(("channel", "channelinterface", "simple", "module", "network", "moduleinterface"), suffix=r'\b'), Keyword),
+            (words(("parameters", "gates", "types", "submodules", "connections"), suffix=r'\b'), Keyword),
+            (words(("volatile", "allowunconnected", "extends", "for", "if", "import", "like", "package", "property"), suffix=r'\b'), Keyword),
+            (words(("sizeof", "const", "default", "ask", "this", "index", "typename", "xmldoc"), suffix=r'\b'), Keyword.Reserved),
+            (r'([a-zA-Z_]\w*)(\s*)(:)(?!:)', bygroups(Name.Label, Text, Punctuation)),
+            ('[a-zA-Z_]\w*', Name),
+        ],
         'root': [
-            (r'extends', Keyword),
-            (r'\w+', Keyword),
-            (r'[^/]+', Text),
-            (r'/\*', Comment.Multiline, 'comment'),
-            (r'//.*?$', Comment.Singleline),
-            (r'/', Text)
+            include('whitespace'),
+            # functions
+            (r'((?:[\w*\s])+?(?:\s|[*]))'  # return arguments
+             r'([a-zA-Z_]\w*)'             # method name
+             r'(\s*\([^;]*?\))'            # signature
+             r'([^;{]*)(\{)',
+             bygroups(using(this), Name.Function, using(this), using(this),
+                      Punctuation),
+             'function'),
+            # function declarations
+            (r'((?:[\w*\s])+?(?:\s|[*]))'  # return arguments
+             r'([a-zA-Z_]\w*)'             # method name
+             r'(\s*\([^;]*?\))'            # signature
+             r'([^;]*)(;)',
+             bygroups(using(this), Name.Function, using(this), using(this),
+                      Punctuation)),
+            default('statement'),
         ],
-        'comment': [
-            (r'[^*/]', Comment.Multiline),
-            (r'/\*', Comment.Multiline, '#push'),
-            (r'\*/', Comment.Multiline, '#pop'),
-            (r'[*/]', Comment.Multiline)
+        'statement': [
+            include('whitespace'),
+            include('statements'),
+            ('[{}]', Punctuation),
+            (';', Punctuation, '#pop'),
         ],
+        'function': [
+            include('whitespace'),
+            include('statements'),
+            (';', Punctuation),
+            (r'\{', Punctuation, '#push'),
+            (r'\}', Punctuation, '#pop'),
+        ],
+        'string': [
+            (r'"', String, '#pop'),
+            (r'\\([\\abfnrtv"\']|x[a-fA-F0-9]{2,4}|'
+             r'u[a-fA-F0-9]{4}|U[a-fA-F0-9]{8}|[0-7]{1,3})', String.Escape),
+            (r'[^\\"\n]+', String),  # all other characters
+            (r'\\\n', String),  # line continuation
+            (r'\\', String),  # stray backslash
+        ]
     }
 
 lexers['ned'] = NedLexer(startinline=True)
 
-# keywords not yet fully working. Model it after the C lexer in pygments:
-class MsgLexer(RegexLexer):
-    name = 'msg'
-    filenames = ['*.msg']
-
-    tokens = {
-        'root': [
-            (r'extends', Keyword),
-            (r'\w+', Keyword),
-            (r'[^/]+', Text),
-            (r'/\*', Comment.Multiline, 'comment'),
-            (r'//.*?$', Comment.Singleline),
-            (r'/', Text)
-        ],
-        'comment': [
-            (r'[^*/]', Comment.Multiline),
-            (r'/\*', Comment.Multiline, '#push'),
-            (r'\*/', Comment.Multiline, '#pop'),
-            (r'[*/]', Comment.Multiline)
-        ],
-    }
-
-lexers['msg'] = MsgLexer(startinline=True)
-
-class IniLexer(RegexLexer):
-    name = 'OMNeT++ Ini File'
-    aliases = ['ini']
-    filenames = ['*.ini']
-
-    tokens = {
-        'root': [
-            (r'\s+', Text),
-            (r';.*?$', Comment),
-            (r'\[.*?\]$', Keyword),
-            (r'(.*?)(\s*)(=)(\s*)(.*?)$',
-             bygroups(Name.Attribute, Text, Operator, Text, String))
-        ],
-    }
-
-lexers['ini'] = IniLexer(startinline=True)
 
 #######################################################################
 # -- setup the customizations
