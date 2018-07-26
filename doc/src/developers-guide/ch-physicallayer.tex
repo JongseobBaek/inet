@@ -68,6 +68,13 @@ C++ source files.
 
 \subsection{Customizability}
 
+XXX mit jelent a Customizability mint *requirement*? ez a section most azt mondja,
+hogy sok mindenfele parameter van a modellben, vagyis Customizability == Lots of Parameters?
+ez akar a mondanivalo lenni? Meg leirja hogy van ilyen meg olyan fajta parameter is,
+de nem latszik, mit akar ezzel kozolni
+
+XXX kellene egy ilyen: By customizability, we mean that....
+
 Real-world communication devices often provide a wide variety of configuration
 options to allow them to be adaped to the physical conditions where they are required
 to operate. For example, a Wifi router's administration interface often provides
@@ -91,6 +98,9 @@ implementations are often separate modules, which come with their own set of
 parameters to avoid the confusion of mixing their unrelated parameters. Some
 modules may be split into more submodules. This further deepens the module
 hierarchy, but allows better extensibility.
+
+XXX itt azt akarjuk igazabol mondani, hogy bizonyos koddarabok kicserelhetok?
+mert nem a parameter a lenyeg itt, ha jol ertem
 
 \subsection{Extensibility}
 
@@ -405,7 +415,189 @@ how transmissions and noises arrive at receivers. It also efficiently provides
 the set of interfering transmissions and noises for the receivers. It doesn't
 send or handle messages on its own, it rather acts as a mediator between radios.
 
+<<<<<<< 3e2116b1e231e67a425b791a6b3bf6627e5e442f:doc/src/developers-guide/ch-physicallayer.tex
 The medium model has a separate chapter devoted to it, see \ref{cha:transmission-medium}. 
+=======
+The medium model provides a couple of parameters to optimize for performance.
+For example, the filter parameters control how the model determines the set of
+affected radios when a new transmission enters the medium. The medium model
+maintains the following global limits among the registered radios to support
+various optimizations:
+
+\begin{itemize}
+  \item maximum speed
+  \item maximum antenna gain
+  \item maximum transmission power
+  \item minimum interference power
+  \item minimum reception power
+  \item minimum interference time
+  \item maximum transmission duration
+  \item maximum detection range
+  \item maximum interference range
+  \item maximum communication range
+  \item minimum and maximum mobility constraints
+\end{itemize}
+
+The medium module utilizes multiple submodules to further split its task. This
+design makes it extensible and customizable. The following sections describe
+the parts of the medium.
+
+\subsection{Propagation Models}
+
+Whenever the radio transmits a signal, it starts to propagate through space. The
+transmitter might move during the transmission interval, and the receiver might
+also move during both the propagation time and the reception interval. The
+effect of these movements becomes more and more important as the propagation
+speed and the speed of the radios gets closer to each other. This is especially
+true for acoustic communication because the propagation speed of the signal is
+much smaller. In general, it is difficult to accurately compute the signal
+arrival, but it is usually not really necessary, some kind of approximation
+suffices.
+
+The propagation model is a separate component of the medium model to make it
+extensible with alternative implementations. This model describes how signals
+propagate through space over time. The main purpose of this model is to compute
+the arrival space-time coordinates for transmissions. The following list
+provides some examples:
+
+\begin{itemize}
+  \item \nedtype{ConstantTimePropagation}: propagation time is independent of
+the traveled distance and it is determined by a constant parameter
+  \item \nedtype{ConstantSpeedPropagation}: propagation time is proportional to
+the traveled distance determined by a constant propagation speed parameter
+\ifdraft
+TODO: parallel
+  \item \nedtype{ConstantSpeedGPUPropagation}: propagation time is computed in
+parallel on the GPU for all receivers
+\fi
+\end{itemize}
+
+The propagation models are in the \ttt{src/physicallayer/propagation/} directory.
+
+\subsection{Path Loss Models}
+
+As the signal propagates through space its power density decreases. Path loss
+might be due to the combination of many effects, such as free-space loss,
+refraction, diffraction, reflection, and absorption. There are several different
+models in the literature, which differ in their parameterization and application
+area.
+
+The path loss model is a separate component of the medium model to make it
+extensible with alternative implementations. This model describes the reduction
+of power as the signal propagates through space. It computes the power loss
+factor based on the traveled distance, the signal frequency and the propagation
+speed. It may also provide the opposite, that is the traveled distance based on
+the power loss factor, the signal frequency and the propagation speed. The
+latter computation is useful for determining the maximum communication range
+based on the transmission power and the reception sensitvity. The following list
+provides some examples:
+
+\begin{itemize}
+  \item \nedtype{FreeSpacePathLoss}
+  \item \nedtype{LogNormalShadowing}
+  \item \nedtype{TwoRayGroundReflection}
+  \item \nedtype{BreakpointPathLoss}
+  \item \nedtype{NakagamiFading}
+  \item \nedtype{RayleighFading}
+  \item \nedtype{RicianFading}
+  \item \nedtype{SUIPathLoss}
+  \item \nedtype{UWBIRStochasticPathLoss}
+  \item etc.
+\end{itemize}
+
+The path loss models are in the \ttt{src/physicallayer/pathloss/} directory.
+
+\subsection{Obstacle Loss Models}
+
+When the signal propagates through space it also passes through physical objects
+present in that space. As the signal passes through, its power decreases when it
+reflects from the surfaces of physical objects, and also when it is absorbed by
+their material. There are various ways to model this effect, which differ in the
+trade-off between accuracy and performance.
+
+The obstacle loss model is a separate component of the medium model to make it
+extensible with alternative implementations. This model describes the reduction
+of power as the signal passes through physical objects. The main purpose of this
+model is to compute the power loss factor based on the traveled straight path,
+the signal frequency and the physical properties of the obstructing physical
+objects. The obstacle model utilizes the physical environment model to query the
+obstructing physical objects. The following list provides some examples:
+
+\begin{itemize}
+  \item \nedtype{TracingObstacleLoss}: the power loss is based on computing the
+accurate dielectric and reflection loss along the straight path considering the
+shape, the position, the orientation, and the material of obstructing physical
+objects
+\end{itemize}
+
+The obstacle loss models are in the \ttt{src/physicallayer/obstacleloss/}
+directory.
+
+\ifdraft
+TODO: multipath
+\subsection{Multipath Models}
+
+The signal reflects from the surfaces, it refracts as it passes through the
+surfaces, it diffracts as it passes around the objects.
+
+The multipath model describes the alternative paths that the signal travels
+before it either reaches the receiver or sufficiently fades.
+\fi
+
+\subsection{Background Noise Models}
+
+The thermal noise, the cosmic background noise, and other random fluctuations of
+the electromagnetic field affect the quality of the communication channel. This
+kind of noise doesn't come from a particular source and it doesn't propagate
+through space.
+
+The background noise model is a separate component of the medium model to make
+it extensible with alternative implementations. This model describes how the
+background noise changes over space and time. The main purpose of this model is
+to compute the analog representation of the noise signal for a given space-time
+interval.
+
+\begin{itemize}
+  \item \nedtype{IsotropicBackgroundNoise}: the background noise is independent
+of the time and the position, and its power is determined by a constant parameter
+\end{itemize}
+
+The background noise models are in the \ttt{src/physicallayer/backgroundnoise/}
+directory.
+
+\subsection{Neighbor Cache Models}
+
+Transceivers are considered neighbors if successful communication is possible
+between them. In wired communication systems it is mostly quite obvious which
+transceivers are neighbors, because they are connected by wires. In contrast,
+in wireless communication systems determining which radios are neighbors isn't
+obvious at all.
+
+The neighbor cache model is a separate component of the medium model to make it
+extensible with alternative implementations. This model provides an efficient
+way of keeping track of the neighbor relationship between radios. The main
+purpose of this model is to compute the affected set of receivers on the medium
+for a given transmission. The model also has to follow the movement of radios,
+but it might provide conservative approximations for queries. The following list
+provides some examples:
+
+\begin{itemize}
+<<<<<<< c77084e2adfb092997e906f45d0021c53f02b14d
+  \item \nedtype{NeighborListNeighborCache}: maintains a separate periodically
+updated  neighbor list for each radio
+=======
+  \item \nedtype{ListNeighborCache}: maintains a separate periodically updated
+neighbor list for each radio
+>>>>>>> phy /1
+  \item \nedtype{GridNeighborCache}: organizes radios in a 3 dimensional grid
+with constant cell size and updates periodically
+  \item \nedtype{QuadTreeNeighborCache}: organizes radios in a 2 dimensional
+quad tree (ignoring the Z axis) with constant node size and updates periodically
+\end{itemize}
+
+The neighbor cache models are in the \ttt{src/physicallayer/neighborcache/}
+directory.
+>>>>>>> phy /1:doc/src/manual/ch-physicallayer.tex
 
 \section{Signal Representation}
 
@@ -634,7 +826,33 @@ original positions of the transmission and the reception. The recent obstacle
 intersections are also displayed as straight lines from the start of the
 intersection to the end of it.
 
+<<<<<<< 3e2116b1e231e67a425b791a6b3bf6627e5e442f:doc/src/developers-guide/ch-physicallayer.tex
 \section{TODO other stuff}
+=======
+<<<<<<< c77084e2adfb092997e906f45d0021c53f02b14d
+\ifdraft
+TODO: 
+=======
+\iffalse
+TODO:
+>>>>>>> phy /1
+
+ - exploit multiple CPUs and the highly parallel GPU to increase performance
+ - provide performance vs. accuracy tradeoff configuration options
+   (e.g. range filter, radio mode filter, listening mode filter, MAC address filter)
+ - support different level of details (see details below)
+ - support different transmitters and receivers (scale from flat to layered models)
+ - support different radio signal models (scale from range based to accurate emulation models)
+ - support different propagation models (scale from immediate to accurate models)
+ - support different attenuation models (scale from free space to trace based models)
+ - support different antenna models (scale from isotropic to directional models)
+ - support different power consumption models (scale from mode based to signal based models)
+ - provide concurrent transmitter and receiver mode (transceiver mode)
+ - provide burst mode (back to back) transmissions
+ - provide synchronization/preamble detection
+ - provide capture during reception (switching to another transmission)
+ - provide finite time radio mode switching
+>>>>>>> phy /1:doc/src/manual/ch-physicallayer.tex
 
 TODO: scalar vs dimensional
 
