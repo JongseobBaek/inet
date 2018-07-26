@@ -139,8 +139,6 @@ as many :protocol:`Ethernet` interfaces as the number of
 
 For example, wireless interfaces for hosts are defined like this:
 
-
-
 .. code-block:: ned
 
    wlan[numWlanInterfaces]: <snip> // wlan interfaces in StandardHost etc al.
@@ -149,8 +147,6 @@ Where ``numWlanInterfaces`` is a module parameter that defaults to
 either 0 or 1 (this is different for e.g. :ned:`StandardHost` and
 :ned:`WirelessHost`.) To configure a host to have two interfaces, add
 the following line to the ini file:
-
-
 
 .. code-block:: ini
 
@@ -163,8 +159,6 @@ Submodules that are not vectors are often conditional. For example, the
 :protocol:`TCP` protocol module in hosts is conditional on the
 ``hasTcp`` parameter. Thus, to disable :protocol:`TCP` support in a
 host (it is enabled by default), use the following ini file line:
-
-
 
 .. code-block:: ini
 
@@ -179,8 +173,6 @@ parameter. Almost all submodules in the built-in node types have
 parametric types. For example, the :protocol:`TCP` protocol module is
 defined like this:
 
-
-
 .. code-block:: ned
 
    tcp: <tcpType> like ITcp if hasTcp;
@@ -188,8 +180,6 @@ defined like this:
 The ``tcpType`` parameter defaults to the default implementation,
 :ned:`Tcp`. To use another implementation instead, add the following
 line to the ini file:
-
-
 
 .. code-block:: ini
 
@@ -199,15 +189,11 @@ Submodule vectors with parametric types are defined without the use of a
 module parameter to allow elements have different types. An example is
 how applications are defined in hosts:
 
-
-
 .. code-block:: ned
 
    app[numApps]: <> like IApp;  // applications in StandardHost et al.
 
 And applications can be added in the following way:
-
-
 
 .. code-block:: ini
 
@@ -225,8 +211,6 @@ to specific values.
 
 For example, :ned:`WirelessHost` is derived from :ned:`StandardHost` in
 the following way:
-
-
 
 .. code-block:: ned
 
@@ -250,8 +234,6 @@ This network node already contains a configurable application and
 several standard protocols. It also demonstrates how to use the packet
 dispatching mechanism which is required to connect multiple protocols in
 a many-to-many relationship.
-
-
 
 .. literalinclude:: lib/Snippets.ned
    :language: ned

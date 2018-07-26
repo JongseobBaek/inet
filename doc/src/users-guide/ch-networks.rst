@@ -140,8 +140,6 @@ The utilized network nodes are all predefined modules in INET. To avoid
 the manual configuration of IP addresses and routing tables, an
 automatic network configurator is also included.
 
-
-
 .. literalinclude:: lib/Snippets.ned
    :language: ned
    :start-after: !WiredNetworkExample
@@ -155,8 +153,6 @@ application for each client. The server is configured to have a
 :protocol:`TCP` application which echos back all data received from the
 clients individually.
 
-
-
 .. literalinclude:: lib/Snippets.ini
    :language: ini
    :start-after: !WiredNetworkConfigurationExample
@@ -167,7 +163,7 @@ When the above simulation is run, each client application connects to
 the server using a :protocol:`TCP` socket. Then each one of them sends
 1MB of data, which in turn is echoed back by the server, and the
 simulation concludes. The default statistics are written to the
-``results`` folder of the simulation for later analysis.
+:file:`results` folder of the simulation for later analysis.
 
 .. _usr:sec:networks:wireless-networks:
 
@@ -178,8 +174,6 @@ Wireless network connections are not modeled with OMNeT++ connections
 due the dynamically changing nature of connectivity. For wireless
 networks, an additional module, one that represents the transmission
 medium, is required to maintain connectivity information.
-
-
 
 .. literalinclude:: lib/Snippets.ned
    :language: ned
@@ -194,8 +188,6 @@ and path loss.
 In addition, ``host1`` is configured to periodically send
 :protocol:`UDP` packets to ``host2`` over the AP.
 
-
-
 .. literalinclude:: lib/Snippets.ini
    :language: ini
    :start-after: !WirelessNetworkConfigurationExample
@@ -207,15 +199,11 @@ In addition, ``host1`` is configured to periodically send
 Mobile Ad hoc Networks
 ~~~~~~~~~~~~~~~~~~~~~~
 
-
-
 .. literalinclude:: lib/Snippets.ned
    :language: ned
    :start-after: !MobileAdhocNetworkExample
    :end-before: !End
    :name: Mobile ad hoc network example
-
-
 
 .. literalinclude:: lib/Snippets.ini
    :language: ini
@@ -239,13 +227,12 @@ In many wired network simulations, the number of wired interfaces need
 not be manually configured, because it can be automatically inferred
 from the actual number of connections between network nodes.
 
-
-
 .. literalinclude:: lib/Snippets.ned
    :language: ned
    :start-after: !AutomaticWiredInterfacesExample
    :end-before: !End
    :name: Automatic wired interfaces example
+   :dedent: 8
 
 .. _usr:sec:networks:multiple-wireless-interfaces:
 
@@ -254,8 +241,6 @@ Multiple Wireless Interfaces
 
 All built-in wireless network nodes support multiple wireless
 interfaces, but only one is enabled by default.
-
-
 
 .. literalinclude:: lib/Snippets.ini
    :language: ini
@@ -308,8 +293,6 @@ used). The following example shows how to configure two ping
 applications in a single node where one is using an :protocol:`IPv4` and
 the other is using an :protocol:`IPv6` destination address.
 
-
-
 .. literalinclude:: lib/Snippets.ini
    :language: ini
    :start-after: !DualStackExample
@@ -324,8 +307,6 @@ Enabling Packet Forwarding
 In general, network nodes don’t forward packets by default, only
 :ned:`Router` and the like do. Nevertheless, it’s possible to enable
 packet forwarding as simply as flipping a switch.
-
-
 
 .. literalinclude:: lib/Snippets.ini
    :language: ini

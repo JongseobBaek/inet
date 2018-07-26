@@ -52,7 +52,7 @@ TCP commands
 
 The application and the TCP module communicates with each other by
 sending :cpp:`cMessage` objects. These messages are specified in the
-:filename:`TCPCommand.msg` file.
+:file:`TCPCommand.msg` file.
 
 The :cpp:`TCPCommandCode` enumeration defines the message kinds that are
 sent by the application to the TCP:
@@ -195,7 +195,7 @@ The TCP modules in the INET framework support 3 data transfer modes:
    also passed as the payload of the first segment. The receiving
    application receives the object only when its last byte is received.
 
-These values are defined in :filename:`TCPCommand.msg` as the
+These values are defined in :file:`TCPCommand.msg` as the
 :cpp:`TcpDataTransferMode` enumeration. The application can set the data
 transfer mode per connection when the connection is opened. The client
 and the server application must specify the same data transfer mode.

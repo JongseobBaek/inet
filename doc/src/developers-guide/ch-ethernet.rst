@@ -16,7 +16,7 @@ TODO tags etc
 Frames
 ------
 
-The INET defines these frames in the :filename:`EtherFrame.msg` file.
+The INET defines these frames in the :file:`EtherFrame.msg` file.
 The models supports Ethernet II, 803.2 with LLC header, and 803.3 with
 LLC and SNAP headers. The corresponding classes are:
 :msg:`EthernetIIFrame`, :msg:`EtherFrameWithLlc` and

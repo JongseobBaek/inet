@@ -4,9 +4,6 @@
 .. role:: func
    :class: literal
 
-.. role:: filename
-   :class: literal
-
 .. role:: gate
    :class: literal
 
