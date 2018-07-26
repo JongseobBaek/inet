@@ -231,14 +231,12 @@ def opp_preprocess(app, docname, source):
 
 ###########################################################################
 # pygments
+from pygments.lexers.c_cpp import CLexer, CppLexer
 from pygments.lexer import RegexLexer, include, bygroups, using, this, inherit, default, words
 from pygments.token import Name, Keyword, Comment, Text, Operator, String, Number, Punctuation, Error
 from sphinx.highlighting import lexers
 
-
-# TODO implement lexers for syntax higlight !!!
-
-# keywords not yet fully working. Model it after the C lexer in pygments:
+#####
 class NedLexer(RegexLexer):
     name = 'ned'
     filenames = ['*.ned']
@@ -271,6 +269,7 @@ class NedLexer(RegexLexer):
             (r'(\d+\.\d*|\.\d+|\d+)[eE][+-]?\d+[LlUu]*', Number.Float),
             (r'(\d+\.\d*|\.\d+|\d+[fF])[fF]?', Number.Float),
             (r'0x[0-9a-fA-F]+[LlUu]*', Number.Hex),
+            (r'#[0-9a-fA-F]+[LlUu]*', Number.Hex),
             (r'0[0-7]+[LlUu]*', Number.Oct),
             (r'\d+[LlUu]*', Number.Integer),
             (r'\*/', Error),
@@ -279,8 +278,9 @@ class NedLexer(RegexLexer):
             (words(("channel", "channelinterface", "simple", "module", "network", "moduleinterface"), suffix=r'\b'), Keyword),
             (words(("parameters", "gates", "types", "submodules", "connections"), suffix=r'\b'), Keyword),
             (words(("volatile", "allowunconnected", "extends", "for", "if", "import", "like", "package", "property"), suffix=r'\b'), Keyword),
-            (words(("sizeof", "const", "default", "ask", "this", "index", "typename", "xmldoc"), suffix=r'\b'), Keyword.Reserved),
-            (r'([a-zA-Z_]\w*)(\s*)(:)(?!:)', bygroups(Name.Label, Text, Punctuation)),
+            (words(("sizeof", "const", "default", "ask", "this", "index", "typename", "xmldoc"), suffix=r'\b'), Keyword),
+            (words(("acos", "asin", "atan", "atan2", "bernoulli","beta", "binomial", "cauchy", "ceil", "chi_square", "cos", "erlang_k", "exp","exponential", "fabs", "floor", "fmod", "gamma_d", "genk_exponential","genk_intuniform", "genk_normal", "genk_truncnormal", "genk_uniform", "geometric","hypergeometric", "hypot", "intuniform", "log", "log10", "lognormal", "max", "min","negbinomial", "normal", "pareto_shifted", "poisson", "pow", "simTime", "sin", "sqrt","student_t", "tan", "triang", "truncnormal", "uniform", "weibull", "xml", "xmldoc"), suffix=r'\b'), Name.Builtin),
+            ('@[a-zA-Z_]\w*', Name.Builtin),
             ('[a-zA-Z_]\w*', Name),
         ],
         'root': [
@@ -327,6 +327,50 @@ class NedLexer(RegexLexer):
 
 lexers['ned'] = NedLexer(startinline=True)
 
+#####
+class MsgLexer(CppLexer):
+    name = 'msg'
+    filenames = ['*.msg']
+    mimetypes = ['text/x-msg']
+
+    tokens = {
+        'statements': [
+            (words(("import","cplusplus", "namespace", "struct", "message",
+                "packet", "class", "noncobject", "enum", "extends"), suffix=r'\b'), Keyword),
+            (words(("properties", "fields"), suffix=r'\b'), Keyword),
+            (r'(abstract|readonly|bool|char|short|int|long|double|unsigned|string)\b', Keyword.Type),
+            (r'[~!%^&*+=|?:<>/@-]', Operator),
+            inherit,
+        ],
+    }
+
+lexers['msg'] = MsgLexer(startinline=True)
+
+#####
+class IniLexer(RegexLexer):
+    name = 'ini'
+    filenames = ['*.ini']
+    mimetypes = ['text/x-ini']
+
+    tokens = {
+        'root': [
+            (r'\s+', Text),
+            (r'[;#].*', Comment.Single),
+            (r'\[.*?\]$', Keyword),
+            (r'(.*?)([ \t]*)(=)([ \t]*)(.*(?:\n[ \t].+)*)',
+             bygroups(Name.Attribute, Text, Operator, Text, String)),
+            # standalone option, supported by some INI parsers
+            (r'(.+?)$', Name.Attribute),
+        ],
+    }
+
+    def analyse_text(text):
+        npos = text.find('\n')
+        if npos < 3:
+            return False
+        return text[0] == '[' and text[npos-1] == ']'
+
+lexers['ini'] = IniLexer(startinline=True)
 
 #######################################################################
 # -- setup the customizations
