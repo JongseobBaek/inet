@@ -226,6 +226,30 @@ Define_NED_Function2(nedf_intWithUnit,
     "conversion",
     "Converts x to an integer (C++ long), and returns the result. A boolean argument becomes 0 or 1; a double is converted using floor(); a string or an XML argument causes an error.");
 
+cNedValue nedf_xmlattr(cComponent *contextComponent, cNedValue argv[], int argc)
+{
+    if (argv[0].getType() != cNEDValue::XML)
+        throw cRuntimeError("xmlattr(): xmlNode argument must be an xml node");
+    if (argv[1].getType() != cNEDValue::STR)
+        throw cRuntimeError("xmlattr(): attributeName argument must be a string");
+
+    cXMLElement *node = argv[0].xmlValue();
+    const char *attr = node->getAttribute(argv[1].stdstringValue().c_str());
+    if (attr != nullptr)
+        return cNedValue(attr);
+    if (argc < 3)
+        throw cRuntimeError("Attribute '%s' not found in xml '%s'", argv[1].stdstringValue().c_str(), argv[0].stdstringValue().c_str());
+    return argv[2];
+}
+
+Define_NED_Function2(nedf_xmlattr,
+        "string xmlattr(xml xmlNode, string attributeName, string defaultValue?)",
+        "xml",
+        "Returns the given XML attribute of xmlNode. "
+        "If the attribute not exists, then returns defaultValue when specified it. "
+        "Throws error if the attribute not exists and defaultValue not specified."
+        )
+
 } // namespace utils
 
 } // namespace inet
