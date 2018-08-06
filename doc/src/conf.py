@@ -48,6 +48,7 @@ extensions = [
     'sphinx.ext.graphviz',
     'sphinx.ext.imgconverter',
     'sphinxcontrib.doxylink',
+    'sphinxcontrib.inlinesyntaxhighlight',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -81,9 +82,9 @@ language = None
 # This pattern also affects html_static_path and html_extra_path .
 exclude_patterns = ['_build', '_deploy', 'Thumbs.db', '.DS_Store', '**/_docs', 'global.rst',
 #  'users-guide/**',
-  'developers-guide/**',
-  'showcases/**',
-  'tutorials/**',
+#  'developers-guide/**',
+#  'showcases/**',
+#  'tutorials/**',
   'reference/**',
 ]
 
@@ -281,7 +282,16 @@ def opp_preprocess(app, docname, source):
     )
     source[0] = rendered
 
-###########################################################################
+#################################x
+# inline highlight extension
+
+# Use defaults provided by highlight directive for code role.
+inline_highlight_respect_highlight = False
+
+# Highlight also normal literals like :code:`literal`
+inline_highlight_literals = False
+
+# ###########################################################################
 # pygments
 pygments_style = "default"
 

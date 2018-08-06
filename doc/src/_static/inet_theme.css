@@ -16,7 +16,7 @@
 .protocol { font-style: italic; }
 
 /* higlighter backgrounds */
-.highlight-cpp .highlight { background-color: #d2e9ff }
-.highlight-ini .highlight { background-color: #fffbd9 }
-.highlight-ned .highlight { background-color: #ebffeb }
-.highlight-msg .highlight { background-color: #f7e6ff }
+.highlight-cpp, .highlight-cpp .highlight { background-color: #d2e9ff!important }
+.highlight-ini, .highlight-ini .highlight { background-color: #fffbd9!important }
+.highlight-ned, .highlight-ned .highlight { background-color: #ebffeb!important }
+.highlight-msg, .highlight-msg .highlight { background-color: #f7e6ff!important }
