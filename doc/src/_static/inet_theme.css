@@ -1,2 +1,22 @@
+/* fixes for material theme */
+.globaltoc .nav-toggle { height:24px }
+.globaltoc .toctree-l1 ul.current { background-color: #00000010 }
+.globaltoc ul li.toctree-l2 .link-wrapper>a { font-size: 0.8rem }
+.globaltoc ul li .link-wrapper>a { padding:0px }
+.globaltoc ul li {min-height:24px }
+
+.page-content pre { white-space: pre; }
+
+.page-content h2 { padding-top: 1rem; margin-bottom: 0.5rem }
+.page-content h3, .page-content h4 { padding-top: 0.5rem; margin-bottom: 0.5rem }
+
+.globaltoc ul li.toctree-l2 { font-size: 0.8rem }
+
 /* roles */
 .protocol { font-style: italic; }
+
+/* higlighter backgrounds */
+.highlight-cpp .highlight { background-color: #d2e9ff }
+.highlight-ini .highlight { background-color: #fffbd9 }
+.highlight-ned .highlight { background-color: #ebffeb }
+.highlight-msg .highlight { background-color: #f7e6ff }

@@ -98,16 +98,67 @@ graphviz_output_format = 'svg'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-#html_theme = 'sphinx_materialdesign_theme'
-html_theme = "sphinx_rtd_theme"
-# html_theme_path = ['_templates']
+html_theme = 'sphinx_materialdesign_theme'
+html_theme_path = ['_templates']
 
+# material theme config
+html_theme_options = {
+    # Specify a list of menu in Header.
+    # Tuples forms:
+    #  ('Name', 'external url or path of pages in the document', boolean, 'icon name')
+    #
+    # Third argument:
+    # True indicates an external link.
+    # False indicates path of pages in the document.
+    #
+    # Fourth argument:
+    # Specify the icon name.
+    # For details see link.
+    # https://material.io/icons/
+    'header_links' : [
+#        ("Home", "index", False, 'home'),
+#        ("Users Guide", "users-guide", False, ''),
+#        ("Developers Guide", "developers-guide", False, ''),
+#        ("Reference", "api", False, ''),
+#        ("Tutorials", "tutorials", False, ''),
+    ],
+
+    # Customize css colors.
+    # For details see link.
+    # https://getmdl.io/customize/index.html
+    #
+    # Values: amber, blue, brown, cyan deep_orange, deep_purple, green, grey, indigo, light_blue,
+    #         light_green, lime, orange, pink, purple, red, teal, yellow(Default: indigo)
+    'primary_color': 'indigo',
+    # Values: Same as primary_color. (Default: pink)
+    'accent_color': 'red',
+
+    # Customize layout.
+    # For details see link.
+    # https://getmdl.io/components/index.html#layout-section
+    'fixed_drawer': True,
+    'fixed_header': True,
+    'header_waterfall': False,
+    'header_scroll': False,
+
+    # Render title in header.
+    # Values: True, False (Default: False)
+    'show_header_title': False,
+    # Render title in drawer.
+    # Values: True, False (Default: True)
+    'show_drawer_title': False,
+    # Render footer.
+    # Values: True, False (Default: True)
+    'show_footer': False
+}
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
 # read the docs config
+"""
+html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     'canonical_url': '',
     'analytics_id': '',
@@ -123,6 +174,7 @@ html_theme_options = {
     'includehidden': False,
     'titles_only': False
 }
+"""
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -231,6 +283,8 @@ def opp_preprocess(app, docname, source):
 
 ###########################################################################
 # pygments
+pygments_style = "default"
+
 from pygments.lexers.c_cpp import CLexer, CppLexer
 from pygments.lexer import RegexLexer, include, bygroups, using, this, inherit, default, words
 from pygments.token import Name, Keyword, Comment, Text, Operator, String, Number, Punctuation, Error
