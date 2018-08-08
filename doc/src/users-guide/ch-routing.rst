@@ -107,7 +107,7 @@ system (AS).
 
 The :ned:`Ospf` module implements OSPF protocol version 2. Areas and
 routers can be configured using an XML file specified by the
-``ospfConfig`` parameter. Various parameters for the network
+:ini:``ospfConfig`` parameter. Various parameters for the network
 interfaces can be specified also in the XML file or as a parameter of
 the :ned:`Ospf` module.
 

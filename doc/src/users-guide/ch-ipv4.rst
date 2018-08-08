@@ -118,9 +118,8 @@ The preferred method for static initialization of routing tables is to
 use :ned:`Ipv4NetworkConfigurator`. While :ned:`Ipv4RoutingTable` can
 read the routes from a *routing file*, that is considered obsolete. Old
 routing files should be replaced with the XML configuration of
-:ned:`Ipv4NetworkConfigurator`. Section
-`[subsec:ipv4configurator] <#subsec:ipv4configurator>`__ describes the
-format of the new configuration files.
+:ned:`Ipv4NetworkConfigurator`. The :doc:`ch-network-autoconfig` chapter
+describes the format of the new configuration files.
 
 .. _usr:sec:ipv4:icmp:
 

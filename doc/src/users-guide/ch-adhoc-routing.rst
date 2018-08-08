@@ -23,7 +23,8 @@ tables throughout the network. *Reactive* or *on-demand* protocols find
 a route on demand by flooding the network with Route Request packets.
 
 The INET Framework contains the implementation of several ad hoc routing
-protocols including AODV, DSDV, DYMO and GPSR.
+protocols including :protocol:`AODV`, :protocol:`DSDV`, :protocol:`DYMO` 
+and :protocol:`GPSR`.
 
 The easiest way to add routing to an ad hoc network is to use the
 :ned:`ManetRouter` NED type for nodes. :ned:`ManetRouter` contains a
