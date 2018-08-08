@@ -14,7 +14,7 @@ including RIP, OSPF and BGP.
 The easiest way to add routing to a network is to use the :ned:`Router`
 NED type for routers. :ned:`Router` contains a conditional instance for
 each of the above protocols. These submodules can be enabled by setting
-the ``hasRip``, ``hasOspf`` and/or ``hasBgp`` parameters to
+the :par:`hasRip`, :par:`hasOspf` and/or :par:`hasBgp` parameters to
 ``true``.
 
 Example:
@@ -44,7 +44,7 @@ setting the :par:`mode` parameter to either ``"RIPv2"`` or
 ``"RIPng"``. Protocol configuration such as link metrics and
 per-interface operation mode (such as whether RIP is enabled on the
 interface, and whether to use split horizon) can be specified in XML
-using the ``ripConfig`` parameter.
+using the :par:`ripConfig` parameter.
 
 The following example configures a :ned:`Router` module to use RIPv2:
 
@@ -107,7 +107,7 @@ system (AS).
 
 The :ned:`Ospf` module implements OSPF protocol version 2. Areas and
 routers can be configured using an XML file specified by the
-:ini:``ospfConfig`` parameter. Various parameters for the network
+:par:`ospfConfig` parameter. Various parameters for the network
 interfaces can be specified also in the XML file or as a parameter of
 the :ned:`Ospf` module.
 
@@ -160,7 +160,7 @@ autonomous systems (AS) on the Internet.
 
 The :ned:`Bgp` module implements BGP Version 4. The model implements RFC
 4271, with some limitations. Autonomous Systems and rules can be
-configured in an XML file that can be specified in the ``bgpConfig``
+configured in an XML file that can be specified in the :par:`bgpConfig`
 parameter.
 
 .. code-block:: ini

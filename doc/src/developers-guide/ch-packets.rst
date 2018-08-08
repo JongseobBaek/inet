@@ -535,7 +535,7 @@ protocol could decapsulate a packet:
    :end-before: !End
    :name: Packet decapsulation example
 
-Although the :func:`popAtFront` and :func:`popAtBack` functions change
+Although the :fun:`popAtFront` and :fun:`popAtBack` functions change
 the remaining unprocessed part of the packet, they don’t have effect on
 the actual packet data. That is when the packet reaches high level
 protocol, it still contains all the received data.
@@ -692,7 +692,7 @@ In INET, all protocols automatically support hardware emulation due to
 the dual representation of packets. The above example creates a packet
 which contains a single chunk with a sequence of bytes. As the packet is
 passed through the protocols, they can interpret the data (e.g. by
-calling :func:`peekAtFront`) as they see fit. The Packet API always
+calling :fun:`peekAtFront`) as they see fit. The Packet API always
 provides the requested representation, either because it’s already
 available in the packet, or because it gets automatically deserialized.
 
@@ -849,5 +849,5 @@ knowing where that protocol is in the network node:
    :name: Packet dispatching example
 
 The :ned:`MessageDispatcher` finds the designated protocol module and
-its gate based on the :func:`registerProtocol` calls it has received
+its gate based on the :fun:`registerProtocol` calls it has received
 during the initialization of all connected protocol modules.

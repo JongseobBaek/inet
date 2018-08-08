@@ -207,11 +207,11 @@ the incoming message.
 
 The :ned:`IIgmp` module interface defines the connections of IGMP
 modules. IGMP reports are transmitted by IP, so the module contains
-gates to be connected to the IP module (``ipIn/ipOut``). The IP
+gates to be connected to the IP module (:gate:`ipIn/ipOut`). The IP
 module delivers packets with protocol number 2 to the IGMP module.
 However some multicast routing protocols (like DVMRP) also exchange
 routing information by sending IGMP messages, so they should be
-connected to the ``routerIn/routerOut`` gates of the IGMP module. The
+connected to the :gate:`routerIn/routerOut` gates of the IGMP module. The
 IGMP module delivers the IGMP messages not processed by itself to the
 connected routing module.
 

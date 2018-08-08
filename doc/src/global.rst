@@ -2,33 +2,25 @@
    :class: protocol
 
 .. role:: cpp(code)
-   :language: c++
-   :class: literal
-
-.. role:: func(code)
-   :language: c++
-   :class: literal
+   :class: literal-cpp
 
 .. role:: var(code)
-   :class: literal
-   :language: c++
+   :class: literal-cpp
+
+.. role:: fun(code)
+   :class: literal-cpp
 
 .. role:: gate(code)
-   :language: ned
-   :class: literal
-
-.. role:: par(code)
-   :language: ned
-   :class: literal
+   :class: literal-ned
 
 .. role:: ned(code)
-   :language: ned
-   :class: literal
+   :class: literal-ned
 
 .. role:: msg(code)
-   :language: msg
-   :class: literal
+   :class: literal-msg
 
 .. role:: ini(code)
-   :language: ini
-   :class: literal
+   :class: literal-ini
+
+.. role:: par(code)
+   :class: literal-ini

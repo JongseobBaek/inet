@@ -8,7 +8,7 @@ The TCP Module
 
 The :ned:`Tcp` model relies on sending and receiving
 :cpp:`IPControlInfo` objects attached to TCP segment objects as control
-info (see :func:`cMessage::setControlInfo()`).
+info (see :fun:`cMessage::setControlInfo()`).
 
 The :ned:`Tcp` module manages several :cpp:`TcpConnection` object each
 holding the state of one connection. The connections are identified by a
@@ -25,11 +25,11 @@ TCP packets
 The INET framework models the TCP header with the :msg:`TcpHeader`
 message class. This contains the fields of a TCP frame, except:
 
--  *Data Offset*: represented by :func:`cMessage::length()`
+-  *Data Offset*: represented by :fun:`cMessage::length()`
 
 -  *Reserved*
 
--  *Checksum*: modelled by :func:`cMessage::hasBitError()`
+-  *Checksum*: modelled by :fun:`cMessage::hasBitError()`
 
 -  *Options*: only EOL, NOP, MSS, WS, SACK_PERMITTED, SACK and TS are
    possible
@@ -296,7 +296,7 @@ recorded in *tcpRcvQueueDrops* vector.
 
 If the *Sequence Number* of the received segment is the next expected
 one, then the data is passed to the application immediately. The
-:func:`recv()` call of Unix is not modeled.
+:fun:`recv()` call of Unix is not modeled.
 
 The data of the segment, which can be either a :cpp:`cMessage` object, a
 :cpp:`ByteArray` object, or a simply byte count, is passed to the

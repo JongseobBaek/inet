@@ -48,7 +48,7 @@ extensions = [
     'sphinx.ext.graphviz',
     'sphinx.ext.imgconverter',
     'sphinxcontrib.doxylink',
-    'sphinxcontrib.inlinesyntaxhighlight',
+#    'sphinxcontrib.inlinesyntaxhighlight',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -83,13 +83,10 @@ language = None
 exclude_patterns = ['_build', '_deploy', 'Thumbs.db', '.DS_Store', '**/_docs', 'global.rst',
 #  'users-guide/**',
 #  'developers-guide/**',
-#  'showcases/**',
-#  'tutorials/**',
+  'showcases/**',
+  'tutorials/**',
   'reference/**',
 ]
-
-# The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
 
 # graphviz options
 graphviz_output_format = 'svg'
@@ -153,30 +150,6 @@ html_theme_options = {
     'show_footer': False
 }
 
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#
-# read the docs config
-"""
-html_theme = "sphinx_rtd_theme"
-html_theme_options = {
-    'canonical_url': '',
-    'analytics_id': '',
-    'logo_only': False,
-    'display_version': True,
-    'prev_next_buttons_location': 'bottom',
-    'style_external_links': False,
-#    'vcs_pageview_mode': '',
-    # Toc options
-    'collapse_navigation': True,
-    'sticky_navigation': False,
-    'navigation_depth': 3,
-    'includehidden': False,
-    'titles_only': False
-}
-"""
-
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -206,7 +179,7 @@ htmlhelp_basename = 'INETFrameworkdoc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
-    # 'papersize': 'letterpaper',
+    'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
     #
@@ -286,13 +259,13 @@ def opp_preprocess(app, docname, source):
 # inline highlight extension
 
 # Use defaults provided by highlight directive for code role.
-inline_highlight_respect_highlight = False
+# inline_highlight_respect_highlight = False
 
 # Highlight also normal literals like :code:`literal`
-inline_highlight_literals = False
+# inline_highlight_literals = False
 
 # ###########################################################################
-# pygments
+# The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "default"
 
 from pygments.lexers.c_cpp import CLexer, CppLexer
@@ -327,7 +300,7 @@ class NedLexer(RegexLexer):
             (r"(L?)(')(\\.|\\[0-7]{1,3}|\\x[a-fA-F0-9]{1,2}|[^\\\'\n])(')",
              bygroups(String.Affix, String.Char, String.Char, String.Char)),
             (r'(true|false)\b', Name.Builtin),
-            (r'(-->|<--|<-->|\.\.)', Keyword),
+            (r'(<-->|-->|<--|\.\.)', Keyword),
             (r'(bool|double|int|xml)\b', Keyword.Type),
             (r'(inout|input|output)\b', Keyword.Type),
             (r'(\d+\.\d*|\.\d+|\d+)[eE][+-]?\d+[LlUu]*', Number.Float),
@@ -418,13 +391,11 @@ class IniLexer(RegexLexer):
 
     tokens = {
         'root': [
+            (r'[;#].*$', Comment.Single),
             (r'\s+', Text),
-            (r'[;#].*', Comment.Single),
-            (r'\[.*?\]$', Keyword),
-            (r'(.*?)([ \t]*)(=)([ \t]*)(.*(?:\n[ \t].+)*)',
+            (r'\[.*?\]', Keyword),
+            (r'(.*?)([ \t]*)(=)([ \t]*)([^#\n]*(?:\n[ \t].+)*)',
              bygroups(Name.Attribute, Text, Operator, Text, String)),
-            # standalone option, supported by some INI parsers
-            (r'(.+?)$', Name.Attribute),
         ],
     }
 

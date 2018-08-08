@@ -19,7 +19,7 @@ can assemble and send service requests and packets, and they can also
 receive service indications and packets.
 
 Applications can simply call the socket class member functions (e.g.
-:func:`bind()`, :func:`connect()`, :func:`send()`, :func:`close()`) to
+:fun:`bind()`, :fun:`connect()`, :fun:`send()`, :fun:`close()`) to
 create and configure sockets, and to send and receive packets. They may
 also use several different sockets simulatenously.
 
@@ -52,7 +52,7 @@ Identifying Sockets
 
 All sockets have a socket identifier which is unique within the network
 node. It is automatically assigned to the sockets when they are created.
-The identifier can accessed with :func:`getSocketId()` throughout the
+The identifier can accessed with :fun:`getSocketId()` throughout the
 lifetime of the socket.
 
 The socket identifier is also passed along in :cpp:`SocketReq` and
@@ -82,7 +82,7 @@ gate.
 
 To ease application development, all sockets support storing a user
 specified data object pointer. The pointer is accessible with the
-:func:`setUserData()`, :func:`getUserData()` member functions.
+:fun:`setUserData()`, :fun:`getUserData()` member functions.
 
 Another mandatory configuration for all sockets is setting the socket
 callback interface. The callback interface is covered in more detail in
@@ -139,7 +139,7 @@ appropriate functions in the corresponding :cpp:`ICallback` interface.
 Sending Data
 ~~~~~~~~~~~~
 
-All sockets provide one or more :func:`send()` functions which send
+All sockets provide one or more :fun:`send()` functions which send
 packets using the current configuration of the socket. The actual means
 of packet delivery depends on the underlying communication protocol, but
 in general the state of the socket is expected to affect it.
@@ -210,8 +210,8 @@ done as follows:
    :name: Socket find example
 
 In order for the :cpp:`SocketMap` to operate properly, sockets must be
-added to and removed from it using the :func:`addSocket()` and
-:func:`removeSocket()` methods respectively.
+added to and removed from it using the :fun:`addSocket()` and
+:fun:`removeSocket()` methods respectively.
 
 .. _dev:sec:sockets:udp-socket:
 
@@ -419,7 +419,7 @@ Accepting Connections
 
 The :ned:`Tcp` module automatically notifies the :cpp:`TcpSocket` about
 incoming connections. The socket in turn notifies the application using
-the :func:`ICallback::socketAvailable` method of the callback interface.
+the :fun:`ICallback::socketAvailable` method of the callback interface.
 Finally, incoming :protocol:`TCP` connections must be accepted by the
 application before they can be used:
 
@@ -559,7 +559,7 @@ Accepting Connections
 
 The :ned:`Sctp` module automatically notifies the :cpp:`SctpSocket`
 about incoming connections. The socket in turn notifies the application
-using the :func:`ICallback::socketAvailable` method of the callback
+using the :fun:`ICallback::socketAvailable` method of the callback
 interface. Finally, incoming :protocol:`SCTP` connections must be
 accepted by the application before they can be used:
 
@@ -706,7 +706,7 @@ The :protocol:`IPv4` protocol is in fact connectionless, so when the
 remote address, and uses it as the default destination address for later
 sends.
 
-The application can call :func:`connect()` several times on the same
+The application can call :fun:`connect()` several times on the same
 socket.
 
 .. _receiving-data-4:
@@ -820,7 +820,7 @@ The :protocol:`IPv6` protocol is in fact connectionless, so when the
 remote address, and uses it as the default destination address for later
 sends.
 
-The application can call :func:`connect()` several times on the same
+The application can call :fun:`connect()` several times on the same
 socket.
 
 .. _receiving-data-5:
@@ -947,7 +947,7 @@ The network protocols are in fact connectionless, so when the protocol
 module receives the connect request, it simply remembers the remote
 address, and uses it as the default destination address for later sends.
 
-The application can call :func:`connect()` several times on the same
+The application can call :fun:`connect()` several times on the same
 socket.
 
 .. _receiving-data-6:

@@ -133,7 +133,7 @@ packet, when the module connected to its output explicitly asks them. In
 terms of C++ it means, that the simple module owning the :gate:`out`
 gate, or which is connected to the :gate:`out` gate of the compound
 module, must implement the :cpp:`IPassiveQueue` interface. The next
-module asks a packet by calling the :func:`requestPacket()` method of
+module asks a packet by calling the :fun:`requestPacket()` method of
 this interface.
 
 .. _usr:sec:diffserv:simple-modules:
@@ -180,7 +180,7 @@ one input and one output gate. Queues may have one or more thresholds
 associated with them.
 
 Received packets are enqueued and stored until the module connected to
-their output asks a packet by calling the :func:`requestPacket()`
+their output asks a packet by calling the :fun:`requestPacket()`
 method.
 
 They should be able to notify the module connected to its output about

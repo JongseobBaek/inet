@@ -9,9 +9,9 @@ Welcome to INET Framework's documentation!
 .. toctree::
    :maxdepth: 1
 
-   showcases/index
-   tutorials/index
    users-guide/index
    developers-guide/index
+..   showcases/index
+..   tutorials/index
 ..   reference/ned/index
 ..   reference/cpp/index

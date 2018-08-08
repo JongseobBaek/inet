@@ -193,5 +193,5 @@ IPv4, :ned:`Arp` can be used instead of :ned:`GlobalArp`.
 
 .. [1]
    This is possible because the implementation of these modules simply
-   use the ``L3Address`` C++ class, which is a variant type capable
+   use the :cpp:`L3Address` C++ class, which is a variant type capable
    of holding several types of L3 addresses.

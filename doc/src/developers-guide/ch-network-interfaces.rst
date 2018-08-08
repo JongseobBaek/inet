@@ -33,13 +33,13 @@ obtain a pointer to it. This can be done with the help of the
 
 :cpp:`InterfaceTableAccess` requires the interface table module to be a
 direct child of the host and be called ``"interfaceTable"`` in order
-to be able to find it. The :func:`get()` method never returns
+to be able to find it. The :fun:`get()` method never returns
 ``NULL``: if it cannot find the interface table module or cannot cast
 it to the appropriate C++ type (:cpp:`IInterfaceTable`), it throws an
 exception and stop the simulation with an error message.
 
 For completeness, :cpp:`InterfaceTableAccess` also has a
-:func:`getIfExists()` method which can be used if the code does not
+:fun:`getIfExists()` method which can be used if the code does not
 require the presence of the interface table. This method returns
 ``NULL`` if the interface table cannot be found.
 
@@ -113,8 +113,8 @@ Two kinds of extensions are envisioned: extension by the link layer
    to network-layer specific data structures. For example, there are
    pointers to IPv4 specific data, and IPv6 specific data. These objects
    can be accessed with the following :cpp:`InterfaceEntry` member
-   functions: :func:`ipv4Data()`, :func:`ipv6Data()`, and
-   :func:`getGenericNetworkProtocolData()`. They return pointers of the
+   functions: :fun:`ipv4Data()`, :fun:`ipv6Data()`, and
+   :fun:`getGenericNetworkProtocolData()`. They return pointers of the
    types :cpp:`Ipv4InterfaceData`, :cpp:`Ipv6InterfaceData`, and
    :cpp:`GenericNetworkProtocolInterfaceData`, respectively. For
    illustration, :cpp:`Ipv4InterfaceData` is installed onto the
@@ -123,7 +123,7 @@ Two kinds of extensions are envisioned: extension by the link layer
    link metric for routing, and IP multicast addresses associated with
    the interface. A protocol data pointer will be ``NULL`` if the
    corresponding network protocol is not used in the simulation; for
-   example, in IPv4 simulations only :func:`ipv4Data()` will return a
+   example, in IPv4 simulations only :fun:`ipv4Data()` will return a
    non-``NULL`` value.
 
 Interface Registration

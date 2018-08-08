@@ -166,7 +166,7 @@ addresses in the network. These classes support initialization and
 assignment from binary and string representation of the address, and
 accessing the address in both forms. Storage is in binary form, and they
 also support the "unspecified" special value (and the
-:func:`isUnspecified()` method) that usually corresponds to the
+:fun:`isUnspecified()` method) that usually corresponds to the
 all-zeros address.
 
 -  :cpp:`MacAddress` represents a 48-bit IEEE 802 MAC address. The
@@ -183,8 +183,8 @@ all-zeros address.
    IPv6 address. :cpp:`L3Address` is mainly used in the transport layer
    and above to abstract away network addresses. It can be assigned from
    both :cpp:`Ipv4Address` and :cpp:`Ipv6Address`, and can also parse
-   string representations of both. The :func:`getType()`,
-   :func:`toIpv4()` and :func:`toIpv6()` methods can be used to access
+   string representations of both. The :fun:`getType()`,
+   :fun:`toIpv4()` and :fun:`toIpv6()` methods can be used to access
    the value.
 
 TODO

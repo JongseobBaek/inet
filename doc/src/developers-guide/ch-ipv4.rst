@@ -21,7 +21,7 @@ within the same time, and there is no priority between the datagrams. If
 you need a more sophisticated performance model, you may change the
 module implementation (the IP class), and:
 
-#. override the :func:`startService()` method which determines
+#. override the :fun:`startService()` method which determines
    processing time for a packet, or
 
 #. use a different base class.
@@ -398,19 +398,19 @@ The ICMP Module
 The :ned:`Icmp` module has two methods which can be used by other
 modules to send ICMP error messages:
 
--  :func:`sendErrorMessage(IPv4Datagram*, ICMPType, ICMPCode)`
+-  :fun:`sendErrorMessage(IPv4Datagram*, ICMPType, ICMPCode)`
 
    used by the network layer to report erronous IPv4 datagrams. The ICMP
    header fields are set to the given type and code, and the ICMP
    message will encapsulate the given datagram.
 
--  :func:`sendErrorMessage(cPacket*, IPv4ControlInfo*, ICMPType, ICMPCode)`
+-  :fun:`sendErrorMessage(cPacket*, IPv4ControlInfo*, ICMPType, ICMPCode)`
    used by the transport layer components to report erronous packets.
    The transport packet will be encapsulated into an IP datagram before
    wrapping it into the ICMP message.
 
 The :ned:`Icmp` module can be accessed from other modules of the node by
-calling :func:`ICMPAccess::get()`.
+calling :fun:`ICMPAccess::get()`.
 
 When an incoming ICMP error message is received, the :ned:`Icmp` module
 sends it out on the ``errorOut`` gate unchanged. It is assumed that
@@ -427,9 +427,9 @@ encapsulated in the ICMP message.
    ICMP protocol encapsulates only the IP header + 8 byte following the IP header
    from the bogus IP packet. The ICMP packet length computed from this truncated
    packet, despite it encapsulates the whole IP message object.
-   As a consequence, calling :func:`decapsulate()` on the ICMP message
+   As a consequence, calling :fun:`decapsulate()` on the ICMP message
    will cause an "packet length became negative" error. To avoid this,
-   use :func:`getEncapsulatedMsg()` to access the IP packet that caused the ICMP
+   use :fun:`getEncapsulatedMsg()` to access the IP packet that caused the ICMP
    error.
 
 The :ned:`Icmp` module receives ping commands on the ``pingIn`` gate

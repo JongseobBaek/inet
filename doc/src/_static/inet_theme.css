@@ -1,22 +1,31 @@
-/* fixes for material theme */
+/* fixes for sphinx_materialdesign_theme */
 .globaltoc .nav-toggle { height:24px }
 .globaltoc .toctree-l1 ul.current { background-color: #00000010 }
-.globaltoc ul li.toctree-l2 .link-wrapper>a { font-size: 0.8rem }
+.globaltoc ul li.toctree-l2 .link-wrapper>a { font-size: 0.9rem }
 .globaltoc ul li .link-wrapper>a { padding:0px }
 .globaltoc ul li {min-height:24px }
 
 .page-content pre { white-space: pre; }
-
+.page-content p { font-size: 1.1rem; }
 .page-content h2 { padding-top: 1rem; margin-bottom: 0.5rem }
 .page-content h3, .page-content h4 { padding-top: 0.5rem; margin-bottom: 0.5rem }
 
 .globaltoc ul li.toctree-l2 { font-size: 0.8rem }
 
-/* roles */
+/* missing styles */
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+.align-right { text-align: right; }
+
+/* 'literal' roles */
 .protocol { font-style: italic; }
+.literal-cpp { color: darkblue; }
+.literal-ini { color: darkorange; }
+.literal-ned { color: darkgreen; }
+.literal-msg { color: purple; }
 
 /* higlighter backgrounds */
-.highlight-cpp, .highlight-cpp .highlight { background-color: #d2e9ff!important }
-.highlight-ini, .highlight-ini .highlight { background-color: #fffbd9!important }
-.highlight-ned, .highlight-ned .highlight { background-color: #ebffeb!important }
-.highlight-msg, .highlight-msg .highlight { background-color: #f7e6ff!important }
+.highlight-cpp .highlight { background-color: #e6f3ff }
+.highlight-ini .highlight { background-color: #fef5d6 }
+.highlight-ned .highlight { background-color: #eeffe4 }
+.highlight-msg .highlight { background-color: #fcf5ff }

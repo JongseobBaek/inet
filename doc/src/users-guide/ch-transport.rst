@@ -13,11 +13,10 @@ host-to-host communication services for applications. They provide
 services such as connection-oriented communication, reliability, flow
 control, and multiplexing.
 
-INET currently provides support for the TCP, UDP, SCTP and RTP transport
-layer protocols. INET nodes like :ned:`StandardHost` contain optional
-and replaceable instances of these protocols, like this:
-
-
+INET currently provides support for the :protocol:`TCP`, :protocol:`UDP`,
+:protocol:`SCTP` and :protocol:`RTP` transport layer protocols.
+INET nodes like :ned:`StandardHost` contain optional and replaceable
+instances of these protocols, like this:
 
 .. code-block:: ned
 
