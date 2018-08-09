@@ -1066,6 +1066,3 @@ Ethernet Socket
 IEEE 802.11 Socket
 ------------------
 
-
-
-   \fi

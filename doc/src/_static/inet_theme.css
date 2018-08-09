@@ -1,7 +1,12 @@
 /* fixes for sphinx_materialdesign_theme */
 .globaltoc .nav-toggle { height:24px }
-.globaltoc .toctree-l1 ul.current { background-color: #00000010 }
-.globaltoc ul li.toctree-l2 .link-wrapper>a { font-size: 0.9rem }
+.globaltoc .toctree-l1 ul.current { background-color: #00000005 }
+.globaltoc ul li.toctree-l2 .link-wrapper>a { 
+    font-size: 0.9rem;
+    line-height: 1rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
 .globaltoc ul li .link-wrapper>a { padding:0px }
 .globaltoc ul li {min-height:24px }
 

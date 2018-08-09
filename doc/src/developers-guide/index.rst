@@ -1,12 +1,13 @@
 Developer's Guide
 =================
 
-.. toctree::
-   :maxdepth: 1
-   :glob:
+This manual is written for developers who intend to extend INET with new components, written in C++.
 
-   /developers-guide/ch-introduction
-   /developers-guide/ch-packets
-   /developers-guide/ch-sockets
-   /developers-guide/ch-authors-guide
-   /developers-guide/*
+.. toctree::
+   :maxdepth: 2
+   :caption: Table of Contents
+
+   ch-introduction
+   ch-packets
+   ch-sockets
+   ch-authors-guide

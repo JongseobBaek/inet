@@ -83,8 +83,8 @@ language = None
 exclude_patterns = ['_build', '_deploy', 'Thumbs.db', '.DS_Store', '**/_docs', 'global.rst',
 #  'users-guide/**',
 #  'developers-guide/**',
-  'showcases/**',
-  'tutorials/**',
+#  'showcases/**',
+#  'tutorials/**',
   'reference/**',
 ]
 
@@ -129,7 +129,7 @@ html_theme_options = {
     #         light_green, lime, orange, pink, purple, red, teal, yellow(Default: indigo)
     'primary_color': 'indigo',
     # Values: Same as primary_color. (Default: pink)
-    'accent_color': 'red',
+    'accent_color': 'light_blue',
 
     # Customize layout.
     # For details see link.
