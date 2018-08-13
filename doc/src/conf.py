@@ -19,9 +19,9 @@ sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'INET Framework'
+project = 'INET Documentation'
 copyright = '2018, OpenSim Ltd.'
-author = 'OpenSim Ltd'
+author = 'OpenSim Ltd.'
 
 # The short X.Y version
 version = '4.0.0'
@@ -32,7 +32,7 @@ release = ''
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
-# needs_sphinx = '1.0'
+needs_sphinx = '1.7'
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -47,7 +47,6 @@ extensions = [
     'sphinx.ext.graphviz',
     'sphinx.ext.imgconverter',
     'sphinxcontrib.doxylink',
-#    'sphinxcontrib.inlinesyntaxhighlight',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -84,7 +83,6 @@ exclude_patterns = ['_build', '_deploy', 'Thumbs.db', '.DS_Store', '**/_docs', '
 #  'developers-guide/**',
 #  'showcases/**',
 #  'tutorials/**',
-  'reference/**',
 ]
 
 # graphviz options
@@ -113,11 +111,9 @@ html_theme_options = {
     # For details see link.
     # https://material.io/icons/
     'header_links' : [
-#        ("Home", "index", False, 'home'),
+#        ("INET Website", "https://inet.omnetpp.org", True, 'language'),
 #        ("Users Guide", "users-guide", False, ''),
 #        ("Developers Guide", "developers-guide", False, ''),
-#        ("Reference", "api", False, ''),
-#        ("Tutorials", "tutorials", False, ''),
     ],
 
     # Customize css colors.
@@ -134,8 +130,8 @@ html_theme_options = {
     # For details see link.
     # https://getmdl.io/components/index.html#layout-section
     'fixed_drawer': True,
-    'fixed_header': True,
-    'header_waterfall': False,
+    'fixed_header': False,
+    'header_waterfall': True,
     'header_scroll': False,
 
     # Render title in header.
@@ -143,7 +139,7 @@ html_theme_options = {
     'show_header_title': False,
     # Render title in drawer.
     # Values: True, False (Default: True)
-    'show_drawer_title': False,
+    'show_drawer_title': True,
     # Render footer.
     # Values: True, False (Default: True)
     'show_footer': False
