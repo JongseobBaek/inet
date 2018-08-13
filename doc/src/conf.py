@@ -28,7 +28,6 @@ version = '4.0.0'
 # The full version, including alpha/beta/rc tags
 release = ''
 
-
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -234,7 +233,8 @@ texinfo_documents = [
 # -- Extension configuration -------------------------------------------------
 rst_prolog = open('global.rst', 'r').read()
 
-todo_include_todos = True
+# whether to show TODO items
+todo_include_todos = False
 todo_emit_warnings = False
 
 def opp_preprocess(app, docname, source):

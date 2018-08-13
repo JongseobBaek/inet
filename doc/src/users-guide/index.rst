@@ -7,9 +7,10 @@ contrast, if you are interested in modifing INET’s components or plan to
 extend INET with new protocols or other components using C++, we
 recommend the *INET Developers Guide*.)
 
+Table of Contents
+
 .. toctree::
    :maxdepth: 2
-   :caption: Table of Contents
 
    ch-introduction
    ch-usage
